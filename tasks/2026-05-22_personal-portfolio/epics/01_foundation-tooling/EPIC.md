@@ -45,7 +45,7 @@ By the time this epic is complete, a developer can clone the repository, run `np
 
 | # | Story | Size | Status |
 |---|-------|------|--------|
-| 01 | Scaffold Vite + React 19 + TypeScript project | S | TODO |
+| 01 | Scaffold Vite + React 19 + TypeScript project | S | DONE |
 | 02 | Configure Tailwind CSS v4 | S | TODO |
 | 03 | Configure ESLint 9 (flat) + Prettier | S | TODO |
 | 04 | Configure Vitest + Testing Library + test setup | M | TODO |
