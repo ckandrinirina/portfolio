@@ -40,10 +40,10 @@ Beyond automation, this epic ensures deployment correctness: the `base: '/'` pat
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | GitHub Actions Pages workflow | M | TODO |
-| 02 | README + Pages setup docs | S | TODO |
+| #   | Story                         | Size | Status |
+| --- | ----------------------------- | ---- | ------ |
+| 01  | GitHub Actions Pages workflow | M    | TODO   |
+| 02  | README + Pages setup docs     | S    | TODO   |
 
 ## Acceptance Criteria
 

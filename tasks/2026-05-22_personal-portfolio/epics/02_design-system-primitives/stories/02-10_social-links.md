@@ -41,11 +41,18 @@ misleading link.
   Apply `width` and `height` attributes to the `<svg>` from the map.
 - Guard condition for empty URLs:
   ```tsx
-  {SOCIAL_LINKS.github && (
-    <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-      <GitHubIcon aria-hidden="true" size={resolvedSize} />
-    </a>
-  )}
+  {
+    SOCIAL_LINKS.github && (
+      <a
+        href={SOCIAL_LINKS.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub profile"
+      >
+        <GitHubIcon aria-hidden="true" size={resolvedSize} />
+      </a>
+    )
+  }
   ```
 - The anchors should not receive a `download` attribute — they open in a new tab.
 - Wrap both anchors in a `<div>` or `<nav>` with `role="list"` / `<ul>` depending on how many links are shown — a simple `<div className="flex gap-4">` is acceptable for two icons.
@@ -53,8 +60,8 @@ misleading link.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                           | Purpose                                                                         |
+| ------ | ----------------------------------- | ------------------------------------------------------------------------------- |
 | CREATE | `src/components/ui/SocialLinks.tsx` | GitHub + LinkedIn icon anchors from constants, with graceful empty-URL handling |
 
 ## Dependencies

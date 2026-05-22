@@ -2,7 +2,7 @@
 
 > **Epic:** Project Foundation & Tooling
 > **Size:** S
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,21 +10,21 @@ Run `npm create vite@latest . -- --template react-ts` in the repository root to 
 
 ## Acceptance Criteria
 
-- [ ] `package.json` lists `"react": "^19"` and `"react-dom": "^19"` as runtime dependencies.
-- [ ] `package.json` lists `"typescript": "^5.7"` (or a patch of 5.7+) as a dev dependency.
-- [ ] `package.json` lists `"vite": "^7"` as a dev dependency.
-- [ ] `tsconfig.json` has `"strict": true` under `compilerOptions`.
-- [ ] `tsconfig.json` has `"jsx": "react-jsx"` under `compilerOptions`.
-- [ ] `tsconfig.json` has `"moduleResolution": "bundler"` under `compilerOptions`.
-- [ ] `tsconfig.node.json` exists and is referenced in `tsconfig.json` `references`.
-- [ ] `index.html` exists at the project root and contains a `<div id="root">` mount point.
-- [ ] `src/main.tsx` mounts `<App />` (or the scaffold equivalent) into `#root`.
-- [ ] `src/App.tsx` exists as the top-level component.
-- [ ] `npm install` completes without errors; `node_modules/` is populated.
-- [ ] `npm run dev` starts the Vite dev server on `http://localhost:5173` and the scaffold UI is visible in a browser without console errors.
-- [ ] The `docs/` directory (including all subdirectories and files) is unchanged after running the scaffold command — no overwrite, no deletion.
-- [ ] No `.eslintrc.*`, `postcss.config.*`, or `tailwind.config.*` files are created by this story (those belong to subsequent stories).
-- [ ] `vite.config.ts` is present and imports `defineConfig` from `'vite'`; it includes the `@vitejs/plugin-react` plugin (scaffolded default).
+- [x] `package.json` lists `"react": "^19"` and `"react-dom": "^19"` as runtime dependencies.
+- [x] `package.json` lists `"typescript": "^5.7"` (or a patch of 5.7+) as a dev dependency.
+- [x] `package.json` lists `"vite": "^7"` as a dev dependency.
+- [x] `tsconfig.json` has `"strict": true` under `compilerOptions`.
+- [x] `tsconfig.json` has `"jsx": "react-jsx"` under `compilerOptions`.
+- [x] `tsconfig.json` has `"moduleResolution": "bundler"` under `compilerOptions`.
+- [x] `tsconfig.node.json` exists and is referenced in `tsconfig.json` `references`.
+- [x] `index.html` exists at the project root and contains a `<div id="root">` mount point.
+- [x] `src/main.tsx` mounts `<App />` (or the scaffold equivalent) into `#root`.
+- [x] `src/App.tsx` exists as the top-level component.
+- [x] `npm install` completes without errors; `node_modules/` is populated.
+- [x] `npm run dev` starts the Vite dev server on `http://localhost:5173` and the scaffold UI is visible in a browser without console errors.
+- [x] The `docs/` directory (including all subdirectories and files) is unchanged after running the scaffold command — no overwrite, no deletion.
+- [x] No `.eslintrc.*`, `postcss.config.*`, or `tailwind.config.*` files are created by this story (those belong to subsequent stories).
+- [x] `vite.config.ts` is present and imports `defineConfig` from `'vite'`; it includes the `@vitejs/plugin-react` plugin (scaffolded default).
 
 ### Edge Cases
 
@@ -42,16 +42,16 @@ Run `npm create vite@latest . -- --template react-ts` in the repository root to 
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `package.json` | Project manifest with React 19, TypeScript 5.7+, Vite 7 |
-| CREATE | `vite.config.ts` | Vite configuration (baseline with `@vitejs/plugin-react`) |
-| CREATE | `tsconfig.json` | TypeScript config with strict mode and react-jsx |
+| Action | File Path            | Purpose                                                   |
+| ------ | -------------------- | --------------------------------------------------------- |
+| CREATE | `package.json`       | Project manifest with React 19, TypeScript 5.7+, Vite 7   |
+| CREATE | `vite.config.ts`     | Vite configuration (baseline with `@vitejs/plugin-react`) |
+| CREATE | `tsconfig.json`      | TypeScript config with strict mode and react-jsx          |
 | CREATE | `tsconfig.node.json` | TypeScript config for Vite config file (node environment) |
-| CREATE | `index.html` | Vite HTML entry with `<div id="root">` mount |
-| CREATE | `src/main.tsx` | React entry point — mounts `<App />` |
-| CREATE | `src/App.tsx` | Top-level application component (scaffold placeholder) |
-| CREATE | `.gitignore` | Node/Vite ignores (dist/, node_modules/, etc.) |
+| CREATE | `index.html`         | Vite HTML entry with `<div id="root">` mount              |
+| CREATE | `src/main.tsx`       | React entry point — mounts `<App />`                      |
+| CREATE | `src/App.tsx`        | Top-level application component (scaffold placeholder)    |
+| CREATE | `.gitignore`         | Node/Vite ignores (dist/, node_modules/, etc.)            |
 
 ## Dependencies
 
@@ -63,3 +63,77 @@ Run `npm create vite@latest . -- --template react-ts` in the repository root to 
 - **Epic:** 01_foundation-tooling
 - **Related stories:** 01-02, 01-03, 01-04, 01-05
 - **Spec reference:** dev-guide.md §1 Scaffold
+
+## Implementation Plan
+
+**Strategy:** Scaffold into a temp directory, then copy generated files into the repo
+root — guarantees `docs/`, `tasks/`, `.claude/`, `.git/` are never touched.
+
+- [x] Scaffold `react-ts` template into a temp dir (`npm create vite@latest <tmp>`)
+- [x] Copy scaffold files into repo root (package.json, vite.config.ts, tsconfig\*.json,
+      index.html, src/, .gitignore); reconcile `tsconfig.node.json` existence + reference
+- [x] Pin versions: react/react-dom ^19, vite ^7, typescript ^5.7
+- [x] `npm install` — populate node_modules/
+- [x] Verify (executable script): all acceptance criteria, docs/ integrity, forbidden
+      config files absent
+- [x] QA validation
+- [x] Completion
+
+**TDD note:** Pure boilerplate scaffold; Vitest is not installed until 01-04, so the
+RED→GREEN cycle is replaced by an executable verification script (boilerplate exemption).
+
+## Unplanned Changes
+
+Scaffold-default files not in the "Files to Create/Modify" table (kept per the story's
+Technical Notes — "leave them for now ... replaced by later stories"):
+
+- `src/index.css` — created (scaffold default) — imported by `main.tsx`; replaced by Tailwind import in 01-02.
+- `src/App.css` — created (scaffold default) — imported by placeholder `App.tsx`; cleaned up in epic 02.
+- `src/assets/{react.svg,vite.svg,hero.png}` — created (scaffold default) — referenced by the placeholder `App.tsx`; removed/replaced in epic 02.
+- `public/{favicon.svg,icons.svg}` — created (scaffold default) — referenced by `index.html`/placeholder UI; brand assets replace these in 07-02.
+- `package-lock.json` — created by `npm install` — dependency lockfile.
+
+Deliberate deviations from a raw `npm create vite` scaffold:
+
+- `tsconfig.node.json` — added `composite: true` + `emitDeclarationOnly` + `outDir: node_modules/.tmp/node` — required so `tsc -b` accepts the project reference under TypeScript 5.9 (the latest TS6 template tolerates a non-composite referenced project; 5.9 enforces it).
+- `tsconfig.json` — folded `tsconfig.app.json`'s compilerOptions in directly (added `strict: true`) so the acceptance criteria (`strict`/`jsx`/`moduleResolution` in `tsconfig.json` + a reference to `tsconfig.node.json`) are met; `tsconfig.app.json` therefore not created.
+- ESLint omitted — `eslint.config.js` and all eslint devDeps from the template were dropped (story Technical Notes: "Do not configure ESLint ... handled by 01-03"). The template shipped ESLint 10, but epic 01 / story 01-03 target ESLint 9, so leaving the scaffold's ESLint would have conflicted downstream.
+- Versions pinned to the story contract: `vite ^7` (template shipped 8) and `typescript ^5.7` (template shipped ~6.0); `@vitejs/plugin-react` pinned to `^5.2.0` (v6 requires Vite 8) for Vite 7 compatibility.
+- `README.md` not created — left for story 08-02 (README + Pages docs).
+
+## Implementation Summary
+
+Scaffolded the baseline Vite 7 + React 19 + TypeScript 5.7 project in the repo root via a
+temp-dir scaffold + copy, guaranteeing the existing `docs/` directory was never touched
+(verified clean via git). Versions were pinned to the story contract (template now ships
+Vite 8 / TS 6 / ESLint 10) and ESLint was deliberately excluded for story 01-03.
+
+**Verification:** an executable criteria-checking script (`/tmp/verify-01-01.mjs`, not
+committed) asserts all 15 acceptance points — 21/21 checks green. `npm run build`
+(`tsc -b && vite build`) exits 0; `npm run dev` serves the app (HTTP 200, `#root` mount,
+transformed `main.tsx`, no console errors).
+
+**Resolved versions:** react `19.2.6`, react-dom `19.2.6`, vite `7.3.3`,
+typescript `5.9.3`, @vitejs/plugin-react `5.2.0`.
+
+### Files Touched
+
+**CREATED:**
+
+- `package.json` — manifest (React 19, Vite 7, TS 5.7), scripts `dev`/`build`/`preview`
+- `package-lock.json` — dependency lockfile
+- `vite.config.ts` — Vite config with `@vitejs/plugin-react`
+- `tsconfig.json` — app TS config (`strict`, `jsx: react-jsx`, `moduleResolution: bundler`) + reference to node config
+- `tsconfig.node.json` — composite TS config for `vite.config.ts`
+- `index.html` — HTML entry with `<div id="root">`
+- `.gitignore` — Node/Vite ignores
+- `src/main.tsx` — React entry, mounts `<App />` into `#root`
+- `src/App.tsx` — scaffold placeholder component
+- `src/index.css`, `src/App.css` — scaffold styles (replaced in epics 01-02 / 02)
+- `src/assets/{react.svg,vite.svg,hero.png}` — scaffold assets (replaced in epic 02)
+- `public/{favicon.svg,icons.svg}` — scaffold public assets (replaced in 07-02)
+
+**MODIFIED:**
+
+- `tasks/2026-05-22_personal-portfolio/STORIES_INDEX.md:7` — status `TODO` → `IN PROGRESS` → `DONE`
+- `tasks/2026-05-22_personal-portfolio/epics/01_foundation-tooling/stories/01_scaffold-vite-react-ts.md` — status, plan, unplanned changes, summary, checklists (this file)

@@ -55,8 +55,8 @@ This story is the core automation deliverable of the project. Once merged, every
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                      | Purpose                                                        |
+| ------ | ------------------------------ | -------------------------------------------------------------- |
 | CREATE | `.github/workflows/deploy.yml` | Full build-and-deploy GitHub Actions workflow for GitHub Pages |
 
 ## Dependencies

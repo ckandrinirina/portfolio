@@ -2,7 +2,7 @@
 
 > **Epic:** Project Foundation & Tooling
 > **Size:** S
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,19 +10,19 @@ Set up ESLint 9 with a flat `eslint.config.js` combining `@eslint/js` recommende
 
 ## Acceptance Criteria
 
-- [ ] `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh` are listed as dev dependencies in `package.json`.
-- [ ] `prettier`, `prettier-plugin-tailwindcss` are listed as dev dependencies in `package.json`.
-- [ ] An `eslint.config.js` file exists at the project root using the ESLint 9 flat config format (i.e. it exports an array, not an object with `extends`).
-- [ ] `eslint.config.js` includes the `@eslint/js` recommended config, `typescript-eslint` rules, `eslint-plugin-react-hooks` recommended rules, and `eslint-plugin-react-refresh` rules.
-- [ ] `eslint.config.js` does NOT include any stylistic or formatting rules (indentation, quote style, semicolons) — Prettier owns those.
-- [ ] A `.prettierrc` file exists at the project root containing `"semi": false`, `"singleQuote": true`, and `"plugins": ["prettier-plugin-tailwindcss"]`.
-- [ ] `package.json` `scripts` contains `"lint": "eslint ."`.
-- [ ] `package.json` `scripts` contains `"format": "prettier --write ."`.
-- [ ] `npm run lint` exits with code 0 on the scaffold files (no errors and no warnings that would cause a non-zero exit).
-- [ ] `npm run format` runs without errors and produces output indicating files were written or already formatted.
-- [ ] After running `npm run format` on a component file that has unsorted Tailwind classes, the classes are reordered to follow the canonical Tailwind sort order (demonstrating `prettier-plugin-tailwindcss` is active).
-- [ ] Running `npm run lint` immediately after `npm run format` still exits code 0 — the two tools do not conflict.
-- [ ] No `.eslintrc.js`, `.eslintrc.json`, `.eslintrc.yml`, `.eslintignore`, or legacy ESLint config file exists.
+- [x] `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh` are listed as dev dependencies in `package.json`.
+- [x] `prettier`, `prettier-plugin-tailwindcss` are listed as dev dependencies in `package.json`.
+- [x] An `eslint.config.js` file exists at the project root using the ESLint 9 flat config format (i.e. it exports an array, not an object with `extends`).
+- [x] `eslint.config.js` includes the `@eslint/js` recommended config, `typescript-eslint` rules, `eslint-plugin-react-hooks` recommended rules, and `eslint-plugin-react-refresh` rules.
+- [x] `eslint.config.js` does NOT include any stylistic or formatting rules (indentation, quote style, semicolons) — Prettier owns those.
+- [x] A `.prettierrc` file exists at the project root containing `"semi": false`, `"singleQuote": true`, and `"plugins": ["prettier-plugin-tailwindcss"]`.
+- [x] `package.json` `scripts` contains `"lint": "eslint ."`.
+- [x] `package.json` `scripts` contains `"format": "prettier --write ."`.
+- [x] `npm run lint` exits with code 0 on the scaffold files (no errors and no warnings that would cause a non-zero exit).
+- [x] `npm run format` runs without errors and produces output indicating files were written or already formatted.
+- [x] After running `npm run format` on a component file that has unsorted Tailwind classes, the classes are reordered to follow the canonical Tailwind sort order (demonstrating `prettier-plugin-tailwindcss` is active).
+- [x] Running `npm run lint` immediately after `npm run format` still exits code 0 — the two tools do not conflict.
+- [x] No `.eslintrc.js`, `.eslintrc.json`, `.eslintrc.yml`, `.eslintignore`, or legacy ESLint config file exists.
 
 ### Edge Cases
 
@@ -35,6 +35,7 @@ Set up ESLint 9 with a flat `eslint.config.js` combining `@eslint/js` recommende
 
 - ESLint 9 requires a flat `eslint.config.js` (or `.mjs`). The legacy `.eslintrc.*` format is not supported by default in ESLint 9. The file must export an array of config objects.
 - Recommended flat config shape:
+
   ```js
   import js from '@eslint/js'
   import tseslint from 'typescript-eslint'
@@ -49,11 +50,15 @@ Set up ESLint 9 with a flat `eslint.config.js` combining `@eslint/js` recommende
       plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
       rules: {
         ...reactHooks.configs.recommended.rules,
-        'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+        'react-refresh/only-export-components': [
+          'warn',
+          { allowConstantExport: true },
+        ],
       },
-    }
+    },
   )
   ```
+
 - `.prettierrc` configuration:
   ```json
   {
@@ -67,11 +72,11 @@ Set up ESLint 9 with a flat `eslint.config.js` combining `@eslint/js` recommende
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `eslint.config.js` | ESLint 9 flat config with TS, React Hooks, React Refresh rules |
-| CREATE | `.prettierrc` | Prettier options: no semis, single quotes, Tailwind class sorting |
-| MODIFY | `package.json` | Add `lint` and `format` scripts; add ESLint/Prettier devDependencies |
+| Action | File Path          | Purpose                                                              |
+| ------ | ------------------ | -------------------------------------------------------------------- |
+| CREATE | `eslint.config.js` | ESLint 9 flat config with TS, React Hooks, React Refresh rules       |
+| CREATE | `.prettierrc`      | Prettier options: no semis, single quotes, Tailwind class sorting    |
+| MODIFY | `package.json`     | Add `lint` and `format` scripts; add ESLint/Prettier devDependencies |
 
 ## Dependencies
 
@@ -83,3 +88,27 @@ Set up ESLint 9 with a flat `eslint.config.js` combining `@eslint/js` recommende
 - **Epic:** 01_foundation-tooling
 - **Related stories:** 01-01
 - **Spec reference:** configuration.md §eslint.config.js, configuration.md §.prettierrc
+
+## Implementation Summary
+
+### Completed
+
+- Updated `package.json` with ESLint 9, Prettier 3, and plugin dependencies
+- Added `lint` and `format` npm scripts
+- Created `eslint.config.js` with ESLint 9 flat config format
+- Created `.prettierrc` with Prettier configuration (no semicolons, single quotes, Tailwind plugin)
+- All acceptance criteria verified and passing
+
+### Files Touched
+
+- CREATED: `eslint.config.js` — ESLint 9 flat config with TS, React Hooks, React Refresh
+- CREATED: `.prettierrc` — Prettier options with Tailwind class sorting
+- MODIFIED: `package.json:6-29` — Added scripts and devDependencies
+
+### QA Results
+
+**npm run lint:** PASS (0 issues, node_modules correctly ignored)
+**npm run format:** PASS (files formatted without conflicts)
+**Prettier + Tailwind plugin:** PASS (Tailwind classes automatically sorted)
+**Lint after format:** PASS (no conflicts between tools)
+**No legacy configs:** PASS (no .eslintrc.\* or .eslintignore files)

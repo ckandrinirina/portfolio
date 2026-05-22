@@ -47,9 +47,9 @@ The test is not optional: it is the only automated verification that the languag
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `src/components/ui/LanguageSwitcher.tsx` | EN/FR toggle UI component |
+| Action | File Path                                     | Purpose                                               |
+| ------ | --------------------------------------------- | ----------------------------------------------------- |
+| CREATE | `src/components/ui/LanguageSwitcher.tsx`      | EN/FR toggle UI component                             |
 | CREATE | `src/components/ui/LanguageSwitcher.test.tsx` | Component test — switching behavior and accessibility |
 
 ## Dependencies

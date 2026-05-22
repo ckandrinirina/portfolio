@@ -19,26 +19,26 @@ that are unreachable on touch devices because their tap area is too small.
 ## Acceptance Criteria
 
 - [ ] At 375 px viewport width, all sections are readable: text is not clipped,
-  no horizontal scrollbar appears, and no content is hidden behind other elements.
+      no horizontal scrollbar appears, and no content is hidden behind other elements.
 - [ ] At 375 px, the header collapses to a mobile menu; the menu trigger is
-  visible, tappable (≥ 44 × 44 px touch target), and opens/closes correctly.
+      visible, tappable (≥ 44 × 44 px touch target), and opens/closes correctly.
 - [ ] At 768 px viewport width, layout transitions between mobile and tablet
-  states as expected; grids and card rows reflow to an appropriate column count.
+      states as expected; grids and card rows reflow to an appropriate column count.
 - [ ] At 1280 px viewport width, the desktop layout is shown; the nav links are
-  visible inline in the header and no mobile-menu trigger is rendered.
+      visible inline in the header and no mobile-menu trigger is rendered.
 - [ ] Skills badges wrap cleanly and do not overflow their container at any
-  breakpoint.
+      breakpoint.
 - [ ] Experience and Projects cards stack to a single column on mobile and
-  expand to a multi-column grid on tablet/desktop.
+      expand to a multi-column grid on tablet/desktop.
 - [ ] Hero section text, CTA buttons, and social links are visible and usable at
-  375 px without any truncation or overlap.
+      375 px without any truncation or overlap.
 - [ ] Images (profile photo if present, og-image) scale with `max-width: 100%`
-  or equivalent and do not overflow their parent.
+      or equivalent and do not overflow their parent.
 - [ ] Container max-width and horizontal padding provide readable line lengths
-  (≤ ~75 characters) on large viewports and comfortable margins on small ones.
+      (≤ ~75 characters) on large viewports and comfortable margins on small ones.
 - [ ] Footer is readable and not overflowing at any breakpoint.
 - [ ] No Tailwind overflow utility (e.g., `overflow-x: hidden` on `body`) is
-  used as a band-aid to hide a real overflow bug; root cause is fixed instead.
+      used as a band-aid to hide a real overflow bug; root cause is fixed instead.
 
 ## Technical Notes
 
@@ -63,17 +63,17 @@ that are unreachable on touch devices because their tap area is too small.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `src/components/Header.tsx` | Implement mobile-menu collapse/expand; responsive nav visibility |
-| MODIFY | `src/components/Container.tsx` | Verify/adjust max-width and responsive padding |
-| MODIFY | `src/sections/Hero.tsx` | Fix any layout issues at small breakpoints |
-| MODIFY | `src/sections/Skills.tsx` | Ensure badge grid wraps correctly at all widths |
-| MODIFY | `src/sections/Experience.tsx` | Card reflow: single column mobile → multi-column desktop |
-| MODIFY | `src/sections/Projects.tsx` | Card reflow: single column mobile → multi-column desktop |
-| MODIFY | `src/sections/Education.tsx` | Wrap table in `overflow-x-auto` for mobile |
-| MODIFY | `src/sections/Contact.tsx` | Verify link list layout at 375 px |
-| MODIFY | `src/components/Footer.tsx` | Verify footer layout at all breakpoints |
+| Action | File Path                      | Purpose                                                          |
+| ------ | ------------------------------ | ---------------------------------------------------------------- |
+| MODIFY | `src/components/Header.tsx`    | Implement mobile-menu collapse/expand; responsive nav visibility |
+| MODIFY | `src/components/Container.tsx` | Verify/adjust max-width and responsive padding                   |
+| MODIFY | `src/sections/Hero.tsx`        | Fix any layout issues at small breakpoints                       |
+| MODIFY | `src/sections/Skills.tsx`      | Ensure badge grid wraps correctly at all widths                  |
+| MODIFY | `src/sections/Experience.tsx`  | Card reflow: single column mobile → multi-column desktop         |
+| MODIFY | `src/sections/Projects.tsx`    | Card reflow: single column mobile → multi-column desktop         |
+| MODIFY | `src/sections/Education.tsx`   | Wrap table in `overflow-x-auto` for mobile                       |
+| MODIFY | `src/sections/Contact.tsx`     | Verify link list layout at 375 px                                |
+| MODIFY | `src/components/Footer.tsx`    | Verify footer layout at all breakpoints                          |
 
 ## Dependencies
 

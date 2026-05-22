@@ -29,14 +29,17 @@ The script's precedence logic must be an exact match of `ThemeProvider`'s init l
 - Recommended pattern (IIFE with try/catch):
   ```html
   <script>
-    (function () {
+    ;(function () {
       try {
-        var t = localStorage.getItem('theme');
-        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
+        var t = localStorage.getItem('theme')
+        if (
+          t === 'dark' ||
+          (!t && matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark')
         }
       } catch (_) {}
-    })();
+    })()
   </script>
   ```
 - The IIFE avoids polluting the global scope. The variable `t` is `var` (not `let`/`const`) for maximum compatibility with any environment that might inline this, though in practice modern browsers support `let` fine.
@@ -46,8 +49,8 @@ The script's precedence logic must be an exact match of `ThemeProvider`'s init l
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path    | Purpose                                                                         |
+| ------ | ------------ | ------------------------------------------------------------------------------- |
 | MODIFY | `index.html` | Add synchronous inline `<script>` in `<head>` for anti-FOUC theme bootstrapping |
 
 ## Dependencies

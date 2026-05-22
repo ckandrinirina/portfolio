@@ -39,8 +39,8 @@ Create `src/content/types.ts`, the single TypeScript source of truth for the sha
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path              | Purpose                                               |
+| ------ | ---------------------- | ----------------------------------------------------- |
 | CREATE | `src/content/types.ts` | Shared `PortfolioContent` interface and all sub-types |
 
 ## Dependencies

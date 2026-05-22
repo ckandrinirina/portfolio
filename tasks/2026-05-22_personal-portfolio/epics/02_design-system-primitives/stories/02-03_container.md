@@ -33,15 +33,19 @@ line length on large screens while remaining full-width on small ones.
   ```tsx
   import { cn } from '@/lib/utils'
   export default function Container({ children, className }: Props) {
-    return <div className={cn('mx-auto max-w-5xl px-4 sm:px-6 lg:px-8', className)}>{children}</div>
+    return (
+      <div className={cn('mx-auto max-w-5xl px-4 sm:px-6 lg:px-8', className)}>
+        {children}
+      </div>
+    )
   }
   ```
 - The `max-w` value should match the design's content column width. If uncertain, default to `max-w-5xl` and adjust when the layout epic reviews it.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                             | Purpose                                      |
+| ------ | ------------------------------------- | -------------------------------------------- |
 | CREATE | `src/components/layout/Container.tsx` | Centred max-width responsive padding wrapper |
 
 ## Dependencies

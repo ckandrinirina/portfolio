@@ -59,8 +59,8 @@ Because this is the largest single content file in the project, accuracy and com
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path           | Purpose                                   |
+| ------ | ------------------- | ----------------------------------------- |
 | CREATE | `src/content/fr.ts` | French portfolio content — default locale |
 
 ## Dependencies

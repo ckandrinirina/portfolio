@@ -36,8 +36,8 @@ groups of `Badge` chips. Group labels are locale-aware. The section uses the sha
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                            | Purpose                                        |
+| ------ | ------------------------------------ | ---------------------------------------------- |
 | CREATE | `src/components/sections/Skills.tsx` | Skills matrix section with grouped Badge chips |
 
 ## Dependencies

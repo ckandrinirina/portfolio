@@ -54,10 +54,10 @@ These two files are the integration point between the static content modules (04
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                       | Purpose                                                          |
+| ------ | ------------------------------- | ---------------------------------------------------------------- |
 | CREATE | `src/i18n/LanguageProvider.tsx` | React context provider — locale state, content resolution, `t()` |
-| CREATE | `src/i18n/useLanguage.ts` | Context accessor hook — `{ locale, setLocale, content, t }` |
+| CREATE | `src/i18n/useLanguage.ts`       | Context accessor hook — `{ locale, setLocale, content, t }`      |
 
 ## Dependencies
 

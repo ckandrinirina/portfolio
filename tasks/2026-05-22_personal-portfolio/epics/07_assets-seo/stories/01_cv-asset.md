@@ -34,11 +34,11 @@ Place the downloadable CV at `public/cv/erick-andrinirina-cv.pdf` by copying and
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `public/cv/erick-andrinirina-cv.pdf` | Downloadable French CV (copied from `docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf`) |
-| CREATE | `scripts/check-assets.mjs` | Node.js presence-check script; exits non-zero with a descriptive error if required public assets are missing |
-| MODIFY | `package.json` | Add `"prebuild": "node scripts/check-assets.mjs"` to the `scripts` block |
+| Action | File Path                            | Purpose                                                                                                      |
+| ------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| CREATE | `public/cv/erick-andrinirina-cv.pdf` | Downloadable French CV (copied from `docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf`)                               |
+| CREATE | `scripts/check-assets.mjs`           | Node.js presence-check script; exits non-zero with a descriptive error if required public assets are missing |
+| MODIFY | `package.json`                       | Add `"prebuild": "node scripts/check-assets.mjs"` to the `scripts` block                                     |
 
 ## Dependencies
 

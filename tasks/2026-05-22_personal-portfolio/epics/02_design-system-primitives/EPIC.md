@@ -61,18 +61,18 @@ layout code should be written until the stories here are done and merged.
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | Utilities & site constants | S | TODO |
-| 02 | Design tokens in index.css @theme | S | TODO |
-| 03 | Container component | S | TODO |
-| 04 | Button component + test | M | TODO |
-| 05 | Badge component | S | TODO |
-| 06 | Card component | S | TODO |
-| 07 | useReveal hook | M | TODO |
-| 08 | useScrollSpy hook | M | TODO |
-| 09 | Section layout wrapper | M | TODO |
-| 10 | SocialLinks component | S | TODO |
+| #   | Story                             | Size | Status |
+| --- | --------------------------------- | ---- | ------ |
+| 01  | Utilities & site constants        | S    | TODO   |
+| 02  | Design tokens in index.css @theme | S    | TODO   |
+| 03  | Container component               | S    | TODO   |
+| 04  | Button component + test           | M    | TODO   |
+| 05  | Badge component                   | S    | TODO   |
+| 06  | Card component                    | S    | TODO   |
+| 07  | useReveal hook                    | M    | TODO   |
+| 08  | useScrollSpy hook                 | M    | TODO   |
+| 09  | Section layout wrapper            | M    | TODO   |
+| 10  | SocialLinks component             | S    | TODO   |
 
 ## Acceptance Criteria
 
@@ -93,7 +93,7 @@ layout code should be written until the stories here are done and merged.
 ## Technical Notes
 
 - Use `clsx` + `tailwind-merge` (or the equivalent already installed in Epic 01) for `cn()`. If only one is available, match that choice.
-- Design tokens go in the `@theme { }` block inside `src/index.css` *after* the `@import "tailwindcss"` and the `@custom-variant dark` lines established in Epic 01. Do not scatter raw hex values into component files.
+- Design tokens go in the `@theme { }` block inside `src/index.css` _after_ the `@import "tailwindcss"` and the `@custom-variant dark` lines established in Epic 01. Do not scatter raw hex values into component files.
 - `Button`'s `as` prop pattern: use a conditional render (`as === 'a'` → render `<a>`, default → render `<button>`) rather than a full generic polymorphic type to keep TypeScript complexity low at this stage.
 - `useReveal` and `useScrollSpy` both rely on `IntersectionObserver`. In the Vitest environment, mock both `IntersectionObserver` and `window.matchMedia` in `src/test/setup.ts` (or per-test). One-shot observer in `useReveal`: call `observer.disconnect()` inside the callback once `isVisible` becomes `true`.
 - `SocialLinks` should treat an empty string or `[TO BE DEFINED]` constant value as a signal to omit the corresponding anchor from the DOM (rather than rendering a broken link).

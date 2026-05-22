@@ -31,8 +31,8 @@ with their proficiency levels. The section uses the shared `Section` wrapper wit
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                               | Purpose                                   |
+| ------ | --------------------------------------- | ----------------------------------------- |
 | CREATE | `src/components/sections/Languages.tsx` | Spoken languages with proficiency section |
 
 ## Dependencies

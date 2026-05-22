@@ -38,8 +38,8 @@ link highlighting works correctly for every section.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path     | Purpose                                                            |
+| ------ | ------------- | ------------------------------------------------------------------ |
 | MODIFY | `src/App.tsx` | Replace section placeholders with real section components in order |
 
 ## Dependencies

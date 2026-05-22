@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (toggled on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Optional design tokens from the Claude Design */
+@theme {
+  /* --color-brand-500: ...; --font-sans: ...; */
+}

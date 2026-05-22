@@ -62,17 +62,17 @@ French and English, and the way is clear for Epic 08 (GitHub Pages deployment) a
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | Hero section + test | M | TODO |
-| 02 | About section | S | TODO |
-| 03 | Skills section | M | TODO |
-| 04 | Experience section | L | TODO |
-| 05 | Projects section | L | TODO |
-| 06 | Education section | S | TODO |
-| 07 | Languages section | S | TODO |
-| 08 | Contact section | M | TODO |
-| 09 | Wire sections into App + scrollspy nav | S | TODO |
+| #   | Story                                  | Size | Status |
+| --- | -------------------------------------- | ---- | ------ |
+| 01  | Hero section + test                    | M    | TODO   |
+| 02  | About section                          | S    | TODO   |
+| 03  | Skills section                         | M    | TODO   |
+| 04  | Experience section                     | L    | TODO   |
+| 05  | Projects section                       | L    | TODO   |
+| 06  | Education section                      | S    | TODO   |
+| 07  | Languages section                      | S    | TODO   |
+| 08  | Contact section                        | M    | TODO   |
+| 09  | Wire sections into App + scrollspy nav | S    | TODO   |
 
 ## Acceptance Criteria
 

@@ -20,32 +20,32 @@ architecture's stated accessibility contract.
 ## Acceptance Criteria
 
 - [ ] There is exactly one `<h1>` on the page (inside the Hero section); no
-  other element uses the `h1` tag.
+      other element uses the `h1` tag.
 - [ ] Every section rendered by the `Section` component exposes a visible
-  `<h2>` heading (About, Skills, Experience, Projects, Education, Languages,
-  Contact).
+      `<h2>` heading (About, Skills, Experience, Projects, Education, Languages,
+      Contact).
 - [ ] The four landmark elements `<header>`, `<main>`, `<nav>`, and `<footer>`
-  are present and unique (or correctly labelled with `aria-label` if there are
-  multiple `<nav>` elements).
+      are present and unique (or correctly labelled with `aria-label` if there are
+      multiple `<nav>` elements).
 - [ ] Every interactive control (nav links, ThemeToggle, LanguageSwitcher,
-  DownloadCvButton, contact links, mobile-menu trigger) is reachable via
-  sequential Tab navigation without a mouse.
+      DownloadCvButton, contact links, mobile-menu trigger) is reachable via
+      sequential Tab navigation without a mouse.
 - [ ] Visible focus rings appear on all focusable elements in both light and
-  dark themes (no `outline: none` without a replacement).
+      dark themes (no `outline: none` without a replacement).
 - [ ] `ThemeToggle` has `aria-pressed` set to `"true"` when dark mode is active
-  and `"false"` when light mode is active.
+      and `"false"` when light mode is active.
 - [ ] `LanguageSwitcher` has an `aria-label` describing its purpose (e.g.,
-  "Language / Langue") and updates `document.documentElement.lang` to `"en"` or
-  `"fr"` when the locale is switched.
+      "Language / Langue") and updates `document.documentElement.lang` to `"en"` or
+      `"fr"` when the locale is switched.
 - [ ] `<html lang>` is `"fr"` on initial load and switches to `"en"` when the
-  visitor selects English — verifiable by inspecting the DOM after switching.
+      visitor selects English — verifiable by inspecting the DOM after switching.
 - [ ] All text/background color pairs pass WCAG 2.1 AA contrast ratio (≥ 4.5:1
-  for normal text, ≥ 3:1 for large text) in both light and dark themes;
-  this includes body text, headings, Badge text, Card text, and nav links.
+      for normal text, ≥ 3:1 for large text) in both light and dark themes;
+      this includes body text, headings, Badge text, Card text, and nav links.
 - [ ] Lighthouse accessibility score on `npm run preview` is ≥ 95 in both
-  light and dark modes.
+      light and dark modes.
 - [ ] axe-DevTools browser-extension scan reports zero critical or serious
-  violations.
+      violations.
 
 ## Technical Notes
 
@@ -76,16 +76,16 @@ architecture's stated accessibility contract.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `src/components/Header.tsx` | Add `aria-expanded`/`aria-controls` to mobile-menu trigger; ensure `<nav>` has `aria-label` |
-| MODIFY | `src/components/ThemeToggle.tsx` | Confirm `aria-pressed` reflects live state; add `aria-label` if button is icon-only |
-| MODIFY | `src/components/LanguageSwitcher.tsx` | Confirm `aria-label` and active-state indicator; confirm `lang` attribute update |
-| MODIFY | `src/components/SocialLinks.tsx` | Add `aria-label` to each anchor so icon links have accessible names |
-| MODIFY | `src/components/Section.tsx` | Verify `<h2>` is always rendered for the section title |
-| MODIFY | `src/sections/Hero.tsx` | Confirm single `<h1>` and no duplicate headings |
-| MODIFY | `src/index.css` | Ensure global focus-visible styles are defined and not overridden |
-| MODIFY | `src/components/Button.tsx` | Ensure focus-visible ring applied for all variants |
+| Action | File Path                             | Purpose                                                                                     |
+| ------ | ------------------------------------- | ------------------------------------------------------------------------------------------- |
+| MODIFY | `src/components/Header.tsx`           | Add `aria-expanded`/`aria-controls` to mobile-menu trigger; ensure `<nav>` has `aria-label` |
+| MODIFY | `src/components/ThemeToggle.tsx`      | Confirm `aria-pressed` reflects live state; add `aria-label` if button is icon-only         |
+| MODIFY | `src/components/LanguageSwitcher.tsx` | Confirm `aria-label` and active-state indicator; confirm `lang` attribute update            |
+| MODIFY | `src/components/SocialLinks.tsx`      | Add `aria-label` to each anchor so icon links have accessible names                         |
+| MODIFY | `src/components/Section.tsx`          | Verify `<h2>` is always rendered for the section title                                      |
+| MODIFY | `src/sections/Hero.tsx`               | Confirm single `<h1>` and no duplicate headings                                             |
+| MODIFY | `src/index.css`                       | Ensure global focus-visible styles are defined and not overridden                           |
+| MODIFY | `src/components/Button.tsx`           | Ensure focus-visible ring applied for all variants                                          |
 
 ## Dependencies
 

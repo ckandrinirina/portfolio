@@ -40,11 +40,11 @@ By the end of this epic a shared link to `ckandrinirina.github.io` will display 
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | CV PDF asset + build presence check | S | TODO |
-| 02 | Brand assets — favicon, profile photo, Open Graph image | S | TODO |
-| 03 | index.html SEO metadata | M | TODO |
+| #   | Story                                                   | Size | Status |
+| --- | ------------------------------------------------------- | ---- | ------ |
+| 01  | CV PDF asset + build presence check                     | S    | TODO   |
+| 02  | Brand assets — favicon, profile photo, Open Graph image | S    | TODO   |
+| 03  | index.html SEO metadata                                 | M    | TODO   |
 
 ## Acceptance Criteria
 

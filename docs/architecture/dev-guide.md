@@ -4,11 +4,11 @@ How to scaffold, run, test, build, and deploy the portfolio.
 
 ## Prerequisites
 
-| Tool | Version |
-|------|---------|
-| Node.js | 20 LTS or newer |
-| npm | 10+ (ships with Node 20) |
-| Git | any recent |
+| Tool    | Version                  |
+| ------- | ------------------------ |
+| Node.js | 20 LTS or newer          |
+| npm     | 10+ (ships with Node 20) |
+| Git     | any recent               |
 
 ## 1. Scaffold (one-time)
 
@@ -23,6 +23,7 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom \
 ```
 
 Then:
+
 1. Add `@tailwindcss/vite` to `vite.config.ts` plugins.
 2. Replace `src/index.css` with `@import "tailwindcss";` + the dark variant.
 3. Set `base` in `vite.config.ts` (see `configuration.md`).
@@ -44,12 +45,12 @@ npm run test -- --run   # Vitest single run (CI)
 
 ### Test scope (light component tests)
 
-| Test | Asserts |
-|------|---------|
-| `ThemeToggle.test.tsx` | toggling adds/removes `dark` on `<html>` and persists to `localStorage` |
-| `LanguageSwitcher.test.tsx` | switching updates rendered content (FR ⇄ EN) and `<html lang>` |
-| `Hero.test.tsx` | renders name/title and the Download CV link with correct `href` |
-| `content.test.ts` | `en` and `fr` content objects satisfy the `PortfolioContent` shape (parity) |
+| Test                        | Asserts                                                                     |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `ThemeToggle.test.tsx`      | toggling adds/removes `dark` on `<html>` and persists to `localStorage`     |
+| `LanguageSwitcher.test.tsx` | switching updates rendered content (FR ⇄ EN) and `<html lang>`              |
+| `Hero.test.tsx`             | renders name/title and the Download CV link with correct `href`             |
+| `content.test.ts`           | `en` and `fr` content objects satisfy the `PortfolioContent` shape (parity) |
 
 ## 4. Build
 
@@ -61,15 +62,18 @@ npm run preview    # serve dist/ locally to verify the production build
 ## 5. Deploy to GitHub Pages
 
 **One-time setup**
+
 1. Create the GitHub repository (for a user page, name it `ckandrinirina.github.io`).
 2. Push the code to `main`.
 3. Repo **Settings → Pages → Source = GitHub Actions**.
 4. Confirm `vite.config.ts` `base` matches the deployment (`'/'` for a user page).
 
 **Every deploy after that**
+
 ```bash
 git push origin main      # triggers .github/workflows/deploy.yml
 ```
+
 The workflow builds `dist/` and publishes it. The live URL appears in the
 Actions run summary (e.g. `https://ckandrinirina.github.io/`).
 
@@ -90,8 +94,8 @@ Actions run summary (e.g. `https://ckandrinirina.github.io/`).
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint .",
-    "format": "prettier --write ."
-  }
+    "format": "prettier --write .",
+  },
 }
 ```
 
@@ -105,4 +109,7 @@ Actions run summary (e.g. `https://ckandrinirina.github.io/`).
 - [ ] Responsive across mobile/tablet/desktop.
 - [ ] Lighthouse: performance ≥ 95, accessibility ≥ 95.
 - [ ] GitHub Actions deploy succeeds and the site is live.
+
+```
+
 ```

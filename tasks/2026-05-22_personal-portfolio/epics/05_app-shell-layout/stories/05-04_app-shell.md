@@ -32,8 +32,8 @@ Update `src/App.tsx` to be the single-page shell that composes the full document
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path     | Purpose                                                                  |
+| ------ | ------------- | ------------------------------------------------------------------------ |
 | MODIFY | `src/App.tsx` | Compose Header, main with eight ordered section anchor slots, and Footer |
 
 ## Dependencies

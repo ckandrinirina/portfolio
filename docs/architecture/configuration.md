@@ -26,7 +26,7 @@ export default defineConfig({
 ## `src/index.css` (Tailwind v4)
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Class-based dark mode (toggled on <html>) */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -47,15 +47,23 @@ Holds the document-level metadata for SEO and social sharing:
 ```html
 <html lang="fr">
   <head>
-    <meta name="description" content="Erick Andrinirina — Fullstack JavaScript Engineer, 7 years experience." />
-    <meta property="og:title" content="Erick Andrinirina — Fullstack Engineer" />
+    <meta
+      name="description"
+      content="Erick Andrinirina — Fullstack JavaScript Engineer, 7 years experience."
+    />
+    <meta
+      property="og:title"
+      content="Erick Andrinirina — Fullstack Engineer"
+    />
     <meta property="og:description" content="..." />
     <meta property="og:image" content="/og-image.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <!-- inline theme bootstrap script (anti-FOUC) -->
   </head>
+</html>
 ```
+
 `lang` defaults to `fr` and is updated at runtime by `LanguageProvider` when the
 visitor switches.
 
@@ -75,7 +83,7 @@ Standard Vite React TS config: `"strict": true`, `"jsx": "react-jsx"`,
 {
   "semi": false,
   "singleQuote": true,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "plugins": ["prettier-plugin-tailwindcss"],
 }
 ```
 
@@ -135,11 +143,11 @@ GitHub Actions.**
 
 ## Configuration matrix
 
-| Setting | File | Value | Notes |
-|---------|------|-------|-------|
-| Public base path | `vite.config.ts` | `'/'` | `/<repo>/` for project pages |
-| Dark mode strategy | `index.css` | custom `dark` variant | class on `<html>` |
-| Default language | `LanguageProvider` | `fr` | falls back from `navigator.language` to French |
-| CV asset path | `public/cv/` | `erick-andrinirina-cv.pdf` | referenced via `BASE_URL` |
-| CI Node version | `deploy.yml` | `20` | LTS |
-| Deploy trigger | `deploy.yml` | push to `main` | + manual `workflow_dispatch` |
+| Setting            | File               | Value                      | Notes                                          |
+| ------------------ | ------------------ | -------------------------- | ---------------------------------------------- |
+| Public base path   | `vite.config.ts`   | `'/'`                      | `/<repo>/` for project pages                   |
+| Dark mode strategy | `index.css`        | custom `dark` variant      | class on `<html>`                              |
+| Default language   | `LanguageProvider` | `fr`                       | falls back from `navigator.language` to French |
+| CV asset path      | `public/cv/`       | `erick-andrinirina-cv.pdf` | referenced via `BASE_URL`                      |
+| CI Node version    | `deploy.yml`       | `20`                       | LTS                                            |
+| Deploy trigger     | `deploy.yml`       | push to `main`             | + manual `workflow_dispatch`                   |

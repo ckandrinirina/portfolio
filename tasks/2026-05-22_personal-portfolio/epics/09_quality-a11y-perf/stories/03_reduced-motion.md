@@ -20,25 +20,25 @@ works correctly, the acceptance criteria are demonstrated and the story is done.
 ## Acceptance Criteria
 
 - [ ] With `prefers-reduced-motion: reduce` active in the OS/browser, loading
-  the site shows all section content fully visible immediately — no content is
-  hidden, faded, or translated awaiting scroll.
+      the site shows all section content fully visible immediately — no content is
+      hidden, faded, or translated awaiting scroll.
 - [ ] No layout shift (CLS) occurs on page load when reduced motion is active;
-  content does not pop into view after a brief hidden state.
+      content does not pop into view after a brief hidden state.
 - [ ] `useReveal()` returns `{ isVisible: true }` immediately (without waiting
-  for the `IntersectionObserver` callback) when the media query matches
-  `prefers-reduced-motion: reduce`.
+      for the `IntersectionObserver` callback) when the media query matches
+      `prefers-reduced-motion: reduce`.
 - [ ] The `IntersectionObserver` inside `useReveal` is not created (or is
-  immediately disconnected) when reduced motion is active, so it does not
-  contribute unnecessary side-effects.
+      immediately disconnected) when reduced motion is active, so it does not
+      contribute unnecessary side-effects.
 - [ ] Any CSS `transition` or `animation` rules in `index.css` or component
-  styles that drive reveal behavior are wrapped in a
-  `@media (prefers-reduced-motion: no-preference) { … }` block or overridden
-  by a `@media (prefers-reduced-motion: reduce) { … }` block that sets
-  `animation: none; transition: none;`.
+      styles that drive reveal behavior are wrapped in a
+      `@media (prefers-reduced-motion: no-preference) { … }` block or overridden
+      by a `@media (prefers-reduced-motion: reduce) { … }` block that sets
+      `animation: none; transition: none;`.
 - [ ] With reduced motion disabled (default), the reveal animations play as
-  expected — the fix must not break the standard experience.
+      expected — the fix must not break the standard experience.
 - [ ] Verified manually by toggling the OS reduced-motion setting and reloading
-  the page (not just by reading the code).
+      the page (not just by reading the code).
 
 ## Technical Notes
 
@@ -65,11 +65,11 @@ works correctly, the acceptance criteria are demonstrated and the story is done.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `src/hooks/useReveal.ts` | Return `isVisible: true` immediately when reduced-motion media query matches; skip observer setup |
-| MODIFY | `src/components/Section.tsx` | Ensure initial hidden/animation classes are conditional on motion being allowed |
-| MODIFY | `src/index.css` | Wrap reveal-related transitions/animations in `@media (prefers-reduced-motion: no-preference)` |
+| Action | File Path                    | Purpose                                                                                           |
+| ------ | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| MODIFY | `src/hooks/useReveal.ts`     | Return `isVisible: true` immediately when reduced-motion media query matches; skip observer setup |
+| MODIFY | `src/components/Section.tsx` | Ensure initial hidden/animation classes are conditional on motion being allowed                   |
+| MODIFY | `src/index.css`              | Wrap reveal-related transitions/animations in `@media (prefers-reduced-motion: no-preference)`    |
 
 ## Dependencies
 

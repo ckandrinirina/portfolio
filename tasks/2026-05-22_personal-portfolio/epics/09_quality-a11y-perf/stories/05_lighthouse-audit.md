@@ -22,29 +22,29 @@ as a final confirmation.
 ## Acceptance Criteria
 
 - [ ] Lighthouse performance score is ≥ 95 when run on the production build via
-  `npm run preview` (localhost:4173), desktop preset.
+      `npm run preview` (localhost:4173), desktop preset.
 - [ ] Lighthouse accessibility score is ≥ 95 when run on the production build,
-  desktop preset, in both light and dark modes.
+      desktop preset, in both light and dark modes.
 - [ ] Lighthouse SEO audit passes all checks: document has a `<title>`, has a
-  meta description, links have descriptive text, `<html>` has a valid `lang`
-  attribute, page is not blocked from indexing.
+      meta description, links have descriptive text, `<html>` has a valid `lang`
+      attribute, page is not blocked from indexing.
 - [ ] Open Graph tags (`og:title`, `og:description`, `og:image`, `og:url`,
-  `og:type`) and Twitter Card tags (`twitter:card`, `twitter:title`,
-  `twitter:description`, `twitter:image`) are verified present in the built
-  `index.html`.
+      `og:type`) and Twitter Card tags (`twitter:card`, `twitter:title`,
+      `twitter:description`, `twitter:image`) are verified present in the built
+      `index.html`.
 - [ ] First Contentful Paint (FCP) is ≤ 1.5 s and Largest Contentful Paint
-  (LCP) is ≤ 2.5 s in the Lighthouse run.
+      (LCP) is ≤ 2.5 s in the Lighthouse run.
 - [ ] Cumulative Layout Shift (CLS) is ≤ 0.1 (no significant layout instability
-  on load).
+      on load).
 - [ ] Total Blocking Time (TBT) is ≤ 200 ms.
 - [ ] The og-image asset (if used) is a compressed JPEG or WebP file ≤ 200 KB.
 - [ ] No render-blocking resources are reported by Lighthouse that are under
-  the project's control.
+      the project's control.
 - [ ] The final Lighthouse report (screenshot of the scores panel or the
-  exported JSON) is committed to `docs/audits/lighthouse-<date>.json` (or a
-  `.png` equivalent) as permanent evidence.
+      exported JSON) is committed to `docs/audits/lighthouse-<date>.json` (or a
+      `.png` equivalent) as permanent evidence.
 - [ ] Optionally: Lighthouse is also run against the live GitHub Pages URL and
-  passes the same thresholds (noted in a comment if scores differ from local).
+      passes the same thresholds (noted in a comment if scores differ from local).
 
 ## Technical Notes
 
@@ -87,12 +87,12 @@ as a final confirmation.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `public/og-image.jpg` (or `.webp`) | Compress og-image to ≤ 200 KB; convert from PNG if needed |
-| MODIFY | `vite.config.ts` | Verify build config: no source maps in production, asset inlining thresholds |
-| CREATE | `docs/audits/lighthouse-YYYY-MM-DD.json` | Committed Lighthouse report as Definition-of-Done evidence |
-| MODIFY | `src/sections/Hero.tsx` | Add `width`/`height` to profile photo `<img>` to prevent CLS (if applicable) |
+| Action | File Path                                | Purpose                                                                      |
+| ------ | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| MODIFY | `public/og-image.jpg` (or `.webp`)       | Compress og-image to ≤ 200 KB; convert from PNG if needed                    |
+| MODIFY | `vite.config.ts`                         | Verify build config: no source maps in production, asset inlining thresholds |
+| CREATE | `docs/audits/lighthouse-YYYY-MM-DD.json` | Committed Lighthouse report as Definition-of-Done evidence                   |
+| MODIFY | `src/sections/Hero.tsx`                  | Add `width`/`height` to profile photo `<img>` to prevent CLS (if applicable) |
 
 ## Dependencies
 

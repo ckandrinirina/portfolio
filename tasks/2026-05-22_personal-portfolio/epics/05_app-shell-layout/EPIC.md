@@ -42,12 +42,12 @@ The epic closes with `App.tsx`, which composes the page shell: `<Header>` + `<ma
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | main.tsx provider wiring | S | TODO |
-| 02 | Header component | L | TODO |
-| 03 | Footer component | M | TODO |
-| 04 | App.tsx page shell | M | TODO |
+| #   | Story                    | Size | Status |
+| --- | ------------------------ | ---- | ------ |
+| 01  | main.tsx provider wiring | S    | TODO   |
+| 02  | Header component         | L    | TODO   |
+| 03  | Footer component         | M    | TODO   |
+| 04  | App.tsx page shell       | M    | TODO   |
 
 ## Acceptance Criteria
 
