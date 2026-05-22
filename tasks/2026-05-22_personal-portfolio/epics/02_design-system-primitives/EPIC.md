@@ -68,7 +68,7 @@ layout code should be written until the stories here are done and merged.
 | 03  | Container component               | S    | DONE   |
 | 04  | Button component + test           | M    | DONE   |
 | 05  | Badge component                   | S    | DONE   |
-| 06  | Card component                    | S    | TODO   |
+| 06  | Card component                    | S    | DONE   |
 | 07  | useReveal hook                    | M    | DONE   |
 | 08  | useScrollSpy hook                 | M    | DONE   |
 | 09  | Section layout wrapper            | M    | TODO   |
