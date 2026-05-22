@@ -1,0 +1,19 @@
+{
+  "slug": "personal-portfolio",
+  "title": "Erick Andrinirina — Personal Developer Portfolio",
+  "language": "en",
+  "audience": "mixed",
+  "status": "design-in-progress",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "tags": ["portfolio", "personal-website", "frontend"],
+  "github": {
+    "issueUrl": null,
+    "projectUrl": null
+  },
+  "references": {
+    "visualDesignUrl": "https://api.anthropic.com/v1/design/h/pMaQx5mrWdpPl_wuZ1BAuw",
+    "sourceCv": "docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf"
+  },
+  "linkedDesign": "docs/architecture/"
+}
