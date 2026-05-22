@@ -72,7 +72,7 @@ layout code should be written until the stories here are done and merged.
 | 07  | useReveal hook                    | M    | DONE   |
 | 08  | useScrollSpy hook                 | M    | DONE   |
 | 09  | Section layout wrapper            | M    | TODO   |
-| 10  | SocialLinks component             | S    | TODO   |
+| 10  | SocialLinks component             | S    | DONE   |
 
 ## Acceptance Criteria
 
