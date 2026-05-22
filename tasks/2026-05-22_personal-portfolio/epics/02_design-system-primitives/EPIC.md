@@ -63,16 +63,16 @@ layout code should be written until the stories here are done and merged.
 
 | #   | Story                             | Size | Status |
 | --- | --------------------------------- | ---- | ------ |
-| 01  | Utilities & site constants        | S    | TODO   |
-| 02  | Design tokens in index.css @theme | S    | TODO   |
-| 03  | Container component               | S    | TODO   |
-| 04  | Button component + test           | M    | TODO   |
-| 05  | Badge component                   | S    | TODO   |
-| 06  | Card component                    | S    | TODO   |
-| 07  | useReveal hook                    | M    | TODO   |
-| 08  | useScrollSpy hook                 | M    | TODO   |
-| 09  | Section layout wrapper            | M    | TODO   |
-| 10  | SocialLinks component             | S    | TODO   |
+| 01  | Utilities & site constants        | S    | DONE   |
+| 02  | Design tokens in index.css @theme | S    | DONE   |
+| 03  | Container component               | S    | DONE   |
+| 04  | Button component + test           | M    | DONE   |
+| 05  | Badge component                   | S    | DONE   |
+| 06  | Card component                    | S    | DONE   |
+| 07  | useReveal hook                    | M    | DONE   |
+| 08  | useScrollSpy hook                 | M    | DONE   |
+| 09  | Section layout wrapper            | M    | DONE   |
+| 10  | SocialLinks component             | S    | DONE   |
 
 ## Acceptance Criteria
 
