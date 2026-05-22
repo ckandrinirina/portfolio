@@ -66,7 +66,7 @@ layout code should be written until the stories here are done and merged.
 | 01  | Utilities & site constants        | S    | DONE   |
 | 02  | Design tokens in index.css @theme | S    | DONE   |
 | 03  | Container component               | S    | DONE   |
-| 04  | Button component + test           | M    | TODO   |
+| 04  | Button component + test           | M    | DONE   |
 | 05  | Badge component                   | S    | TODO   |
 | 06  | Card component                    | S    | TODO   |
 | 07  | useReveal hook                    | M    | DONE   |
