@@ -5,7 +5,7 @@
 | Epic | ID | Title | Status | Size | Blocked by | File |
 |------|----|-------|--------|------|------------|------|
 | 01 · Project Foundation & Tooling | 01-01 | Scaffold Vite + React 19 + TypeScript project | DONE | S | - | epics/01_foundation-tooling/stories/01_scaffold-vite-react-ts.md |
-| 01 · Project Foundation & Tooling | 01-02 | Configure Tailwind CSS v4 | TODO | S | 01-01 | epics/01_foundation-tooling/stories/02_configure-tailwind.md |
+| 01 · Project Foundation & Tooling | 01-02 | Configure Tailwind CSS v4 | IN PROGRESS | S | 01-01 | epics/01_foundation-tooling/stories/02_configure-tailwind.md |
 | 01 · Project Foundation & Tooling | 01-03 | Configure ESLint 9 (flat) + Prettier | TODO | S | 01-01 | epics/01_foundation-tooling/stories/03_configure-eslint-prettier.md |
 | 01 · Project Foundation & Tooling | 01-04 | Configure Vitest + Testing Library + test setup | TODO | M | 01-01, 01-02 | epics/01_foundation-tooling/stories/04_configure-vitest.md |
 | 01 · Project Foundation & Tooling | 01-05 | Finalize Vite base path & npm scripts | TODO | S | 01-01 | epics/01_foundation-tooling/stories/05_vite-base-path-scripts.md |
