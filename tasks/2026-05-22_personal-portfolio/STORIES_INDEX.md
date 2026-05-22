@@ -7,7 +7,7 @@
 | 01 · Project Foundation & Tooling | 01-01 | Scaffold Vite + React 19 + TypeScript project | DONE | S | - | epics/01_foundation-tooling/stories/01_scaffold-vite-react-ts.md |
 | 01 · Project Foundation & Tooling | 01-02 | Configure Tailwind CSS v4 | DONE | S | 01-01 | epics/01_foundation-tooling/stories/02_configure-tailwind.md |
 | 01 · Project Foundation & Tooling | 01-03 | Configure ESLint 9 (flat) + Prettier | DONE | S | 01-01 | epics/01_foundation-tooling/stories/03_configure-eslint-prettier.md |
-| 01 · Project Foundation & Tooling | 01-04 | Configure Vitest + Testing Library + test setup | TODO | M | 01-01, 01-02 | epics/01_foundation-tooling/stories/04_configure-vitest.md |
+| 01 · Project Foundation & Tooling | 01-04 | Configure Vitest + Testing Library + test setup | DONE | M | 01-01, 01-02 | epics/01_foundation-tooling/stories/04_configure-vitest.md |
 | 01 · Project Foundation & Tooling | 01-05 | Finalize Vite base path & npm scripts | DONE | S | 01-01 | epics/01_foundation-tooling/stories/05_vite-base-path-scripts.md |
 | 02 · Design System — UI Primitives & Hooks | 02-01 | Utilities & site constants | TODO | S | 01-01 | epics/02_design-system-primitives/stories/02-01_utils-and-constants.md |
 | 02 · Design System — UI Primitives & Hooks | 02-02 | Design tokens in index.css @theme | TODO | S | 01-02 | epics/02_design-system-primitives/stories/02-02_design-tokens.md |
