@@ -34,8 +34,8 @@ accepts an optional `className` for overrides.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                     | Purpose                                 |
+| ------ | ----------------------------- | --------------------------------------- |
 | CREATE | `src/components/ui/Badge.tsx` | Skill/technology chip display component |
 
 ## Dependencies

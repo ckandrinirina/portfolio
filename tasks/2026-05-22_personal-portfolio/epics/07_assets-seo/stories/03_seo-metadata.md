@@ -45,8 +45,8 @@ Populate the `<head>` section of `index.html` with the full set of SEO and socia
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path    | Purpose                                                                                                                                  |
+| ------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | MODIFY | `index.html` | Add `lang="fr"` to `<html>`, `<title>`, meta description, full OG and Twitter Card tags, and favicon `<link>`; preserve anti-FOUC script |
 
 ## Dependencies

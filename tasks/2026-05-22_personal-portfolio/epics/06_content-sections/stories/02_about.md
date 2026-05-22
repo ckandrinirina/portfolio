@@ -31,8 +31,8 @@ English content files of Epic 04.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                           | Purpose                             |
+| ------ | ----------------------------------- | ----------------------------------- |
 | CREATE | `src/components/sections/About.tsx` | Profile narrative section component |
 
 ## Dependencies

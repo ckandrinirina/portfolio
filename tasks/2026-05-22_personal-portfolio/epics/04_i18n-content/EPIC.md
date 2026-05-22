@@ -47,16 +47,16 @@ Third, the runtime language system is wired: `LanguageProvider` and `useLanguage
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | Content type definitions | M | TODO |
-| 02 | French content module (default) | L | TODO |
-| 03 | English content module | L | TODO |
-| 04 | UI micro-labels map | S | TODO |
-| 05 | LanguageProvider + useLanguage | M | TODO |
-| 06 | LanguageSwitcher + test | M | TODO |
-| 07 | Content parity test | S | TODO |
-| 08 | DownloadCvButton component | S | TODO |
+| #   | Story                           | Size | Status |
+| --- | ------------------------------- | ---- | ------ |
+| 01  | Content type definitions        | M    | TODO   |
+| 02  | French content module (default) | L    | TODO   |
+| 03  | English content module          | L    | TODO   |
+| 04  | UI micro-labels map             | S    | TODO   |
+| 05  | LanguageProvider + useLanguage  | M    | TODO   |
+| 06  | LanguageSwitcher + test         | M    | TODO   |
+| 07  | Content parity test             | S    | TODO   |
+| 08  | DownloadCvButton component      | S    | TODO   |
 
 ## Acceptance Criteria
 

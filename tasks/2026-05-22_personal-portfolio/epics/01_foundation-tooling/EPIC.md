@@ -43,13 +43,13 @@ By the time this epic is complete, a developer can clone the repository, run `np
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | Scaffold Vite + React 19 + TypeScript project | S | DONE |
-| 02 | Configure Tailwind CSS v4 | S | TODO |
-| 03 | Configure ESLint 9 (flat) + Prettier | S | TODO |
-| 04 | Configure Vitest + Testing Library + test setup | M | TODO |
-| 05 | Finalize Vite base path & npm scripts | S | TODO |
+| #   | Story                                           | Size | Status |
+| --- | ----------------------------------------------- | ---- | ------ |
+| 01  | Scaffold Vite + React 19 + TypeScript project   | S    | DONE   |
+| 02  | Configure Tailwind CSS v4                       | S    | TODO   |
+| 03  | Configure ESLint 9 (flat) + Prettier            | S    | TODO   |
+| 04  | Configure Vitest + Testing Library + test setup | M    | TODO   |
+| 05  | Finalize Vite base path & npm scripts           | S    | TODO   |
 
 ## Acceptance Criteria
 

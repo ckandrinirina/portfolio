@@ -45,8 +45,8 @@ tokens instead of hard-coded hex or raw Tailwind default palette values.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path       | Purpose                                                                                         |
+| ------ | --------------- | ----------------------------------------------------------------------------------------------- |
 | MODIFY | `src/index.css` | Add `@theme { }` block with colour, font, and optional spacing/radius tokens for light and dark |
 
 ## Dependencies

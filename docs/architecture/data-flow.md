@@ -79,6 +79,7 @@ Section uses useReveal()
 DownloadCvButton  →  <a href="/cv/erick-andrinirina-cv.pdf" download>
   └─ Browser downloads the static PDF (served by GitHub Pages from public/)
 ```
+
 Note: `href` must respect Vite's `base`. Use `import.meta.env.BASE_URL + 'cv/...'`
 so it works under both root (`/`) and project sub-path bases.
 
@@ -90,22 +91,23 @@ WhatsApp  → <a href="https://wa.me/261385096664">
 GitHub    → <a href="<github-url>" target="_blank" rel="noopener noreferrer">
 LinkedIn  → <a href="<linkedin-url>" target="_blank" rel="noopener noreferrer">
 ```
+
 (GitHub/LinkedIn URLs are `[TO BE DEFINED]` — see spec open questions.)
 
 ## State summary
 
-| State | Where | Persisted | Default |
-|-------|-------|-----------|---------|
-| Theme | `ThemeProvider` | `localStorage['theme']` | system preference |
-| Locale | `LanguageProvider` | `localStorage['locale']` | `navigator.language` → `fr` |
-| Active section | `useScrollSpy` (transient) | no | first section |
-| Reveal visibility | `useReveal` (transient) | no | hidden until in view |
+| State             | Where                      | Persisted                | Default                     |
+| ----------------- | -------------------------- | ------------------------ | --------------------------- |
+| Theme             | `ThemeProvider`            | `localStorage['theme']`  | system preference           |
+| Locale            | `LanguageProvider`         | `localStorage['locale']` | `navigator.language` → `fr` |
+| Active section    | `useScrollSpy` (transient) | no                       | first section               |
+| Reveal visibility | `useReveal` (transient)    | no                       | hidden until in view        |
 
 ## Failure modes & resilience
 
-| Scenario | Behavior |
-|----------|----------|
-| `localStorage` unavailable (privacy mode) | Fall back to system/default; toggles still work for the session |
-| JS disabled | Page shows base HTML; static content is server-rendered into the bundle's root only after JS runs — acceptable for a portfolio. (If SEO for no-JS becomes a requirement, revisit with SSG.) |
-| Missing CV PDF | Download link 404s; mitigated by a build check that the asset exists |
-| Reduced-motion preference | Animations disabled, content fully visible |
+| Scenario                                  | Behavior                                                                                                                                                                                    |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `localStorage` unavailable (privacy mode) | Fall back to system/default; toggles still work for the session                                                                                                                             |
+| JS disabled                               | Page shows base HTML; static content is server-rendered into the bundle's root only after JS runs — acceptable for a portfolio. (If SEO for no-JS becomes a requirement, revisit with SSG.) |
+| Missing CV PDF                            | Download link 404s; mitigated by a build check that the asset exists                                                                                                                        |
+| Reduced-motion preference                 | Animations disabled, content fully visible                                                                                                                                                  |

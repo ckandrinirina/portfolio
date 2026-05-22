@@ -38,8 +38,8 @@ responsively in a grid or column layout.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                              | Purpose                                                 |
+| ------ | -------------------------------------- | ------------------------------------------------------- |
 | CREATE | `src/components/sections/Projects.tsx` | Project showcase section with Card and Badge components |
 
 ## Dependencies

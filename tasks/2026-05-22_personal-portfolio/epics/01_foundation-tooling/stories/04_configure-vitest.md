@@ -70,13 +70,13 @@ This test validates that globals work, the runner executes, and the setup file l
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `vite.config.ts` | Add `test` block (or create `vitest.config.ts` as alternative) |
-| CREATE | `src/test/setup.ts` | Import `@testing-library/jest-dom` to register matchers globally |
-| CREATE | `src/test/setup.test.ts` | Trivial smoke test to validate the harness |
-| MODIFY | `tsconfig.json` | Add `"vitest/globals"` and `"@testing-library/jest-dom"` to types |
-| MODIFY | `package.json` | Add `test` script and install vitest/testing-library devDependencies |
+| Action | File Path                | Purpose                                                              |
+| ------ | ------------------------ | -------------------------------------------------------------------- |
+| MODIFY | `vite.config.ts`         | Add `test` block (or create `vitest.config.ts` as alternative)       |
+| CREATE | `src/test/setup.ts`      | Import `@testing-library/jest-dom` to register matchers globally     |
+| CREATE | `src/test/setup.test.ts` | Trivial smoke test to validate the harness                           |
+| MODIFY | `tsconfig.json`          | Add `"vitest/globals"` and `"@testing-library/jest-dom"` to types    |
+| MODIFY | `package.json`           | Add `test` script and install vitest/testing-library devDependencies |
 
 ## Dependencies
 

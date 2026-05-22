@@ -6,24 +6,24 @@ context7). Exact patch versions are resolved at scaffold time with
 
 ## Core
 
-| Technology | Version | Role | Why |
-|------------|---------|------|-----|
-| [Vite](https://vite.dev) | 7.x | Build tool & dev server | Instant HMR, optimized static builds, first-class GitHub Pages support via `base` |
-| [React](https://react.dev) | 19.x | UI library | Latest stable; modern hooks, improved ref handling, no `forwardRef` boilerplate |
-| [TypeScript](https://www.typescriptlang.org) | 5.7+ | Language | Type safety across content data and components |
-| [Tailwind CSS](https://tailwindcss.com) | 4.x | Styling | Utility-first, zero-runtime; v4 uses the `@tailwindcss/vite` plugin and CSS-first config |
+| Technology                                   | Version | Role                    | Why                                                                                      |
+| -------------------------------------------- | ------- | ----------------------- | ---------------------------------------------------------------------------------------- |
+| [Vite](https://vite.dev)                     | 7.x     | Build tool & dev server | Instant HMR, optimized static builds, first-class GitHub Pages support via `base`        |
+| [React](https://react.dev)                   | 19.x    | UI library              | Latest stable; modern hooks, improved ref handling, no `forwardRef` boilerplate          |
+| [TypeScript](https://www.typescriptlang.org) | 5.7+    | Language                | Type safety across content data and components                                           |
+| [Tailwind CSS](https://tailwindcss.com)      | 4.x     | Styling                 | Utility-first, zero-runtime; v4 uses the `@tailwindcss/vite` plugin and CSS-first config |
 
 ## Tooling
 
-| Technology | Version | Role |
-|------------|---------|------|
-| `@tailwindcss/vite` | latest (v4) | Tailwind integration for Vite (replaces PostCSS setup) |
-| ESLint | 9.x (flat config) | Linting |
-| Prettier | 3.x | Formatting (with `prettier-plugin-tailwindcss` for class sorting) |
-| Vitest | 3.x | Test runner |
-| `@testing-library/react` | 16.x | Component testing |
-| `@testing-library/jest-dom` | 6.x | DOM matchers |
-| `jsdom` | latest | DOM environment for tests |
+| Technology                  | Version           | Role                                                              |
+| --------------------------- | ----------------- | ----------------------------------------------------------------- |
+| `@tailwindcss/vite`         | latest (v4)       | Tailwind integration for Vite (replaces PostCSS setup)            |
+| ESLint                      | 9.x (flat config) | Linting                                                           |
+| Prettier                    | 3.x               | Formatting (with `prettier-plugin-tailwindcss` for class sorting) |
+| Vitest                      | 3.x               | Test runner                                                       |
+| `@testing-library/react`    | 16.x              | Component testing                                                 |
+| `@testing-library/jest-dom` | 6.x               | DOM matchers                                                      |
+| `jsdom`                     | latest            | DOM environment for tests                                         |
 
 ## Internationalization
 
@@ -52,13 +52,13 @@ context7). Exact patch versions are resolved at scaffold time with
 
 ## Deployment
 
-| Technology | Role |
-|------------|------|
-| GitHub Actions | CI/CD on push to `main` |
-| `actions/configure-pages` | Configure the Pages environment |
-| `actions/upload-pages-artifact` | Upload the built `dist/` |
-| `actions/deploy-pages` | Publish to GitHub Pages |
-| Node.js 20 LTS+ | CI runtime (`actions/setup-node`, `npm ci`) |
+| Technology                      | Role                                        |
+| ------------------------------- | ------------------------------------------- |
+| GitHub Actions                  | CI/CD on push to `main`                     |
+| `actions/configure-pages`       | Configure the Pages environment             |
+| `actions/upload-pages-artifact` | Upload the built `dist/`                    |
+| `actions/deploy-pages`          | Publish to GitHub Pages                     |
+| Node.js 20 LTS+                 | CI runtime (`actions/setup-node`, `npm ci`) |
 
 ## Dependency summary
 

@@ -83,27 +83,27 @@ ck-portfolio/
 
 ## Conventions
 
-| Rule | Detail |
-|------|--------|
-| Component files | One component per file, `PascalCase.tsx`, default export the component |
-| Hooks | `useXxx.ts`, named export |
-| Content vs UI | `src/content/*` holds data only; components import it via `useLanguage()` |
-| Styling | Tailwind utility classes inline; shared tokens in `index.css` `@theme` |
-| Assets that need a stable URL | Go in `public/` (CV PDF, OG image, favicon) |
-| Assets that can be hashed/optimized | Imported from `src/` (decorative images) |
-| Tests | Co-located as `Component.test.tsx` next to the component |
+| Rule                                | Detail                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------- |
+| Component files                     | One component per file, `PascalCase.tsx`, default export the component    |
+| Hooks                               | `useXxx.ts`, named export                                                 |
+| Content vs UI                       | `src/content/*` holds data only; components import it via `useLanguage()` |
+| Styling                             | Tailwind utility classes inline; shared tokens in `index.css` `@theme`    |
+| Assets that need a stable URL       | Go in `public/` (CV PDF, OG image, favicon)                               |
+| Assets that can be hashed/optimized | Imported from `src/` (decorative images)                                  |
+| Tests                               | Co-located as `Component.test.tsx` next to the component                  |
 
 ## Section ↔ content mapping
 
 Each section component reads its slice from the active-locale content object:
 
-| Section component | Content slice |
-|-------------------|---------------|
-| `Hero` | `content.hero` |
-| `About` | `content.about` |
-| `Skills` | `content.skills` (grouped) |
-| `Experience` | `content.experience[]` |
-| `Projects` | `content.projects[]` (derived from experience) |
-| `Education` | `content.education[]` |
-| `Languages` | `content.spokenLanguages[]` |
-| `Contact` | `content.contact` + `lib/constants.ts` links |
+| Section component | Content slice                                  |
+| ----------------- | ---------------------------------------------- |
+| `Hero`            | `content.hero`                                 |
+| `About`           | `content.about`                                |
+| `Skills`          | `content.skills` (grouped)                     |
+| `Experience`      | `content.experience[]`                         |
+| `Projects`        | `content.projects[]` (derived from experience) |
+| `Education`       | `content.education[]`                          |
+| `Languages`       | `content.spokenLanguages[]`                    |
+| `Contact`         | `content.contact` + `lib/constants.ts` links   |

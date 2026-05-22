@@ -2,7 +2,7 @@
 
 > **Epic:** Project Foundation & Tooling
 > **Size:** S
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 
@@ -33,6 +33,7 @@ Set `base: '/'` in `vite.config.ts` to target the GitHub user-page deployment at
 ## Technical Notes
 
 - The complete `vite.config.ts` shape at the end of this epic (combining 01-01, 01-02, and 01-05):
+
   ```ts
   import { defineConfig } from 'vite'
   import react from '@vitejs/plugin-react'
@@ -45,16 +46,17 @@ Set `base: '/'` in `vite.config.ts` to target the GitHub user-page deployment at
     plugins: [react(), tailwindcss()],
   })
   ```
+
 - If Vitest config is defined in `vite.config.ts` (see story 01-04), the `test` block is added here as well; the `base` setting does not affect Vitest runs.
 - Downstream stories (e.g. the `DownloadCvButton` in epic 04) must reference the CV PDF as `` `${import.meta.env.BASE_URL}cv/erick-andrinirina-cv.pdf` `` to correctly resolve under any base path. This story sets the contract; later stories consume it.
 - `npm run build` runs `tsc -b` (type-check all references) then `vite build` (bundle). This ensures type errors are caught before the bundler runs. The two commands are chained with `&&` so a type error aborts the build.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `vite.config.ts` | Add explicit `base: '/'` with deployment comment |
-| MODIFY | `package.json` | Ensure all 6 canonical scripts are set with exact commands |
+| Action | File Path        | Purpose                                                    |
+| ------ | ---------------- | ---------------------------------------------------------- |
+| MODIFY | `vite.config.ts` | Add explicit `base: '/'` with deployment comment           |
+| MODIFY | `package.json`   | Ensure all 6 canonical scripts are set with exact commands |
 
 ## Dependencies
 

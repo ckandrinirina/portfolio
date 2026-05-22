@@ -20,32 +20,32 @@ accidentally re-introduced.
 ## Acceptance Criteria
 
 - [ ] A full-text search of every file in `dist/` (HTML, JS chunks, CSS,
-  inlined SVGs, any JSON assets) returns no matches for the street-address
-  fragments from the CV (specific fragment list defined in the script based on
-  the actual address known to the developer — not stored in this file per the
-  privacy policy).
+      inlined SVGs, any JSON assets) returns no matches for the street-address
+      fragments from the CV (specific fragment list defined in the script based on
+      the actual address known to the developer — not stored in this file per the
+      privacy policy).
 - [ ] The location text visible on the page is exactly "Antananarivo, Madagascar"
-  (city and country only) in both French and English locales — not a street
-  name, district, postal code, or other sub-city detail.
+      (city and country only) in both French and English locales — not a street
+      name, district, postal code, or other sub-city detail.
 - [ ] The email address (`ckandrinirina@gmail.com`) and WhatsApp number
-  (`+261385096664` or equivalent formatted form) are present in the built
-  output — confirming those intentionally public details are not accidentally
-  stripped.
+      (`+261385096664` or equivalent formatted form) are present in the built
+      output — confirming those intentionally public details are not accidentally
+      stripped.
 - [ ] A script at `scripts/check-privacy.sh` (or equivalent `scripts/check-privacy.js`)
-  accepts a path argument (defaulting to `./dist`) and:
+      accepts a path argument (defaulting to `./dist`) and:
   - Exits `0` if no address fragments are found.
   - Exits `1` and prints the matching file(s) and line(s) if any fragment is
     found.
 - [ ] `package.json` includes a `check:privacy` script that runs the guard
-  against `./dist`.
+      against `./dist`.
 - [ ] The GitHub Actions deploy workflow runs `npm run check:privacy` after
-  `npm run build` and before uploading the Pages artifact, so a leak blocks
-  the deploy.
+      `npm run build` and before uploading the Pages artifact, so a leak blocks
+      the deploy.
 - [ ] Manual check noted: if a CV PDF is present at `public/cv/`, the developer
-  has manually confirmed that the PDF's embedded text metadata does not contain
-  the street address (this is a one-time human check and does not need to be
-  automated, but the result should be noted in a comment in the workflow or
-  script).
+      has manually confirmed that the PDF's embedded text metadata does not contain
+      the street address (this is a one-time human check and does not need to be
+      automated, but the result should be noted in a comment in the workflow or
+      script).
 
 ## Technical Notes
 
@@ -87,11 +87,11 @@ accidentally re-introduced.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `scripts/check-privacy.sh` | Guard script; greps dist/ for address fragments; exits non-zero on match |
-| MODIFY | `package.json` | Add `"check:privacy": "sh scripts/check-privacy.sh"` to scripts |
-| MODIFY | `.github/workflows/deploy.yml` | Add privacy-check step after build, before artifact upload |
+| Action | File Path                      | Purpose                                                                  |
+| ------ | ------------------------------ | ------------------------------------------------------------------------ |
+| CREATE | `scripts/check-privacy.sh`     | Guard script; greps dist/ for address fragments; exits non-zero on match |
+| MODIFY | `package.json`                 | Add `"check:privacy": "sh scripts/check-privacy.sh"` to scripts          |
+| MODIFY | `.github/workflows/deploy.yml` | Add privacy-check step after build, before artifact upload               |
 
 ## Dependencies
 

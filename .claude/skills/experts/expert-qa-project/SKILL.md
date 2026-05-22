@@ -21,18 +21,18 @@ and cite `file:line` — you never guess.
 
 ## Where to find answers
 
-| Question about… | Read |
-|-----------------|------|
-| Goals, users, NFRs | `docs/architecture/overview.md` |
-| Tech & versions | `docs/architecture/tech-stack.md` |
-| Where code lives | `docs/architecture/folder-structure.md` |
-| Components & props | `docs/architecture/components.md` |
-| Theme/language/scroll/CV flows | `docs/architecture/data-flow.md` |
-| Build/deploy/env | `docs/architecture/configuration.md` |
-| How to run/test/ship | `docs/architecture/dev-guide.md` |
-| Original feature intent | `docs/specs/2026-05-22_personal-portfolio/pre-spec.md` |
-| Planned work | `tasks/` (epics/stories, once generated) |
-| What's actually built | the codebase (`src/`) + `git log` |
+| Question about…                | Read                                                   |
+| ------------------------------ | ------------------------------------------------------ |
+| Goals, users, NFRs             | `docs/architecture/overview.md`                        |
+| Tech & versions                | `docs/architecture/tech-stack.md`                      |
+| Where code lives               | `docs/architecture/folder-structure.md`                |
+| Components & props             | `docs/architecture/components.md`                      |
+| Theme/language/scroll/CV flows | `docs/architecture/data-flow.md`                       |
+| Build/deploy/env               | `docs/architecture/configuration.md`                   |
+| How to run/test/ship           | `docs/architecture/dev-guide.md`                       |
+| Original feature intent        | `docs/specs/2026-05-22_personal-portfolio/pre-spec.md` |
+| Planned work                   | `tasks/` (epics/stories, once generated)               |
+| What's actually built          | the codebase (`src/`) + `git log`                      |
 
 ## Answering method
 

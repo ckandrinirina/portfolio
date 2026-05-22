@@ -18,12 +18,12 @@ as a single shareable link representing his professional identity.
 
 ## Target users
 
-| User | Need | Delivered by |
-|------|------|--------------|
-| Recruiters / hiring managers | Quick read of seniority, stack, availability | Hero, Skills, CV download |
-| Potential clients | Proof of real, delivered projects | Experience + Projects sections |
-| Fellow developers | Technical depth, source/profile links | Skills, GitHub, LinkedIn |
-| The owner | A shareable professional identity | One link, bilingual, polished |
+| User                         | Need                                         | Delivered by                   |
+| ---------------------------- | -------------------------------------------- | ------------------------------ |
+| Recruiters / hiring managers | Quick read of seniority, stack, availability | Hero, Skills, CV download      |
+| Potential clients            | Proof of real, delivered projects            | Experience + Projects sections |
+| Fellow developers            | Technical depth, source/profile links        | Skills, GitHub, LinkedIn       |
+| The owner                    | A shareable professional identity            | One link, bilingual, polished  |
 
 ## System architecture
 
@@ -76,15 +76,15 @@ push to main ─► GitHub Actions ─► npm ci ─► vite build ─► dist/
 
 ## Non-functional requirements
 
-| Concern | Target |
-|---------|--------|
-| Performance | Lighthouse performance ≥ 95; first load < 1.5s on broadband |
-| Accessibility | WCAG 2.1 AA intent: semantic landmarks, focus states, color contrast |
-| Responsiveness | Mobile, tablet, desktop breakpoints |
-| SEO / sharing | Title, meta description, Open Graph/Twitter card, correct `lang` attribute |
-| i18n | Full EN/FR parity for all visible content |
-| Availability | Always online (GitHub Pages CDN) |
-| Privacy | Full home address never rendered or embedded |
+| Concern        | Target                                                                     |
+| -------------- | -------------------------------------------------------------------------- |
+| Performance    | Lighthouse performance ≥ 95; first load < 1.5s on broadband                |
+| Accessibility  | WCAG 2.1 AA intent: semantic landmarks, focus states, color contrast       |
+| Responsiveness | Mobile, tablet, desktop breakpoints                                        |
+| SEO / sharing  | Title, meta description, Open Graph/Twitter card, correct `lang` attribute |
+| i18n           | Full EN/FR parity for all visible content                                  |
+| Availability   | Always online (GitHub Pages CDN)                                           |
+| Privacy        | Full home address never rendered or embedded                               |
 
 ## Out of scope
 

@@ -42,16 +42,16 @@ Run `npm create vite@latest . -- --template react-ts` in the repository root to 
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `package.json` | Project manifest with React 19, TypeScript 5.7+, Vite 7 |
-| CREATE | `vite.config.ts` | Vite configuration (baseline with `@vitejs/plugin-react`) |
-| CREATE | `tsconfig.json` | TypeScript config with strict mode and react-jsx |
+| Action | File Path            | Purpose                                                   |
+| ------ | -------------------- | --------------------------------------------------------- |
+| CREATE | `package.json`       | Project manifest with React 19, TypeScript 5.7+, Vite 7   |
+| CREATE | `vite.config.ts`     | Vite configuration (baseline with `@vitejs/plugin-react`) |
+| CREATE | `tsconfig.json`      | TypeScript config with strict mode and react-jsx          |
 | CREATE | `tsconfig.node.json` | TypeScript config for Vite config file (node environment) |
-| CREATE | `index.html` | Vite HTML entry with `<div id="root">` mount |
-| CREATE | `src/main.tsx` | React entry point — mounts `<App />` |
-| CREATE | `src/App.tsx` | Top-level application component (scaffold placeholder) |
-| CREATE | `.gitignore` | Node/Vite ignores (dist/, node_modules/, etc.) |
+| CREATE | `index.html`         | Vite HTML entry with `<div id="root">` mount              |
+| CREATE | `src/main.tsx`       | React entry point — mounts `<App />`                      |
+| CREATE | `src/App.tsx`        | Top-level application component (scaffold placeholder)    |
+| CREATE | `.gitignore`         | Node/Vite ignores (dist/, node_modules/, etc.)            |
 
 ## Dependencies
 
@@ -70,7 +70,7 @@ Run `npm create vite@latest . -- --template react-ts` in the repository root to 
 root — guarantees `docs/`, `tasks/`, `.claude/`, `.git/` are never touched.
 
 - [x] Scaffold `react-ts` template into a temp dir (`npm create vite@latest <tmp>`)
-- [x] Copy scaffold files into repo root (package.json, vite.config.ts, tsconfig*.json,
+- [x] Copy scaffold files into repo root (package.json, vite.config.ts, tsconfig\*.json,
       index.html, src/, .gitignore); reconcile `tsconfig.node.json` existence + reference
 - [x] Pin versions: react/react-dom ^19, vite ^7, typescript ^5.7
 - [x] `npm install` — populate node_modules/
@@ -119,6 +119,7 @@ typescript `5.9.3`, @vitejs/plugin-react `5.2.0`.
 ### Files Touched
 
 **CREATED:**
+
 - `package.json` — manifest (React 19, Vite 7, TS 5.7), scripts `dev`/`build`/`preview`
 - `package-lock.json` — dependency lockfile
 - `vite.config.ts` — Vite config with `@vitejs/plugin-react`
@@ -133,5 +134,6 @@ typescript `5.9.3`, @vitejs/plugin-react `5.2.0`.
 - `public/{favicon.svg,icons.svg}` — scaffold public assets (replaced in 07-02)
 
 **MODIFIED:**
+
 - `tasks/2026-05-22_personal-portfolio/STORIES_INDEX.md:7` — status `TODO` → `IN PROGRESS` → `DONE`
 - `tasks/2026-05-22_personal-portfolio/epics/01_foundation-tooling/stories/01_scaffold-vite-react-ts.md` — status, plan, unplanned changes, summary, checklists (this file)

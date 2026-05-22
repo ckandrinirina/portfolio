@@ -32,8 +32,8 @@
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path      | Purpose                                     |
+| ------ | -------------- | ------------------------------------------- |
 | MODIFY | `src/main.tsx` | Mount provider stack and import `index.css` |
 
 ## Dependencies

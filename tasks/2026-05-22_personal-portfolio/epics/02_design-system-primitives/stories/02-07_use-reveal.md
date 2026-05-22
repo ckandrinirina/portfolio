@@ -38,11 +38,14 @@ accessible regardless of animation preference.
   ```ts
   const mockObserve = vi.fn()
   const mockDisconnect = vi.fn()
-  vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-    observe: mockObserve,
-    disconnect: mockDisconnect,
-    unobserve: vi.fn(),
-  })))
+  vi.stubGlobal(
+    'IntersectionObserver',
+    vi.fn(() => ({
+      observe: mockObserve,
+      disconnect: mockDisconnect,
+      unobserve: vi.fn(),
+    })),
+  )
   ```
   Similarly stub `window.matchMedia` if not already done.
 - Hook implementation pattern:
@@ -50,17 +53,20 @@ accessible regardless of animation preference.
   export function useReveal(options?: IntersectionObserverInit) {
     const ref = useRef<Element>(null)
     const [isVisible, setIsVisible] = useState(
-      () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     )
     useEffect(() => {
-      if (isVisible) return           // already true (reduced-motion)
+      if (isVisible) return // already true (reduced-motion)
       if (!ref.current) return
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      }, { threshold: 0.1, ...options })
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+            observer.disconnect()
+          }
+        },
+        { threshold: 0.1, ...options },
+      )
       observer.observe(ref.current)
       return () => observer.disconnect()
     }, [])
@@ -72,8 +78,8 @@ accessible regardless of animation preference.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                | Purpose                                                            |
+| ------ | ------------------------ | ------------------------------------------------------------------ |
 | CREATE | `src/hooks/useReveal.ts` | IntersectionObserver-based reveal hook with reduced-motion support |
 
 ## Dependencies

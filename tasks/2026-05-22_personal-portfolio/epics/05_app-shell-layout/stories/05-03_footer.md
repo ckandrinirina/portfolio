@@ -33,8 +33,8 @@ Build `src/components/layout/Footer.tsx`, the page-wide footer that sits below t
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                          | Purpose                                                             |
+| ------ | ---------------------------------- | ------------------------------------------------------------------- |
 | CREATE | `src/components/layout/Footer.tsx` | Footer landmark with social links, copyright, and "built with" note |
 
 ## Dependencies

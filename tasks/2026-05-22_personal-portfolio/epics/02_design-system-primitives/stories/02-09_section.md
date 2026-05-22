@@ -59,8 +59,8 @@ content is always visible and accessible.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                           | Purpose                                                                       |
+| ------ | ----------------------------------- | ----------------------------------------------------------------------------- |
 | CREATE | `src/components/layout/Section.tsx` | Semantic section wrapper with id, h2 heading, Container, and reveal animation |
 
 ## Dependencies
@@ -71,5 +71,5 @@ content is always visible and accessible.
 ## Related
 
 - **Epic:** design-system-primitives
-- **Related stories:** 02-03 (Container used inside Section), 02-07 (useReveal used inside Section), 06-* (all section components)
+- **Related stories:** 02-03 (Container used inside Section), 02-07 (useReveal used inside Section), 06-\* (all section components)
 - **Spec reference:** components.md §Layout components (Section); data-flow.md §6 Reveal-on-scroll; components.md §Accessibility notes

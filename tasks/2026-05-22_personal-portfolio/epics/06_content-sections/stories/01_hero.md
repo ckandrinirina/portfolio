@@ -45,10 +45,10 @@ accessibility invariants.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `src/components/sections/Hero.tsx` | Hero section component with h1, positioning, CTAs |
-| CREATE | `src/components/sections/Hero.test.tsx` | Unit tests for Hero rendering and download link |
+| Action | File Path                               | Purpose                                           |
+| ------ | --------------------------------------- | ------------------------------------------------- |
+| CREATE | `src/components/sections/Hero.tsx`      | Hero section component with h1, positioning, CTAs |
+| CREATE | `src/components/sections/Hero.test.tsx` | Unit tests for Hero rendering and download link   |
 
 ## Dependencies
 

@@ -38,8 +38,8 @@ address is never shown.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                             | Purpose                           |
+| ------ | ------------------------------------- | --------------------------------- |
 | CREATE | `src/components/sections/Contact.tsx` | Direct-links-only contact section |
 
 ## Dependencies

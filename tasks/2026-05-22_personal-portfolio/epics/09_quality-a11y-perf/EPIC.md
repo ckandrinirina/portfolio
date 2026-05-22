@@ -74,30 +74,30 @@ verification (09-04) are independent and can run in parallel with 09-01/09-02.
 
 ## Stories
 
-| # | Story | Size | Status |
-|---|-------|------|--------|
-| 01 | Accessibility pass | M | TODO |
-| 02 | Responsiveness pass | M | TODO |
-| 03 | prefers-reduced-motion verification | S | TODO |
-| 04 | Privacy verification | S | TODO |
-| 05 | Lighthouse performance & SEO audit | M | TODO |
+| #   | Story                               | Size | Status |
+| --- | ----------------------------------- | ---- | ------ |
+| 01  | Accessibility pass                  | M    | TODO   |
+| 02  | Responsiveness pass                 | M    | TODO   |
+| 03  | prefers-reduced-motion verification | S    | TODO   |
+| 04  | Privacy verification                | S    | TODO   |
+| 05  | Lighthouse performance & SEO audit  | M    | TODO   |
 
 ## Acceptance Criteria
 
 - [ ] Lighthouse accessibility score ≥ 95 on the production build in both light
-  and dark modes.
+      and dark modes.
 - [ ] Lighthouse performance score ≥ 95 on the production build.
 - [ ] Lighthouse SEO checks pass (title, description, OG/Twitter tags, `lang`).
 - [ ] No horizontal overflow at 375 px, 768 px, or 1280 px viewport widths.
 - [ ] Full home street address is absent from every file in `dist/`; an
-  automated check enforces this.
+      automated check enforces this.
 - [ ] All content is fully visible without animation when
-  `prefers-reduced-motion: reduce` is active.
+      `prefers-reduced-motion: reduce` is active.
 - [ ] Single `<h1>` on the page; every section has a visible `<h2>`.
 - [ ] All interactive controls are keyboard-reachable with visible focus rings.
 - [ ] `<html lang>` reflects the active locale in both FR and EN.
 - [ ] Lighthouse performance ≥ 95 score result is documented (screenshot or
-  JSON report committed to the repo).
+      JSON report committed to the repo).
 
 ## Technical Notes
 

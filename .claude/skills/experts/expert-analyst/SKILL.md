@@ -25,39 +25,46 @@ high-confidence findings with `file:line` citations.
 ## Review dimensions
 
 ### 1. Architecture compliance
+
 - Is visible text sourced from `useLanguage()` / content modules (not hardcoded)?
 - Are `fr.ts` and `en.ts` in parity (same keys, same array shapes)?
 - Are assets referenced via `BASE_URL` (no absolute `/cv/...`)?
 - Do new components live in the correct `components/{layout,sections,ui}` bucket?
 
 ### 2. React 19 correctness
+
 - No `forwardRef` (ref is a prop); no `<Context.Provider>` (use `<Context value>`).
 - Effects have cleanup; no state that should be derived during render.
 - Stable keys in lists; no index-as-key for reorderable content.
 - Context hooks throw when used outside their provider.
 
 ### 3. TypeScript rigor
+
 - `strict` honored; no `any`/non-null `!` without justification.
 - Content typed against `PortfolioContent`; `satisfies` used for literal data where helpful.
 - Props typed explicitly; discriminated unions for variant props.
 
 ### 4. Tailwind v4 hygiene
+
 - Class-based dark variant used consistently (`dark:` pairs for color/bg/border).
 - Tokens from `@theme` instead of magic hex values; classes sorted (Prettier plugin).
 - No leftover v3 patterns (`tailwind.config.js`, `darkMode: 'class'` JS).
 
 ### 5. Accessibility
+
 - Single `<h1>`, ordered headings, landmarks present.
 - Interactive elements keyboard-reachable with visible focus.
 - `aria-pressed`/`aria-label` on toggles; external links carry `rel="noopener noreferrer"`.
 - Color contrast adequate in both themes; animations gated on reduced-motion.
 
 ### 6. Security & privacy
+
 - No secrets/keys in source (none expected — fully static).
 - No full home address anywhere; only city/country.
 - `target="_blank"` always paired with `rel="noopener noreferrer"`.
 
 ### 7. Performance
+
 - Images sized/optimized; no oversized bundle imports for trivial needs.
 - No unnecessary re-renders from unstable context values (memoize the provider value).
 

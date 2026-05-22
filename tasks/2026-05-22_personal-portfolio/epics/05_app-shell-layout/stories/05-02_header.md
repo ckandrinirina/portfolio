@@ -41,8 +41,8 @@ Build `src/components/layout/Header.tsx`, the sticky top bar that sits at the to
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                          | Purpose                                                              |
+| ------ | ---------------------------------- | -------------------------------------------------------------------- |
 | CREATE | `src/components/layout/Header.tsx` | Sticky nav bar with scroll-spy, mobile menu, language/theme controls |
 
 ## Dependencies

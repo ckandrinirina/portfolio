@@ -29,21 +29,21 @@ Implement `src/components/ui/DownloadCvButton.tsx`, a localized anchor component
 - The `Button` component (story 02-04) supports `as="a"` to render as an anchor element while applying button styles. `DownloadCvButton` should use this prop rather than rendering a raw `<a>` to maintain visual consistency with the rest of the design system.
 - Suggested implementation:
   ```tsx
-  const { t } = useLanguage();
-  const href = import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf';
+  const { t } = useLanguage()
+  const href = import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'
   return (
     <Button as="a" href={href} download variant="primary" className={className}>
       {t('downloadCv')}
     </Button>
-  );
+  )
   ```
 - `import.meta.env.BASE_URL` is a string injected by Vite at build time. TypeScript recognizes it via Vite's `vite/client` types (included when `vite` is a dev dependency and `tsconfig.json` includes `vite/client` in `compilerOptions.types` or via the `/// <reference types="vite/client" />` directive).
 - No test is required for this story (the localization integration is covered by `LanguageSwitcher.test.tsx` and the parity test). A smoke check in the running dev server (Epic 08 or manual verification) is sufficient.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                                | Purpose                                         |
+| ------ | ---------------------------------------- | ----------------------------------------------- |
 | CREATE | `src/components/ui/DownloadCvButton.tsx` | Localized anchor to CV PDF with base-aware href |
 
 ## Dependencies

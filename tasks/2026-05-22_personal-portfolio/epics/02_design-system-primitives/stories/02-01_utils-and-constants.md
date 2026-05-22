@@ -48,9 +48,9 @@ labels). These files have zero runtime side-effects and no UI dependency.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `src/lib/utils.ts` | `cn()` class-merge helper and small shared utilities |
+| Action | File Path              | Purpose                                                     |
+| ------ | ---------------------- | ----------------------------------------------------------- |
+| CREATE | `src/lib/utils.ts`     | `cn()` class-merge helper and small shared utilities        |
 | CREATE | `src/lib/constants.ts` | Typed site metadata, contact links, social URLs, nav config |
 
 ## Dependencies

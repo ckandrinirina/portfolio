@@ -19,8 +19,12 @@ correct components over abstraction.
 ## What changed in React 19 (apply these)
 
 ### 1. `ref` is a regular prop — no `forwardRef`
+
 ```tsx
-function MyInput({ placeholder, ref }: {
+function MyInput({
+  placeholder,
+  ref,
+}: {
   placeholder?: string
   ref?: React.Ref<HTMLInputElement>
 }) {
@@ -28,15 +32,17 @@ function MyInput({ placeholder, ref }: {
 }
 // usage: <MyInput ref={inputRef} />
 ```
+
 `forwardRef` still works but is no longer needed; don't introduce it in new code.
 
 ### 2. Context: render the context as the provider
+
 ```tsx
 const ThemeContext = createContext<ThemeApi | null>(null)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const api = useThemeState()
-  return <ThemeContext value={api}>{children}</ThemeContext>   // not ThemeContext.Provider
+  return <ThemeContext value={api}>{children}</ThemeContext> // not ThemeContext.Provider
 }
 
 export function useTheme() {
@@ -66,13 +72,13 @@ export function useTheme() {
 
 ## Patterns used in this project
 
-| Need | Pattern |
-|------|---------|
-| Theme / language state | Context + typed `useX()` hook that throws outside provider |
-| Active nav link | `useScrollSpy` wrapping `IntersectionObserver`, cleaned up on unmount |
-| Reveal on scroll | `useReveal` returning `{ ref, isVisible }`; bail out under reduced-motion |
-| Lists (experience, projects) | `.map()` with stable string keys (slug/id), never array index |
-| Anti-FOUC theme | inline script in `index.html` sets `dark` class before hydration |
+| Need                         | Pattern                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| Theme / language state       | Context + typed `useX()` hook that throws outside provider                |
+| Active nav link              | `useScrollSpy` wrapping `IntersectionObserver`, cleaned up on unmount     |
+| Reveal on scroll             | `useReveal` returning `{ ref, isVisible }`; bail out under reduced-motion |
+| Lists (experience, projects) | `.map()` with stable string keys (slug/id), never array index             |
+| Anti-FOUC theme              | inline script in `index.html` sets `dark` class before hydration          |
 
 ## Anti-patterns
 

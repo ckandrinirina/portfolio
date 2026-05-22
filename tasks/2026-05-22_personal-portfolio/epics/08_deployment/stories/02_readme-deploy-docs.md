@@ -46,8 +46,8 @@ Write (or extend) `README.md` at the repository root with a complete project int
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action          | File Path   | Purpose                                                                                                    |
+| --------------- | ----------- | ---------------------------------------------------------------------------------------------------------- |
 | CREATE / MODIFY | `README.md` | Project intro, local dev commands, one-time Pages setup, every-deploy flow, base-path decision explanation |
 
 ## Dependencies

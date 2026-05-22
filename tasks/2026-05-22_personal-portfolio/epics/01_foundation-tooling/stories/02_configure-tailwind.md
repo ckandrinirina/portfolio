@@ -2,7 +2,7 @@
 
 > **Epic:** Project Foundation & Tooling
 > **Size:** S
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 
@@ -42,11 +42,11 @@ Install `tailwindcss` and `@tailwindcss/vite`, register the Tailwind plugin in `
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| MODIFY | `vite.config.ts` | Add `@tailwindcss/vite` plugin import and register it |
-| MODIFY | `src/index.css` | Replace with `@import "tailwindcss"` and dark variant declaration |
-| MODIFY | `package.json` | Add `tailwindcss` and `@tailwindcss/vite` to devDependencies |
+| Action | File Path        | Purpose                                                           |
+| ------ | ---------------- | ----------------------------------------------------------------- |
+| MODIFY | `vite.config.ts` | Add `@tailwindcss/vite` plugin import and register it             |
+| MODIFY | `src/index.css`  | Replace with `@import "tailwindcss"` and dark variant declaration |
+| MODIFY | `package.json`   | Add `tailwindcss` and `@tailwindcss/vite` to devDependencies      |
 
 ## Dependencies
 

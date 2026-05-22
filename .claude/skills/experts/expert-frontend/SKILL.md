@@ -21,6 +21,7 @@ TypeScript + Tailwind v4 code that matches the project's patterns exactly.
 (`@tailwindcss/vite`) · Vitest 3 + React Testing Library 16.
 
 **Key patterns:**
+
 - Content/UI separation: typed per-locale content in `src/content/fr.ts` (default)
   and `src/content/en.ts`, both implementing `PortfolioContent` from
   `src/content/types.ts`.
@@ -38,7 +39,13 @@ TypeScript + Tailwind v4 code that matches the project's patterns exactly.
 - **Function components only.** No class components.
 - **`ref` is a regular prop** in React 19 — do **not** use `forwardRef`:
   ```tsx
-  function Field({ label, ref }: { label: string; ref?: React.Ref<HTMLInputElement> }) {
+  function Field({
+    label,
+    ref,
+  }: {
+    label: string
+    ref?: React.Ref<HTMLInputElement>
+  }) {
     return <input aria-label={label} ref={ref} />
   }
   ```
@@ -59,9 +66,11 @@ TypeScript + Tailwind v4 code that matches the project's patterns exactly.
 
 - Config is **CSS-first**. No `tailwind.config.js`. In `src/index.css`:
   ```css
-  @import "tailwindcss";
+  @import 'tailwindcss';
   @custom-variant dark (&:where(.dark, .dark *));
-  @theme { /* design tokens from the Claude Design */ }
+  @theme {
+    /* design tokens from the Claude Design */
+  }
   ```
 - Dark mode is **class-based**: `dark` lives on `<html>`. Style with `bg-white dark:bg-zinc-900`, etc.
 - Use design tokens defined in `@theme` (`text-brand-500`) rather than ad-hoc hex values.
