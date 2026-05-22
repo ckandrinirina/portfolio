@@ -43,8 +43,10 @@ content; it only tracks the viewport intersection state.
         const el = document.getElementById(id)
         if (!el) return
         const obs = new IntersectionObserver(
-          ([entry]) => { if (entry.isIntersecting) setActiveId(id) },
-          { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+          ([entry]) => {
+            if (entry.isIntersecting) setActiveId(id)
+          },
+          { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
         )
         obs.observe(el)
         observers.push(obs)
@@ -60,8 +62,8 @@ content; it only tracks the viewport intersection state.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                   | Purpose                                                                |
+| ------ | --------------------------- | ---------------------------------------------------------------------- |
 | CREATE | `src/hooks/useScrollSpy.ts` | IntersectionObserver-based active section tracker for nav highlighting |
 
 ## Dependencies

@@ -38,8 +38,8 @@ the shared `Section` wrapper with `id="experience"` and adapts to the active loc
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                                | Purpose                                  |
+| ------ | ---------------------------------------- | ---------------------------------------- |
 | CREATE | `src/components/sections/Experience.tsx` | Reverse-chronological role cards section |
 
 ## Dependencies

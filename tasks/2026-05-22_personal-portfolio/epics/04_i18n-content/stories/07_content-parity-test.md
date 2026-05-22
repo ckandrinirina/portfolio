@@ -31,30 +31,33 @@ Create `src/content/content.test.ts`, a Vitest test suite that imports both `fr.
 ## Technical Notes
 
 - Test structure suggestion:
+
   ```ts
-  import frContent from './fr';
-  import enContent from './en';
+  import frContent from './fr'
+  import enContent from './en'
 
   describe('content parity: fr vs en', () => {
     it('experience array has equal length', () => {
-      expect(enContent.experience.length).toBe(frContent.experience.length);
-    });
+      expect(enContent.experience.length).toBe(frContent.experience.length)
+    })
     it('each experience has equal number of projects', () => {
       frContent.experience.forEach((_, i) => {
-        expect(enContent.experience[i].projects.length)
-          .toBe(frContent.experience[i].projects.length);
-      });
-    });
+        expect(enContent.experience[i].projects.length).toBe(
+          frContent.experience[i].projects.length,
+        )
+      })
+    })
     // … repeat for projects, skills, education, spokenLanguages
-  });
+  })
   ```
+
 - Vitest globals (`describe`, `it`, `expect`) are available without import if the Vitest config has `globals: true` (established in Epic 01 story 01-04).
 - No `@testing-library/react` or `jsdom` is needed — this test runs in the Node-like Vitest environment.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                     | Purpose                                              |
+| ------ | ----------------------------- | ---------------------------------------------------- |
 | CREATE | `src/content/content.test.ts` | Structural parity assertions between fr.ts and en.ts |
 
 ## Dependencies

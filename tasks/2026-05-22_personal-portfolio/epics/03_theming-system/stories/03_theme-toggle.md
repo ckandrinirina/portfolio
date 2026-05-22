@@ -47,10 +47,10 @@ This component is the only user-facing entry point for the theming epic. It will
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `src/components/ui/ThemeToggle.tsx` | Toggle button component — reads `useTheme`, calls `toggle()`, renders icon + aria attributes |
-| CREATE | `src/components/ui/ThemeToggle.test.tsx` | Vitest + Testing Library tests asserting DOM class and localStorage effects |
+| Action | File Path                                | Purpose                                                                                      |
+| ------ | ---------------------------------------- | -------------------------------------------------------------------------------------------- |
+| CREATE | `src/components/ui/ThemeToggle.tsx`      | Toggle button component — reads `useTheme`, calls `toggle()`, renders icon + aria attributes |
+| CREATE | `src/components/ui/ThemeToggle.test.tsx` | Vitest + Testing Library tests asserting DOM class and localStorage effects                  |
 
 ## Dependencies
 

@@ -8,17 +8,17 @@ Erick Andrinirina, built as a static site and deployed to GitHub Pages.
 
 ## Index
 
-| Doc | Purpose | Status |
-|-----|---------|--------|
-| [overview.md](overview.md) | Vision, goals, users, high-level system architecture | ✅ |
-| [folder-structure.md](folder-structure.md) | Directory layout and file conventions | ✅ |
-| [tech-stack.md](tech-stack.md) | Technologies, versions, and rationale | ✅ |
-| [components.md](components.md) | Component breakdown (providers, layout, sections, UI) | ✅ |
-| [data-flow.md](data-flow.md) | Theme, language, content, scroll, and download flows | ✅ |
-| [configuration.md](configuration.md) | Build, Tailwind, TS, lint, and deployment configuration | ✅ |
-| [dev-guide.md](dev-guide.md) | Scaffold, run, test, build, and deploy instructions | ✅ |
-| `api-contracts.md` | — | ➖ Not applicable (no backend; direct links only) |
-| `database-schema.md` | — | ➖ Not applicable (no database; content is static data) |
+| Doc                                        | Purpose                                                 | Status                                                  |
+| ------------------------------------------ | ------------------------------------------------------- | ------------------------------------------------------- |
+| [overview.md](overview.md)                 | Vision, goals, users, high-level system architecture    | ✅                                                      |
+| [folder-structure.md](folder-structure.md) | Directory layout and file conventions                   | ✅                                                      |
+| [tech-stack.md](tech-stack.md)             | Technologies, versions, and rationale                   | ✅                                                      |
+| [components.md](components.md)             | Component breakdown (providers, layout, sections, UI)   | ✅                                                      |
+| [data-flow.md](data-flow.md)               | Theme, language, content, scroll, and download flows    | ✅                                                      |
+| [configuration.md](configuration.md)       | Build, Tailwind, TS, lint, and deployment configuration | ✅                                                      |
+| [dev-guide.md](dev-guide.md)               | Scaffold, run, test, build, and deploy instructions     | ✅                                                      |
+| `api-contracts.md`                         | —                                                       | ➖ Not applicable (no backend; direct links only)       |
+| `database-schema.md`                       | —                                                       | ➖ Not applicable (no database; content is static data) |
 
 ## Quick facts
 

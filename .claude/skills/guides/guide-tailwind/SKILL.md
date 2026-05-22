@@ -21,55 +21,64 @@ managed by `ThemeProvider`.
 ```bash
 npm install tailwindcss @tailwindcss/vite
 ```
+
 ```ts
 // vite.config.ts
 import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({ plugins: [react(), tailwindcss()] })
 ```
+
 ```css
 /* src/index.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 ```
+
 No PostCSS config, no `content` array — Tailwind v4 auto-detects sources.
 
 ## Class-based dark mode (this project)
 
 Default `dark` follows `prefers-color-scheme`. We need a manual class toggle, so
 override the variant in CSS:
+
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 ```
+
 Then `ThemeProvider` toggles `dark` on `<html>`, and you style with paired utilities:
+
 ```html
-<div class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+<div class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"></div>
 ```
+
 > Do **not** use the v3 JS `darkMode: 'class'` config — it doesn't exist in v4.
 
 ## Design tokens with `@theme`
 
 Define the design's colors/fonts/breakpoints as CSS variables; they generate utilities:
+
 ```css
 @theme {
-  --color-brand-500: #c0492f;       /* → bg-brand-500, text-brand-500 */
-  --font-display: "Your Font", sans-serif;  /* → font-display */
-  --breakpoint-3xl: 120rem;          /* → 3xl: variants */
+  --color-brand-500: #c0492f; /* → bg-brand-500, text-brand-500 */
+  --font-display: 'Your Font', sans-serif; /* → font-display */
+  --breakpoint-3xl: 120rem; /* → 3xl: variants */
 }
 ```
+
 Use these tokens instead of magic hex values so light/dark and the design stay consistent. To replace the default palette entirely: `--color-*: initial;` then declare your own.
 
 ## Responsive & state utilities
 
 - Mobile-first: base styles, then `sm: md: lg: xl:` (and custom `3xl:` if defined).
   ```html
-  <section class="px-4 md:px-8 lg:px-16">
+  <section class="px-4 md:px-8 lg:px-16"></section>
   ```
 - Combine variants: `dark:hover:bg-zinc-800`, `md:dark:grid-cols-2`.
 - Use `focus-visible:` for accessible focus rings.
 - Gate animations on motion preference with the `motion-reduce:` variant
   (complements the JS `prefers-reduced-motion` check in `useReveal`):
   ```html
-  <div class="transition-opacity motion-reduce:transition-none">
+  <div class="transition-opacity motion-reduce:transition-none"></div>
   ```
 
 ## Conventions for this project

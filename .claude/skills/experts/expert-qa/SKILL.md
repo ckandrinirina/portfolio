@@ -21,14 +21,14 @@ interactive, regression-prone pieces, not exhaustive coverage of static markup.
 
 ## Test strategy (priority order)
 
-| Priority | Test | Asserts |
-|----------|------|---------|
-| High | `content.test.ts` | `fr` and `en` both satisfy `PortfolioContent`; same keys/array lengths (parity) |
-| High | `LanguageSwitcher.test.tsx` | switching FR→EN re-renders content and sets `<html lang>`; choice persisted to `localStorage` |
-| High | `ThemeToggle.test.tsx` | toggling adds/removes `dark` on `documentElement`; persists to `localStorage` |
-| Medium | `Hero.test.tsx` | renders name/title; Download CV link `href` includes `BASE_URL` + `cv/` and has `download` |
-| Medium | `Contact.test.tsx` | email `mailto:`, WhatsApp `wa.me`, GitHub/LinkedIn links present with `rel="noopener noreferrer"`; full address absent |
-| Low | `useScrollSpy` / `useReveal` | observers wired and cleaned up (mock `IntersectionObserver`) |
+| Priority | Test                         | Asserts                                                                                                                |
+| -------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| High     | `content.test.ts`            | `fr` and `en` both satisfy `PortfolioContent`; same keys/array lengths (parity)                                        |
+| High     | `LanguageSwitcher.test.tsx`  | switching FR→EN re-renders content and sets `<html lang>`; choice persisted to `localStorage`                          |
+| High     | `ThemeToggle.test.tsx`       | toggling adds/removes `dark` on `documentElement`; persists to `localStorage`                                          |
+| Medium   | `Hero.test.tsx`              | renders name/title; Download CV link `href` includes `BASE_URL` + `cv/` and has `download`                             |
+| Medium   | `Contact.test.tsx`           | email `mailto:`, WhatsApp `wa.me`, GitHub/LinkedIn links present with `rel="noopener noreferrer"`; full address absent |
+| Low      | `useScrollSpy` / `useReveal` | observers wired and cleaned up (mock `IntersectionObserver`)                                                           |
 
 ## Conventions
 
@@ -59,6 +59,7 @@ test('language switch updates content and html lang', async () => {
 
 When validating a story, map each acceptance criterion to an assertion and cite
 `file:line`. Confirm:
+
 - FR is the default before any interaction.
 - No full home address string appears anywhere in the rendered output.
 - CV link resolves under the configured `base`.

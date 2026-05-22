@@ -45,8 +45,11 @@ it with `Button.test.tsx` to verify variant classes and element rendering.
     className?: string
     children: React.ReactNode
   } & (
-    | { as?: 'button' } & React.ButtonHTMLAttributes<HTMLButtonElement>
-    | { as: 'a'; href?: string } & React.AnchorHTMLAttributes<HTMLAnchorElement>
+    | ({ as?: 'button' } & React.ButtonHTMLAttributes<HTMLButtonElement>)
+    | ({
+        as: 'a'
+        href?: string
+      } & React.AnchorHTMLAttributes<HTMLAnchorElement>)
   )
   ```
   This gives correct IntelliSense without overly complex generics.
@@ -64,10 +67,10 @@ it with `Button.test.tsx` to verify variant classes and element rendering.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `src/components/ui/Button.tsx` | Polymorphic styled button/link with primary/secondary/ghost variants |
-| CREATE | `src/components/ui/Button.test.tsx` | Unit tests: element type, variant classes, href, keyboard role |
+| Action | File Path                           | Purpose                                                              |
+| ------ | ----------------------------------- | -------------------------------------------------------------------- |
+| CREATE | `src/components/ui/Button.tsx`      | Polymorphic styled button/link with primary/secondary/ghost variants |
+| CREATE | `src/components/ui/Button.test.tsx` | Unit tests: element type, variant classes, href, keyboard role       |
 
 ## Dependencies
 

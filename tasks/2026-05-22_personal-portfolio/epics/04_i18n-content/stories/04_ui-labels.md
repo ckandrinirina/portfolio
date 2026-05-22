@@ -55,8 +55,8 @@ Create `src/i18n/ui.ts`, a small typed map of all UI chrome micro-labels — str
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path        | Purpose                                 |
+| ------ | ---------------- | --------------------------------------- |
 | CREATE | `src/i18n/ui.ts` | Typed per-locale map of UI micro-labels |
 
 ## Dependencies

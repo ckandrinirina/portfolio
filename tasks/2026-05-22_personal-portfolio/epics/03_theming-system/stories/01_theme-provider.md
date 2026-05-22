@@ -36,10 +36,10 @@ This story is the foundational piece of the theming epic: both the anti-FOUC boo
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                     | Purpose                                                                                         |
+| ------ | ----------------------------- | ----------------------------------------------------------------------------------------------- |
 | CREATE | `src/theme/ThemeProvider.tsx` | Context provider component, state init logic, `<html>` class effect, `localStorage` persistence |
-| CREATE | `src/theme/useTheme.ts` | `useTheme` hook — context accessor with out-of-provider guard |
+| CREATE | `src/theme/useTheme.ts`       | `useTheme` hook — context accessor with out-of-provider guard                                   |
 
 ## Dependencies
 

@@ -34,8 +34,8 @@ The section uses the shared `Section` wrapper with `id="education"`.
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path                               | Purpose                                                 |
+| ------ | --------------------------------------- | ------------------------------------------------------- |
 | CREATE | `src/components/sections/Education.tsx` | Education history section with accessible table or list |
 
 ## Dependencies

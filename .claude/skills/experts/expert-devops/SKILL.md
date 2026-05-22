@@ -23,10 +23,10 @@ and the GitHub Pages pipeline.
 GitHub Pages serves either at the domain root or a repo sub-path. `vite.config.ts`
 `base` MUST match, or assets 404:
 
-| Deployment | Repo name | `base` |
-|------------|-----------|--------|
-| User page (assumed) | `ckandrinirina.github.io` | `'/'` |
-| Project page | e.g. `ck-portfolio` | `'/ck-portfolio/'` |
+| Deployment          | Repo name                 | `base`             |
+| ------------------- | ------------------------- | ------------------ |
+| User page (assumed) | `ckandrinirina.github.io` | `'/'`              |
+| Project page        | e.g. `ck-portfolio`       | `'/ck-portfolio/'` |
 
 Always reference public assets via `import.meta.env.BASE_URL` so both work.
 
@@ -54,7 +54,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
+    environment:
+      { name: github-pages, url: '${{ steps.deployment.outputs.page_url }}' }
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
@@ -75,20 +76,22 @@ npm run test -- --run
 ## Quality gates to add to CI (recommended)
 
 Extend the build job before `npm run build`:
+
 ```yaml
-      - run: npm run lint
-      - run: npm run test -- --run
+- run: npm run lint
+- run: npm run test -- --run
 ```
+
 So a broken build/test never deploys.
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| Blank page, 404 on JS/CSS in production | wrong `base` | match `base` to deployment (table above) |
-| CV download 404 | absolute `/cv/...` path | use `${import.meta.env.BASE_URL}cv/...` |
-| Deploy succeeds but page not updated | Pages source not set to Actions | set Settings → Pages → Source = GitHub Actions |
-| `npm ci` fails in CI | missing/locked `package-lock.json` | commit the lockfile |
+| Symptom                                 | Cause                              | Fix                                            |
+| --------------------------------------- | ---------------------------------- | ---------------------------------------------- |
+| Blank page, 404 on JS/CSS in production | wrong `base`                       | match `base` to deployment (table above)       |
+| CV download 404                         | absolute `/cv/...` path            | use `${import.meta.env.BASE_URL}cv/...`        |
+| Deploy succeeds but page not updated    | Pages source not set to Actions    | set Settings → Pages → Source = GitHub Actions |
+| `npm ci` fails in CI                    | missing/locked `package-lock.json` | commit the lockfile                            |
 
 ## Anti-patterns to reject
 

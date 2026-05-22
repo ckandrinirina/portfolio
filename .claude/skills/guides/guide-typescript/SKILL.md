@@ -38,7 +38,11 @@ export interface PortfolioContent {
   about: string
   skills: { group: string; items: string[] }[]
   experience: ExperienceEntry[]
-  education: { qualification: string; institution: string | null; year: string }[]
+  education: {
+    qualification: string
+    institution: string | null
+    year: string
+  }[]
   spokenLanguages: { name: string; level: string }[]
   contact: { email: string; whatsapp: string }
 }
@@ -47,19 +51,24 @@ export interface PortfolioContent {
 ```ts
 // content/fr.ts
 import type { PortfolioContent } from './types'
-export const fr = { /* ... */ } satisfies PortfolioContent
+export const fr = {
+  /* ... */
+} satisfies PortfolioContent
 ```
 
 ### Use `satisfies` for literal data
+
 `satisfies` validates the object against the type **while keeping the precise
 literal types** for inference (so `fr.skills[0].group` stays a string literal,
 and typos/missing fields are caught):
+
 ```ts
 const palette = {
   red: [255, 0, 0],
   green: '#00ff00',
 } satisfies Record<string, string | [number, number, number]>
 ```
+
 Prefer `satisfies PortfolioContent` over `: PortfolioContent` for `fr`/`en` so
 extra/typo'd keys are flagged and literal types survive.
 
@@ -78,13 +87,18 @@ extra/typo'd keys are flagged and literal types survive.
 ## Narrowing
 
 ```ts
-function area(shape: { kind: 'circle'; r: number } | { kind: 'square'; s: number }) {
+function area(
+  shape: { kind: 'circle'; r: number } | { kind: 'square'; s: number },
+) {
   switch (shape.kind) {
-    case 'circle': return Math.PI * shape.r ** 2
-    case 'square': return shape.s ** 2
+    case 'circle':
+      return Math.PI * shape.r ** 2
+    case 'square':
+      return shape.s ** 2
   }
 }
 ```
+
 Use `switch` on a `kind`/`as` discriminant; add an exhaustiveness `never` check
 in switches that must cover all cases.
 

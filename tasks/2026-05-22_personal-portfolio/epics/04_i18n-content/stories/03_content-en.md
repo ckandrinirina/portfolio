@@ -41,8 +41,8 @@ The content is a faithful translation of the French module. Skill names and tech
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
+| Action | File Path           | Purpose                   |
+| ------ | ------------------- | ------------------------- |
 | CREATE | `src/content/en.ts` | English portfolio content |
 
 ## Dependencies

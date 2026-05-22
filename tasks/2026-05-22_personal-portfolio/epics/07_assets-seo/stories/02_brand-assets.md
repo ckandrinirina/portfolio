@@ -37,12 +37,12 @@ Add the three visual brand assets that `index.html` and the portfolio components
 
 ## Files to Create/Modify
 
-| Action | File Path | Purpose |
-|--------|-----------|---------|
-| CREATE | `public/favicon.svg` | SVG favicon displayed in the browser tab |
-| CREATE | `public/profile.jpg` | Profile headshot sourced from CV; used in Hero/About sections |
-| CREATE | `public/og-image.png` | 1200×630 social-share preview image |
-| MODIFY | `scripts/check-assets.mjs` | Extend presence check to include the three brand asset paths |
+| Action | File Path                  | Purpose                                                       |
+| ------ | -------------------------- | ------------------------------------------------------------- |
+| CREATE | `public/favicon.svg`       | SVG favicon displayed in the browser tab                      |
+| CREATE | `public/profile.jpg`       | Profile headshot sourced from CV; used in Hero/About sections |
+| CREATE | `public/og-image.png`      | 1200×630 social-share preview image                           |
+| MODIFY | `scripts/check-assets.mjs` | Extend presence check to include the three brand asset paths  |
 
 ## Dependencies
 
