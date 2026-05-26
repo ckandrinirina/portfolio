@@ -2,7 +2,7 @@
 
 > **Epic:** Internationalization & Content Data
 > **Size:** L
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 
