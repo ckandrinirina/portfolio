@@ -2,7 +2,7 @@
 
 > **Epic:** Content Sections
 > **Size:** M
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -15,15 +15,15 @@ groups of `Badge` chips. Group labels are locale-aware. The section uses the sha
 
 ## Acceptance Criteria
 
-- [ ] The component renders inside a `<section id="skills">` (provided by the `Section` wrapper).
-- [ ] An `<h2>` heading is rendered by the `Section` wrapper with the locale-appropriate label.
-- [ ] Exactly eight skill groups are rendered, matching the groups defined in `content.skills`.
-- [ ] Each group has a visible label (e.g. "Languages", "Front-end", etc.) rendered in the active locale.
-- [ ] Every individual skill within a group is rendered as a `Badge` chip component.
-- [ ] The layout uses a wrap or grid arrangement so skills do not overflow on narrow viewports.
-- [ ] Switching the locale updates group labels without changing the skill names (skill names are language-neutral technical terms).
-- [ ] The section is legible in light mode and dark mode (Badge contrast passes in both themes).
-- [ ] No TypeScript errors on `npm run build`.
+- [x] The component renders inside a `<section id="skills">` (provided by the `Section` wrapper).
+- [x] An `<h2>` heading is rendered by the `Section` wrapper with the locale-appropriate label.
+- [x] Exactly eight skill groups are rendered, matching the groups defined in `content.skills`.
+- [x] Each group has a visible label (e.g. "Languages", "Front-end", etc.) rendered in the active locale.
+- [x] Every individual skill within a group is rendered as a `Badge` chip component.
+- [x] The layout uses a wrap or grid arrangement so skills do not overflow on narrow viewports.
+- [x] Switching the locale updates group labels without changing the skill names (skill names are language-neutral technical terms).
+- [x] The section is legible in light mode and dark mode (Badge contrast passes in both themes).
+- [x] No TypeScript errors on `npm run build`.
 
 ## Technical Notes
 
@@ -50,3 +50,26 @@ groups of `Badge` chips. Group labels are locale-aware. The section uses the sha
 - **Epic:** content-sections
 - **Related stories:** 06-04 (Experience — also uses Badge for tech highlights), 06-05 (Projects — also uses Badge for tech tags), 06-09 (App wiring)
 - **Spec reference:** spec §5.3 (Skills matrix)
+
+## Implementation Plan
+
+- [x] Phase 4 — Write tests (RED): `src/components/sections/Skills.test.tsx`
+- [x] Phase 5 — Implement `src/components/sections/Skills.tsx` (GREEN)
+- [x] Phase 6 — Refactor + SOLID review
+- [x] Phase 7 — QA validation
+- [x] Phase 8 — Update story file + mark complete
+
+## Implementation Summary
+
+**Implemented:** `src/components/sections/Skills.tsx` — a locale-aware React 19 component that renders the skills matrix section. It reads `content.skills` (an array of `SkillGroup` objects) via `useLanguage()`, wraps the section in the `Section` layout component (id="skills", title from `t('navSkills')`), and renders each group as an `<h3>` label + `flex-wrap` row of `Badge` chips.
+
+**Tests:** `src/components/sections/Skills.test.tsx` — 15 tests covering all 9 acceptance criteria including section wrapper, group count, Badge rendering, wrap layout, locale switching (FR/EN), and render stability.
+
+**Files Touched:**
+
+| Status | File | Lines |
+|---|---|---|
+| CREATED | `src/components/sections/Skills.tsx` | 1–25 |
+| CREATED | `src/components/sections/Skills.test.tsx` | 1–184 |
+
+**Test results:** 344/344 pass (26 test files). `npm run build` succeeds with zero TypeScript errors. ESLint: no issues.
