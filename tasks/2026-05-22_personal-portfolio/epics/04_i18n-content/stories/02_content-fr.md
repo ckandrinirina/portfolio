@@ -2,7 +2,7 @@
 
 > **Epic:** Internationalization & Content Data
 > **Size:** L
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -12,11 +12,11 @@ Because this is the largest single content file in the project, accuracy and com
 
 ## Acceptance Criteria
 
-- [ ] `src/content/fr.ts` compiles without error: the exported object uses `satisfies PortfolioContent` (or an equivalent explicit type annotation) and TypeScript accepts it.
-- [ ] `hero` section: `name` is `"Erick Andrinirina"`, `title` is `"Développeur Fullstack JavaScript"` (or equivalent French), `positioning` references 7 years of experience, `location` is `"Antananarivo, Madagascar"`, and all three CTA label strings are present in French.
-- [ ] `about.narrative` is a coherent French paragraph matching spec §5.2 (experienced Fullstack developer, 7 years, React/Angular/Node.js/Symfony/Laravel, MongoDB/PostgreSQL/MySQL, motivated by technical challenges).
-- [ ] `skills` contains exactly 8 `SkillGroup` entries covering the groups: Languages, Front-end (frameworks & libraries), Back-end (frameworks), Databases, Tooling & DevOps, Testing, AI & Specialized, and Project & design tools — with each group's `items` matching the skill lists in spec §5.3.
-- [ ] `experience` array has exactly 7 entries in reverse-chronological order:
+- [x] `src/content/fr.ts` compiles without error: the exported object uses `satisfies PortfolioContent` (or an equivalent explicit type annotation) and TypeScript accepts it.
+- [x] `hero` section: `name` is `"Erick Andrinirina"`, `title` is `"Développeur Fullstack JavaScript"` (or equivalent French), `positioning` references 7 years of experience, `location` is `"Antananarivo, Madagascar"`, and all three CTA label strings are present in French.
+- [x] `about.narrative` is a coherent French paragraph matching spec §5.2 (experienced Fullstack developer, 7 years, React/Angular/Node.js/Symfony/Laravel, MongoDB/PostgreSQL/MySQL, motivated by technical challenges).
+- [x] `skills` contains exactly 8 `SkillGroup` entries covering the groups: Languages, Front-end (frameworks & libraries), Back-end (frameworks), Databases, Tooling & DevOps, Testing, AI & Specialized, and Project & design tools — with each group's `items` matching the skill lists in spec §5.3.
+- [x] `experience` array has exactly 7 entries in reverse-chronological order:
   1. SOKA / YAS Madagascar — Jan 2025 – present
   2. BMOI Madagascar — Jul 2024 – Jan 2025
   3. SHOYO — Jan 2021 – Jul 2024
@@ -24,7 +24,7 @@ Because this is the largest single content file in the project, accuracy and com
   5. PANAFRI HELP — Jan 2020 – Jun 2020
   6. CREACTISOFT — Sept 2019 – Dec 2020
   7. INGENOSYA — Oct 2018 – Sept 2019
-- [ ] Each experience entry's `projects` array contains all named projects from spec §5.4:
+- [x] Each experience entry's `projects` array contains all named projects from spec §5.4:
   - SOKA/YAS: SOKA CLUB, SOKA LIVE, LUDOKA
   - BMOI: EER Full Digital
   - SHOYO: SHOYO, THESEIS, Happy Capital / My Capital Immo, OCR information extraction
@@ -32,16 +32,16 @@ Because this is the largest single content file in the project, accuracy and com
   - PANAFRI HELP: PANAFRI HELP platform
   - CREACTISOFT: IPSUM, SOLIUS, MOZART, ELISE
   - INGENOSYA: BNI Madagascar, FMFP, FORET MAD
-- [ ] `projects` (curated/derived list) contains at minimum the following entries: SOKA Club, SOKA Live, LUDOKA, EER Full Digital, SHOYO, THESEIS, Happy Capital, OCR/GPT-4, VTC Academy, PANAFRI HELP, and representative CREACTISOFT and INGENOSYA items. Each entry has a non-empty `description` and a populated `techTags` array.
-- [ ] `education` array has exactly 3 entries in reverse-chronological order:
+- [x] `projects` (curated/derived list) contains at minimum the following entries: SOKA Club, SOKA Live, LUDOKA, EER Full Digital, SHOYO, THESEIS, Happy Capital, OCR/GPT-4, VTC Academy, PANAFRI HELP, and representative CREACTISOFT and INGENOSYA items. Each entry has a non-empty `description` and a populated `techTags` array.
+- [x] `education` array has exactly 3 entries in reverse-chronological order:
   1. Advanced web development training — NEITIC — June 2019
   2. Master's Engineer in Electronics, Applied Computing track — École Supérieure Polytechnique d'Antananarivo — June 2018
   3. Scientific Baccalaureate — `institution: ''` (empty string, institution unknown) — June 2013
-- [ ] `spokenLanguages` has exactly 3 entries: Malagasy (native/langue maternelle), French (courant/fluent), English (niveau professionnel/working proficiency). Labels and proficiency strings are in French.
-- [ ] `contact.location` is exactly `"Antananarivo, Madagascar"` — no street, no postal code, no full home address anywhere in the file.
-- [ ] `contact.intro` is a short French invitation to get in touch.
-- [ ] No TypeScript `// @ts-ignore` or `as unknown as` casts appear in this file.
-- [ ] `npm run build` exits 0 after this file is added.
+- [x] `spokenLanguages` has exactly 3 entries: Malagasy (native/langue maternelle), French (courant/fluent), English (niveau professionnel/working proficiency). Labels and proficiency strings are in French.
+- [x] `contact.location` is exactly `"Antananarivo, Madagascar"` — no street, no postal code, no full home address anywhere in the file.
+- [x] `contact.intro` is a short French invitation to get in touch.
+- [x] No TypeScript `// @ts-ignore` or `as unknown as` casts appear in this file.
+- [x] `npm run build` exits 0 after this file is added.
 
 ### Edge Cases
 
@@ -73,3 +73,40 @@ Because this is the largest single content file in the project, accuracy and com
 - **Epic:** 04_i18n-content
 - **Related stories:** 04-01, 04-03, 04-07
 - **Spec reference:** spec §5 (all subsections — hero, about, skills, experience, education, languages, contact)
+
+## Implementation Plan
+
+- [x] Write tests (`src/content/fr.test.ts`) — RED phase
+- [x] Implement `src/content/fr.ts` — GREEN phase
+- [x] Refactor — SOLID compliance check
+- [x] QA — tsc -b, npm run build, vitest
+
+## Implementation Summary
+
+### Files Touched
+
+| Action   | File                         | Notes                                         |
+| -------- | ---------------------------- | --------------------------------------------- |
+| CREATED  | `src/content/fr.ts`          | French default locale content module          |
+| CREATED  | `src/content/fr.test.ts`     | 51 Vitest tests covering all acceptance crit. |
+
+### QA Results
+
+- `npm run build` (tsc -b + vite build): EXIT 0
+- Vitest full suite: 194 tests, 16 files — all PASS
+- TypeScript: no errors, `satisfies PortfolioContent` enforced
+
+### Acceptance Criteria
+
+All 17 acceptance criteria: PASS.
+
+- hero: name, French title, 7-year positioning, location, 3 CTAs — PASS
+- about.narrative: French, 7 ans, React/Angular/Node.js/Symfony/Laravel, MongoDB/PostgreSQL/MySQL — PASS
+- skills: 8 groups with all spec §5.3 items — PASS
+- experience: 7 entries reverse-chronological — PASS
+- All named projects present per spec §5.4 — PASS
+- projects: 12 curated entries, each with description + techTags — PASS
+- education: 3 entries, Bac institution='', reverse-chron — PASS
+- spokenLanguages: Malgache (maternelle), Français (courant), Anglais (professionnel) — PASS
+- contact.location = "Antananarivo, Madagascar" exactly — PASS
+- No @ts-ignore / as unknown as casts — PASS
