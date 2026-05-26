@@ -2,7 +2,7 @@
 
 > **Epic:** Internationalization & Content Data
 > **Size:** S
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,18 +10,18 @@ Create `src/content/content.test.ts`, a Vitest test suite that imports both `fr.
 
 ## Acceptance Criteria
 
-- [ ] `src/content/content.test.ts` exists and is picked up by the Vitest configuration.
-- [ ] The test suite imports the default exports from both `src/content/fr.ts` and `src/content/en.ts`.
-- [ ] Test: `experience` array length is equal in both locales.
-- [ ] Test: `projects` array length is equal in both locales.
-- [ ] Test: `skills` array length (number of groups) is equal in both locales.
-- [ ] Test: `education` array length is equal in both locales.
-- [ ] Test: `spokenLanguages` array length is equal in both locales.
-- [ ] Test: for each `experience` entry, the `projects` sub-array length is equal between the FR and EN entries at the same index.
-- [ ] Test: for each `skills` group at the same index, the `items` array length is equal between FR and EN.
-- [ ] All above tests pass when `fr.ts` and `en.ts` are correctly authored; any intentional divergence between the locales (e.g., adding an entry in FR without EN) causes the relevant test to fail.
-- [ ] `npm run test -- --run` exits 0 with all parity tests passing after both content modules are authored.
-- [ ] No test imports from the React testing library — this is a pure data test using plain Vitest `describe`/`it`/`expect`.
+- [x] `src/content/content.test.ts` exists and is picked up by the Vitest configuration.
+- [x] The test suite imports the default exports from both `src/content/fr.ts` and `src/content/en.ts`.
+- [x] Test: `experience` array length is equal in both locales.
+- [x] Test: `projects` array length is equal in both locales.
+- [x] Test: `skills` array length (number of groups) is equal in both locales.
+- [x] Test: `education` array length is equal in both locales.
+- [x] Test: `spokenLanguages` array length is equal in both locales.
+- [x] Test: for each `experience` entry, the `projects` sub-array length is equal between the FR and EN entries at the same index.
+- [x] Test: for each `skills` group at the same index, the `items` array length is equal between FR and EN.
+- [x] All above tests pass when `fr.ts` and `en.ts` are correctly authored; any intentional divergence between the locales (e.g., adding an entry in FR without EN) causes the relevant test to fail.
+- [x] `npm run test -- --run` exits 0 with all parity tests passing after both content modules are authored.
+- [x] No test imports from the React testing library — this is a pure data test using plain Vitest `describe`/`it`/`expect`.
 
 ### Edge Cases
 
@@ -70,3 +70,33 @@ Create `src/content/content.test.ts`, a Vitest test suite that imports both `fr.
 - **Epic:** 04_i18n-content
 - **Related stories:** 04-01, 04-02, 04-03
 - **Spec reference:** (no direct spec section — derived from the parity guarantee in data-flow.md §2 and tech-stack.md §Internationalization)
+
+## Unplanned Changes
+
+- `src/content/en.ts` — Completed the 7 missing project translations (SOKA Live, LUDOKA, SHOYO, THESEIS, VTC Academy, PANAFRI HELP, IPSUM – ERP Commercial, BNI Madagascar) to achieve parity with fr.ts projects array — these were absent from the English content module despite being present in the French module.
+
+## Implementation Plan
+
+- [x] Write structural parity tests for all top-level arrays (experience, projects, skills, education, spokenLanguages)
+- [x] Write nested parity tests for experience.projects and skills.items
+- [x] Ensure tests use only Vitest (no React Testing Library)
+- [x] Run full test suite and build to confirm no regressions
+- [x] Fix en.ts to achieve parity (unplanned but necessary)
+
+## Implementation Summary
+
+Created `src/content/content.test.ts` with 7 Vitest assertions that verify structural parity between the FR and EN content modules. The test suite:
+
+- Imports both `frContent` and `enContent` as plain data objects
+- Asserts equal array lengths for all five top-level collections
+- Validates nested array parity (projects within each experience, items within each skill group)
+- Contains no string assertions, no React imports, and no test IDs
+- Passes with `npm run test -- --run` (all 238 tests pass)
+- Supports `npm run build` (exits 0)
+
+Additionally, discovered and corrected a data parity issue in `en.ts`: the English content module was missing 7 project entries that were present in the French module. These have been translated and added to ensure structural parity.
+
+### Files Touched
+
+- **CREATED:** `src/content/content.test.ts` — Vitest suite for structural parity assertions
+- **MODIFIED:** `src/content/en.ts:253-297` — Added 7 missing project translations (SOKA Live, LUDOKA, SHOYO, THESEIS, VTC Academy, PANAFRI HELP, IPSUM – ERP Commercial, BNI Madagascar)

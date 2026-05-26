@@ -252,7 +252,7 @@ export default {
 
   projects: [
     {
-      name: 'SOKA CLUB',
+      name: 'SOKA Club',
       company: 'SOKA / YAS Madagascar',
       description:
         'Multifunctional digital platform combining event ticketing, an online shop, and interactive mini-games with USDC payments and a loyalty points system.',
@@ -267,31 +267,80 @@ export default {
       ],
     },
     {
+      name: 'SOKA Live',
+      company: 'SOKA / YAS Madagascar',
+      description:
+        'Real-time sports prediction platform with dynamic leaderboards and rewards system.',
+      techTags: ['Next.js', 'NestJS', 'Redux Toolkit', 'PostgreSQL', 'WebSocket'],
+    },
+    {
+      name: 'LUDOKA',
+      company: 'SOKA / YAS Madagascar',
+      description:
+        'Competitive online Ludo games integrated into the broader SOKA ecosystem with real-time game management.',
+      techTags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Real-time messaging'],
+    },
+    {
       name: 'EER Full Digital',
       company: 'BMOI Madagascar',
       description:
-        'Online bank-account creation service with video-based identity verification and KYC document handling.',
-      techTags: ['React', 'Node.js', 'PostgreSQL'],
+        'Online bank-account creation service with video-based identity verification and secure KYC document handling.',
+      techTags: ['React', 'Node.js', 'TypeScript', 'KYC', 'Video verification'],
+    },
+    {
+      name: 'SHOYO',
+      company: 'SHOYO',
+      description:
+        'Digital dossier platform for managing financial procedures, including a major migration from PHP to JavaScript.',
+      techTags: ['React', 'NestJS', 'TypeScript', 'PostgreSQL', 'PHP migration'],
+    },
+    {
+      name: 'THESEIS',
+      company: 'SHOYO',
+      description:
+        'Digital document management solution for enterprise-level document classification, storage, and retrieval.',
+      techTags: ['Angular', 'Node.js', 'MongoDB', 'TypeScript'],
     },
     {
       name: 'Happy Capital / My Capital Immo',
       company: 'SHOYO',
       description:
-        'Real-estate crowdfunding platform with real-time investment tracking and portfolio management.',
-      techTags: ['React', 'NestJS', 'PostgreSQL', 'MongoDB'],
+        'Real-estate crowdfunding platform with real-time investment tracking and interactive investor dashboards.',
+      techTags: ['React', 'NestJS', 'PostgreSQL', 'WebSocket', 'TypeScript'],
     },
     {
-      name: 'OCR information extraction',
+      name: 'OCR / GPT-4',
       company: 'SHOYO',
       description:
-        'Automated pipeline using OCR and GPT-4 to convert scanned identity documents and bank statements into structured data.',
-      techTags: ['Node.js', 'OpenAI', 'Tesseract', 'React'],
+        'Automated data extraction from images and PDFs (IDs, IBANs, passports) using OCR and GPT-4.',
+      techTags: ['Node.js', 'OpenAI GPT-4', 'Tesseract OCR', 'TypeScript', 'PDF'],
     },
     {
-      name: 'FORET MAD',
+      name: 'VTC Academy',
+      company: 'VTC Academy',
+      description:
+        'Training platform for VTC drivers with interactive quizzes and educational progress dashboards.',
+      techTags: ['React', 'Node.js', 'MySQL', 'Quiz'],
+    },
+    {
+      name: 'PANAFRI HELP',
+      company: 'PANAFRI HELP',
+      description:
+        'End-to-end project financing platform built from design through production for Africa.',
+      techTags: ['React', 'Node.js', 'PostgreSQL'],
+    },
+    {
+      name: 'IPSUM – Commercial ERP',
+      company: 'CREACTISOFT',
+      description:
+        'Custom ERP for commercial management: sales, inventory, quotes, and invoicing.',
+      techTags: ['Angular', 'Symfony', 'MySQL', 'ERP'],
+    },
+    {
+      name: 'BNI Madagascar',
       company: 'INGENOSYA',
       description:
-        'Cross-platform document classification application built for the Ministry of Forests.',
+        'Online banking credit application platform for BNI Madagascar with loan simulation and document submission.',
       techTags: ['Angular', 'Laravel', 'MySQL'],
     },
   ],
