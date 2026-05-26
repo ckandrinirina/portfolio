@@ -2,7 +2,7 @@
 
 > **Epic:** Content Sections
 > **Size:** M
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -16,17 +16,17 @@ address is never shown.
 
 ## Acceptance Criteria
 
-- [ ] The component renders inside a `<section id="contact">` (provided by the `Section` wrapper).
-- [ ] An `<h2>` heading is rendered by the `Section` wrapper with the locale-appropriate label (e.g. "Contact").
-- [ ] An email link is present: `<a href="mailto:ckandrinirina@gmail.com">` with the address visible as link text or alongside a label.
-- [ ] A WhatsApp link is present: `<a href="https://wa.me/261385096664">` with a human-readable label (e.g. "+261 38 50 966 64" or "WhatsApp").
-- [ ] `SocialLinks` renders GitHub and LinkedIn icon links.
-- [ ] The location text "Antananarivo, Madagascar" appears — city and country only; the full street address is absent.
-- [ ] The component contains **no** `<form>`, `<input>`, `<textarea>`, or `<button type="submit">` elements.
-- [ ] All outbound links (WhatsApp, GitHub, LinkedIn) have `target="_blank"` and `rel="noopener noreferrer"`.
-- [ ] The email mailto link does not need `target="_blank"` (it opens the mail client, not a new tab).
-- [ ] The section renders correctly in both French and English; any surrounding labels or call-to-action text are locale-aware.
-- [ ] No TypeScript errors on `npm run build`.
+- [x] The component renders inside a `<section id="contact">` (provided by the `Section` wrapper).
+- [x] An `<h2>` heading is rendered by the `Section` wrapper with the locale-appropriate label (e.g. "Contact").
+- [x] An email link is present: `<a href="mailto:ckandrinirina@gmail.com">` with the address visible as link text or alongside a label.
+- [x] A WhatsApp link is present: `<a href="https://wa.me/261385096664">` with a human-readable label (e.g. "+261 38 50 966 64" or "WhatsApp").
+- [x] `SocialLinks` renders GitHub and LinkedIn icon links.
+- [x] The location text "Antananarivo, Madagascar" appears — city and country only; the full street address is absent.
+- [x] The component contains **no** `<form>`, `<input>`, `<textarea>`, or `<button type="submit">` elements.
+- [x] All outbound links (WhatsApp, GitHub, LinkedIn) have `target="_blank"` and `rel="noopener noreferrer"`.
+- [x] The email mailto link does not need `target="_blank"` (it opens the mail client, not a new tab).
+- [x] The section renders correctly in both French and English; any surrounding labels or call-to-action text are locale-aware.
+- [x] No TypeScript errors on `npm run build`.
 
 ## Technical Notes
 
@@ -52,3 +52,38 @@ address is never shown.
 - **Epic:** content-sections
 - **Related stories:** 06-01 (Hero — also uses SocialLinks), 06-09 (App wiring)
 - **Spec reference:** spec §5.7 (Contact), §4 (direct links only), §7 (privacy — no full address, WhatsApp number intentionally public)
+
+## Implementation Plan
+
+- [x] Write failing tests (`Contact.test.tsx`) covering all acceptance criteria
+- [x] Implement `Contact.tsx` using `Section` wrapper, `useLanguage()`, `SITE_META`, and `SocialLinks`
+- [x] Refactor for SOLID compliance and code clarity
+- [x] QA: run full test suite, verify acceptance criteria, build check
+
+## Implementation Summary
+
+**Status:** DONE
+
+### What was built
+
+`Contact.tsx` — a direct-links-only contact section. Uses the `Section` wrapper (id="contact", h2 heading), reads locale-aware `content.contact.intro` and `content.contact.location` via `useLanguage()`, and renders:
+- An email `mailto:` link (`SITE_META.email`) — no `target="_blank"` (opens mail client)
+- A WhatsApp `wa.me` link (`SITE_META.whatsapp`) with `target="_blank" rel="noopener noreferrer"` and formatted display text "+261 38 50 966 64"
+- `<SocialLinks />` for GitHub and LinkedIn icon links
+- Location text "Antananarivo, Madagascar" (city + country only; no full address)
+- No form, input, or submit elements
+
+Contact details sourced from `SITE_META` in `lib/constants.ts` (single source of truth).
+
+### Files Touched
+
+| Action | File | Lines |
+|--------|------|-------|
+| CREATED | `src/components/sections/Contact.tsx` | 64 lines |
+| CREATED | `src/components/sections/Contact.test.tsx` | 101 lines |
+
+### Test Results
+
+- 11 new tests written and passing
+- 340 total tests across 26 test files — all passing
+- `npm run build` passes with no TypeScript errors
