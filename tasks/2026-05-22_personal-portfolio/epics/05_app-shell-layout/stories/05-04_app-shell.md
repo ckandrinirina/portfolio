@@ -2,7 +2,7 @@
 
 > **Epic:** App Shell & Layout
 > **Size:** M
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,16 +10,16 @@ Update `src/App.tsx` to be the single-page shell that composes the full document
 
 ## Acceptance Criteria
 
-- [ ] `App.tsx` renders a `<Header/>` component at the top of the output.
-- [ ] `App.tsx` renders a `<main>` HTML landmark element below the Header.
-- [ ] The `<main>` element contains exactly eight section slot elements, one for each portfolio section: Hero, About, Skills, Experience, Projects, Education, Languages, Contact — in that order.
-- [ ] Each section slot has an `id` attribute matching the corresponding value in the nav config array in `src/lib/constants.ts` (e.g. `id="hero"`, `id="about"`, `id="skills"`, `id="experience"`, `id="projects"`, `id="education"`, `id="languages"`, `id="contact"`).
-- [ ] The section `id` values in `App.tsx` are sourced from `src/lib/constants.ts` (not hardcoded inline), so a single change to constants propagates everywhere.
-- [ ] `App.tsx` renders a `<Footer/>` component below the `<main>` element.
-- [ ] The rendered DOM contains the landmarks `<header>`, `<main>`, and `<footer>` in the correct top-to-bottom order.
-- [ ] No TypeScript errors on `npm run build`.
-- [ ] `npm run dev` renders the page with a visible sticky Header, the eight section anchors (even if empty at this stage), and the Footer.
-- [ ] The active nav link in the Header highlights as the user scrolls past each empty section anchor (scrollspy must resolve against the ids present in the DOM).
+- [x] `App.tsx` renders a `<Header/>` component at the top of the output.
+- [x] `App.tsx` renders a `<main>` HTML landmark element below the Header.
+- [x] The `<main>` element contains exactly eight section slot elements, one for each portfolio section: Hero, About, Skills, Experience, Projects, Education, Languages, Contact — in that order.
+- [x] Each section slot has an `id` attribute matching the corresponding value in the nav config array in `src/lib/constants.ts` (e.g. `id="hero"`, `id="about"`, `id="skills"`, `id="experience"`, `id="projects"`, `id="education"`, `id="languages"`, `id="contact"`).
+- [x] The section `id` values in `App.tsx` are sourced from `src/lib/constants.ts` (not hardcoded inline), so a single change to constants propagates everywhere.
+- [x] `App.tsx` renders a `<Footer/>` component below the `<main>` element.
+- [x] The rendered DOM contains the landmarks `<header>`, `<main>`, and `<footer>` in the correct top-to-bottom order.
+- [x] No TypeScript errors on `npm run build`.
+- [x] `npm run dev` renders the page with a visible sticky Header, the eight section anchors (even if empty at this stage), and the Footer.
+- [x] The active nav link in the Header highlights as the user scrolls past each empty section anchor (scrollspy must resolve against the ids present in the DOM).
 
 ## Technical Notes
 
@@ -46,3 +46,42 @@ Update `src/App.tsx` to be the single-page shell that composes the full document
 - **Epic:** app-shell-layout
 - **Related stories:** 05-01 (provider wiring — providers wrap App), 05-02 (Header rendered here), 05-03 (Footer rendered here)
 - **Spec reference:** components.md §Tree, folder-structure.md §src/App.tsx
+
+## Implementation Plan
+
+### SOLID
+
+- **S — Single Responsibility:** `App.tsx` is the page-shell composer. No state, no handlers, no business logic — its only job is to lay out the document structure (Header + main + 8 section slots + Footer).
+- **O — Open/Closed:** Section ids come from `NAV_SECTIONS` (`src/lib/constants.ts`). Adding, removing, or reordering a section is a single edit in constants — `App.tsx`, `useScrollSpy`, and `Header` all stay untouched.
+- **L — Liskov:** No new types or subtyping introduced. Each `<section>` is a plain DOM element.
+- **I — Interface Segregation:** `App` takes no props (mounted directly by `createRoot`). No new interfaces.
+- **D — Dependency Inversion:** App depends on `Header`, `Footer`, and the `NAV_SECTIONS` constant — all stable abstractions. Theme/language state is read inside `Header` via context hooks, never threaded through `App`.
+
+### Subtasks (TDD-ordered)
+
+- [x] Write `src/App.test.tsx` covering all 10 acceptance criteria (RED).
+- [x] Rewrite `src/App.tsx` to render `<Header/>` + `<main aria-label="Portfolio content">` with 8 `<section id min-h-screen/>` + `<Footer/>` (GREEN).
+- [x] SOLID refactor pass; keep tests green.
+- [x] QA: vitest run + `tsc -b` + eslint + `npm run build`; map each criterion to file:line.
+- [x] Update Status DONE in story file, `STORIES_INDEX.md`, and `EPIC.md`.
+
+## Unplanned Changes
+
+- `src/App.css` — DELETED — pure Vite scaffold styles (`.counter`, `.hero`, `.framework`, `.ticks` …), no longer imported by anything after `src/App.tsx` rewrite; removing avoids leaving dead CSS in the bundle.
+
+## Implementation Summary
+
+App.tsx is now a pure page-shell composer: `<Header/>` → `<main aria-label="Portfolio content" className="flex flex-col">` with 8 `<section id={NAV_SECTIONS[i].id} className="min-h-screen"/>` placeholder anchors → `<Footer/>`. Section ids are mapped from `NAV_SECTIONS` (`src/lib/constants.ts`) so a single edit there propagates to Header nav, scroll-spy, and section anchors. The dead Vite scaffold (`src/App.css`) was removed.
+
+### Files Touched
+
+- CREATED `src/App.test.tsx`
+- MODIFIED `src/App.tsx:1-19` (rewrote — was Vite scaffold; now Header + main + 8 sections + Footer)
+- DELETED `src/App.css` (Vite scaffold, no remaining importers)
+
+### Verification
+
+- vitest: 329/329 PASS (9 new App tests + 320 existing).
+- `tsc -b`: no errors.
+- ESLint: no issues.
+- `npm run build`: success (dist JS 452 KB / gzip 134 KB; CSS 19.29 KB / gzip 4.24 KB).
