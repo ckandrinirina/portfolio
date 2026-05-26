@@ -2,7 +2,7 @@
 
 > **Epic:** App Shell & Layout
 > **Size:** L
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -10,23 +10,23 @@ Build `src/components/layout/Header.tsx`, the sticky top bar that sits at the to
 
 ## Acceptance Criteria
 
-- [ ] The Header is position-sticky (or position-fixed) and remains visible when the user scrolls past the first section.
-- [ ] The Header renders a `<header>` HTML landmark element as its root.
-- [ ] A `<nav>` landmark is present inside the Header with an appropriate `aria-label` (e.g. "Main navigation").
-- [ ] The nav contains exactly eight anchor links, one for each section, with labels sourced from the nav config in `src/lib/constants.ts`.
-- [ ] Clicking a nav link smooth-scrolls to the matching `#section-id` element; the `href` matches the section `id` (e.g. `href="#about"`).
-- [ ] When `prefers-reduced-motion: reduce` is active, clicking a nav link performs an instant scroll (no smooth animation).
-- [ ] The nav link whose section is currently in the viewport is visually distinguished (e.g. different colour, underline, or weight) from inactive links.
-- [ ] The active link state is driven by `useScrollSpy` with the same id list used in `App.tsx`.
-- [ ] On viewports narrower than the desktop breakpoint (≤ md), the nav links are hidden by default and a visible hamburger button is shown.
-- [ ] Clicking the hamburger button toggles the mobile nav panel open and closed.
-- [ ] The hamburger button has `aria-expanded="true"` when the menu is open and `aria-expanded="false"` when closed, plus an accessible label (e.g. `aria-label="Open menu"` / `aria-label="Close menu"`).
-- [ ] Selecting a nav link while the mobile menu is open closes the menu.
-- [ ] Pressing `Escape` while the mobile menu is open closes the menu and returns focus to the hamburger button.
-- [ ] `LanguageSwitcher` and `ThemeToggle` render in the Header and function correctly (language/theme change is reflected app-wide).
-- [ ] All interactive elements (nav links, hamburger, LanguageSwitcher, ThemeToggle) are reachable via keyboard (`Tab`) and show a visible focus ring.
-- [ ] Header background and text are correctly styled in both light and dark themes using Tailwind `dark:` variants.
-- [ ] No TypeScript errors on `npm run build`.
+- [x] The Header is position-sticky (or position-fixed) and remains visible when the user scrolls past the first section.
+- [x] The Header renders a `<header>` HTML landmark element as its root.
+- [x] A `<nav>` landmark is present inside the Header with an appropriate `aria-label` (e.g. "Main navigation").
+- [x] The nav contains exactly eight anchor links, one for each section, with labels sourced from the nav config in `src/lib/constants.ts`.
+- [x] Clicking a nav link smooth-scrolls to the matching `#section-id` element; the `href` matches the section `id` (e.g. `href="#about"`).
+- [x] When `prefers-reduced-motion: reduce` is active, clicking a nav link performs an instant scroll (no smooth animation).
+- [x] The nav link whose section is currently in the viewport is visually distinguished (e.g. different colour, underline, or weight) from inactive links.
+- [x] The active link state is driven by `useScrollSpy` with the same id list used in `App.tsx`.
+- [x] On viewports narrower than the desktop breakpoint (≤ md), the nav links are hidden by default and a visible hamburger button is shown.
+- [x] Clicking the hamburger button toggles the mobile nav panel open and closed.
+- [x] The hamburger button has `aria-expanded="true"` when the menu is open and `aria-expanded="false"` when closed, plus an accessible label (e.g. `aria-label="Open menu"` / `aria-label="Close menu"`).
+- [x] Selecting a nav link while the mobile menu is open closes the menu.
+- [x] Pressing `Escape` while the mobile menu is open closes the menu and returns focus to the hamburger button.
+- [x] `LanguageSwitcher` and `ThemeToggle` render in the Header and function correctly (language/theme change is reflected app-wide).
+- [x] All interactive elements (nav links, hamburger, LanguageSwitcher, ThemeToggle) are reachable via keyboard (`Tab`) and show a visible focus ring.
+- [x] Header background and text are correctly styled in both light and dark themes using Tailwind `dark:` variants.
+- [x] No TypeScript errors on `npm run build`.
 
 ## Technical Notes
 
@@ -55,3 +55,50 @@ Build `src/components/layout/Header.tsx`, the sticky top bar that sits at the to
 - **Epic:** app-shell-layout
 - **Related stories:** 05-01 (provider wiring — Header consumes `useTheme` and `useLanguage`), 05-04 (App.tsx renders Header)
 - **Spec reference:** components.md §Header, data-flow.md §5 (Navigation & scroll spy), spec §6 navigation
+
+## Implementation Plan
+
+### SOLID Analysis
+
+- **S — Single Responsibility:** `Header` owns only nav/mobile-menu orchestration; scroll-spy lives in `useScrollSpy`; `LanguageSwitcher`/`ThemeToggle` are injected as sub-components; nav click handler is a standalone function.
+- **O — Open/Closed:** Nav sections sourced from `NAV_SECTIONS` constant; adding a new section only requires updating the constant, zero Header code change.
+- **L — Liskov:** No custom types that extend others; `Header` renders correctly without any props.
+- **I — Interface Segregation:** `Header` takes no required props (all state via context hooks); `NavLink` sub-component receives only what it needs (id, label, active flag, onClick).
+- **D — Dependency Inversion:** Theme/language state from `useTheme()`/`useLanguage()` hooks; scroll-spy from `useScrollSpy()`; no concrete context reads inside nav handlers.
+
+### Subtasks
+
+- [x] 1. Write `src/components/layout/Header.test.tsx` (RED — all ACs fail)
+- [x] 2. Create `src/components/layout/Header.tsx` (GREEN — all tests pass)
+- [x] 3. Refactor + SOLID compliance check (tests stay green)
+- [x] 4. QA validation — map each AC, run suite, check TypeScript
+- [x] 5. Mark tasks done, update story file
+
+## Implementation Summary
+
+### Files Touched
+
+| Action   | File                                                   | Notes                          |
+| -------- | ------------------------------------------------------ | ------------------------------ |
+| CREATED  | `src/components/layout/Header.tsx`                     | Full implementation            |
+| CREATED  | `src/components/layout/Header.test.tsx`                | 29 tests, all ACs covered      |
+
+### Modified files (git diff)
+
+- `src/components/layout/Header.tsx` — CREATED (new file, ~230 lines)
+- `src/components/layout/Header.test.tsx` — CREATED (new file, ~470 lines)
+
+### Test Results
+
+- 29 new tests — all pass
+- Full suite: 310 tests — all pass (0 regressions)
+- TypeScript: 0 errors
+
+### Key design decisions
+
+- `NAV_SECTIONS` from `src/lib/constants.ts` as the single source of truth for section ids and label keys.
+- `labelKeyToUiKey()` converts `'nav.hero'` → `'navHero'` to look up `UiLabels` without hardcoding.
+- `SECTION_IDS` is a module-level constant to give `useScrollSpy` a stable array reference.
+- Mobile menu is conditionally rendered (`{menuOpen && ...}`) — not CSS-hidden — to avoid duplicate focusable elements in the tab order.
+- `NavLink` sub-component extracts the anchor rendering (S of SOLID); accepts optional `ref` for focus management in the mobile menu.
+- `handleNavClick` guards against jsdom/old-browser environments with `typeof el.scrollIntoView === 'function'`.
