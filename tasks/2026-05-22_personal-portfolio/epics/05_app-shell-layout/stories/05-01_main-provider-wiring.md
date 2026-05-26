@@ -2,7 +2,7 @@
 
 > **Epic:** App Shell & Layout
 > **Size:** S
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 

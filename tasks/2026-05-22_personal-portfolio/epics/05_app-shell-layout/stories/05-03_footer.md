@@ -2,7 +2,7 @@
 
 > **Epic:** App Shell & Layout
 > **Size:** M
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,16 +10,16 @@ Build `src/components/layout/Footer.tsx`, the page-wide footer that sits below t
 
 ## Acceptance Criteria
 
-- [ ] The Footer renders a `<footer>` HTML landmark element as its root.
-- [ ] The `SocialLinks` component is rendered inside the Footer and displays GitHub and LinkedIn icon links.
-- [ ] A copyright line is present, formatted as `© <year> Erick Andrinirina` (or equivalent), where `<year>` is computed via `new Date().getFullYear()` — not a hardcoded string.
-- [ ] A "built with" note is present (e.g. "Built with React & Vite").
-- [ ] In light theme, all Footer text and icon colours are legible against the light background.
-- [ ] In dark theme, all Footer text and icon colours are legible against the dark background (verified by toggling ThemeToggle).
-- [ ] Toggling the theme while the footer is visible updates its colours without a page reload.
-- [ ] The Footer is full-width (spans the page), visually separated from the section above it (border, spacing, or background contrast).
-- [ ] No TypeScript errors on `npm run build`.
-- [ ] The `<footer>` element is present in the DOM and can be located by `role="contentinfo"` in a test or accessibility audit.
+- [x] The Footer renders a `<footer>` HTML landmark element as its root.
+- [x] The `SocialLinks` component is rendered inside the Footer and displays GitHub and LinkedIn icon links.
+- [x] A copyright line is present, formatted as `© <year> Erick Andrinirina` (or equivalent), where `<year>` is computed via `new Date().getFullYear()` — not a hardcoded string.
+- [x] A "built with" note is present (e.g. "Built with React & Vite").
+- [x] In light theme, all Footer text and icon colours are legible against the light background.
+- [x] In dark theme, all Footer text and icon colours are legible against the dark background (verified by toggling ThemeToggle).
+- [x] Toggling the theme while the footer is visible updates its colours without a page reload.
+- [x] The Footer is full-width (spans the page), visually separated from the section above it (border, spacing, or background contrast).
+- [x] No TypeScript errors on `npm run build`.
+- [x] The `<footer>` element is present in the DOM and can be located by `role="contentinfo"` in a test or accessibility audit.
 
 ## Technical Notes
 
@@ -47,3 +47,41 @@ Build `src/components/layout/Footer.tsx`, the page-wide footer that sits below t
 - **Epic:** app-shell-layout
 - **Related stories:** 05-04 (App.tsx renders Footer)
 - **Spec reference:** components.md §Footer
+
+## Implementation Summary
+
+### Files Touched
+
+| Action   | File                                            | Lines (modified) |
+| -------- | ----------------------------------------------- | ---------------- |
+| CREATED  | `src/components/layout/Footer.tsx`              | —                |
+| CREATED  | `src/components/layout/Footer.test.tsx`         | —                |
+
+### Summary
+
+Implemented `Footer.tsx` as a pure presentational component with no props. The component renders a `<footer>` landmark (implicit `role="contentinfo"`) wrapping a responsive flex layout inside `Container`. It renders `SocialLinks` for icon links, a dynamic copyright line using `{new Date().getFullYear()}` and `SITE_META.name`, and a localised "built with" note via `useLanguage().t('builtWith')` (key `builtWith` already existed in `src/i18n/ui.ts` for both `fr` and `en` locales). Light/dark theme colours use Tailwind `dark:` variants on background, border, and text. Ten tests cover all acceptance criteria. Build and TypeScript type-check pass clean.
+
+### Test Results
+
+- Tests: 291 passed, 0 failed (10 new Footer tests)
+- TypeScript: 0 errors
+- ESLint: 0 issues
+- Build: success
+
+## Implementation Plan
+
+### SOLID Analysis
+
+- **S** — `Footer.tsx` has one responsibility: render the footer landmark with social links, copyright, and built-with note. No state, no side effects.
+- **O** — Open for extension via Tailwind class composition; closed for modification (uses `SocialLinks` and `Container` as-is).
+- **L** — Not applicable (no inheritance).
+- **I** — Footer takes no props; minimal interface.
+- **D** — Uses `useLanguage().t('builtWith')` for the localized label; `SocialLinks` resolves its own URLs from constants.
+
+### Subtasks
+
+- [x] 1. Write failing tests (Footer.test.tsx) — RED phase
+- [x] 2. Implement Footer.tsx — GREEN phase
+- [x] 3. Refactor + SOLID compliance check
+- [x] 4. QA validation
+- [x] 5. Completion (story file updates)
