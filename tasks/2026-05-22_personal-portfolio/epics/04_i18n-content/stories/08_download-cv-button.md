@@ -2,7 +2,7 @@
 
 > **Epic:** Internationalization & Content Data
 > **Size:** S
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,13 +10,13 @@ Implement `src/components/ui/DownloadCvButton.tsx`, a localized anchor component
 
 ## Acceptance Criteria
 
-- [ ] `src/components/ui/DownloadCvButton.tsx` renders an `<a>` element (via `Button as="a"`) with `download` attribute present (either as a boolean prop or `download="erick-andrinirina-cv.pdf"`).
-- [ ] The rendered `href` is `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'` — exactly this expression, ensuring no double-slash when `BASE_URL` is `'/'` and correct resolution when `BASE_URL` is `'/some-path/'`. In the default deployment (`base: '/'`), the resolved href is `/cv/erick-andrinirina-cv.pdf`.
-- [ ] The component's visible label text is `t('downloadCv')` from `useLanguage()` — when locale is `'fr'` the French label is shown; when `'en'` the English label is shown.
-- [ ] The component accepts no required props (all data comes from context and `import.meta.env`).
-- [ ] The component accepts optional `className` prop (or equivalent) for layout flexibility, passed through to the underlying `Button`.
-- [ ] The rendered element is a valid anchor: `href` is set and `download` attribute is present; clicking it in a browser initiates a file download rather than navigation.
-- [ ] `npm run build` exits 0 after this file is added (no TypeScript errors; `import.meta.env.BASE_URL` is recognized by Vite's type declarations).
+- [x] `src/components/ui/DownloadCvButton.tsx` renders an `<a>` element (via `Button as="a"`) with `download` attribute present (either as a boolean prop or `download="erick-andrinirina-cv.pdf"`).
+- [x] The rendered `href` is `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'` — exactly this expression, ensuring no double-slash when `BASE_URL` is `'/'` and correct resolution when `BASE_URL` is `'/some-path/'`. In the default deployment (`base: '/'`), the resolved href is `/cv/erick-andrinirina-cv.pdf`.
+- [x] The component's visible label text is `t('downloadCv')` from `useLanguage()` — when locale is `'fr'` the French label is shown; when `'en'` the English label is shown.
+- [x] The component accepts no required props (all data comes from context and `import.meta.env`).
+- [x] The component accepts optional `className` prop (or equivalent) for layout flexibility, passed through to the underlying `Button`.
+- [x] The rendered element is a valid anchor: `href` is set and `download` attribute is present; clicking it in a browser initiates a file download rather than navigation.
+- [x] `npm run build` exits 0 after this file is added (no TypeScript errors; `import.meta.env.BASE_URL` is recognized by Vite's type declarations).
 
 ### Edge Cases
 
@@ -56,3 +56,40 @@ Implement `src/components/ui/DownloadCvButton.tsx`, a localized anchor component
 - **Epic:** 04_i18n-content
 - **Related stories:** 04-05, 02-04, 06-01
 - **Spec reference:** data-flow.md §7 CV download; components.md §UI (DownloadCvButton)
+
+## Implementation Plan
+
+- [x] Write test file covering href, download attribute, and localized label
+- [x] Implement DownloadCvButton component wrapping Button with `as="a"`
+- [x] Verify all tests pass (4 test cases in DownloadCvButton.test.tsx)
+- [x] Verify full test suite passes (270 tests)
+- [x] Verify TypeScript compilation clean
+- [x] Verify npm run build exits 0
+
+## Implementation Summary
+
+### Files Created
+
+- `src/components/ui/DownloadCvButton.tsx` — Localized anchor component wrapping Button, uses `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'` for href, includes `download` attribute, renders localized label via `t('downloadCv')` from `useLanguage()`, accepts optional `className` prop.
+
+### Files Modified
+
+None outside the created files.
+
+### Test Results
+
+- New tests (4): All PASS
+  - Renders anchor element with correct href
+  - Has download attribute present
+  - Displays localized label
+  - Accepts and applies className prop
+- Full test suite: 270 tests PASS
+- Build: `npm run build` exits 0
+- TypeScript: No errors
+
+### Verification
+
+- Component renders correctly inside LanguageProvider
+- `import.meta.env.BASE_URL` recognized by Vite's type declarations
+- href concatenation: `/cv/erick-andrinirina-cv.pdf` (default BASE_URL of `/`)
+- Optional className prop passed through to underlying Button
