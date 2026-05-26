@@ -2,7 +2,7 @@
 
 > **Epic:** Internationalization & Content Data
 > **Size:** S
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -10,17 +10,17 @@ Create `src/i18n/ui.ts`, a small typed map of all UI chrome micro-labels — str
 
 ## Acceptance Criteria
 
-- [ ] `src/i18n/ui.ts` exports a typed map (`UiLabels` type/interface) and a `ui` constant of shape `Record<'fr' | 'en', UiLabels>` (or an equivalent typed structure).
-- [ ] The `UiLabels` type is exported so other files can reference it.
-- [ ] FR and EN entries are present for every key in the following categories:
+- [x] `src/i18n/ui.ts` exports a typed map (`UiLabels` type/interface) and a `ui` constant of shape `Record<'fr' | 'en', UiLabels>` (or an equivalent typed structure).
+- [x] The `UiLabels` type is exported so other files can reference it.
+- [x] FR and EN entries are present for every key in the following categories:
   - **Navigation labels** (8 keys, one per section): hero/home, about, skills, experience, projects, education, languages, contact.
   - **Button texts**: `viewProjects`, `downloadCv`, `contact` (or equivalent key names matching what components will use).
   - **Aria-labels**: `languageSwitcher` (describing the EN/FR toggle), `themeToggle` (describing the light/dark button).
   - **Footer**: `builtWith` (short "Built with …" or "Créé avec …" string).
-- [ ] All keys defined in `UiLabels` have both FR and EN values — a missing value for either locale is a TypeScript error (enforce via `Record<'fr' | 'en', UiLabels>`).
-- [ ] The key names used in `ui.ts` match the keys that `t(key)` will accept in `LanguageProvider` (story 04-05) — this contract should be established here so 04-05 can implement `t()` against it.
-- [ ] No JSX, no component imports, no presentation logic in this file.
-- [ ] `npm run build` exits 0 after this file is introduced.
+- [x] All keys defined in `UiLabels` have both FR and EN values — a missing value for either locale is a TypeScript error (enforce via `Record<'fr' | 'en', UiLabels>`).
+- [x] The key names used in `ui.ts` match the keys that `t(key)` will accept in `LanguageProvider` (story 04-05) — this contract should be established here so 04-05 can implement `t()` against it.
+- [x] No JSX, no component imports, no presentation logic in this file.
+- [x] `npm run build` exits 0 after this file is introduced.
 
 ### Edge Cases
 
@@ -69,3 +69,40 @@ Create `src/i18n/ui.ts`, a small typed map of all UI chrome micro-labels — str
 - **Epic:** 04_i18n-content
 - **Related stories:** 04-05, 04-06
 - **Spec reference:** components.md §LanguageProvider (`t`); tech-stack.md §Internationalization
+
+## Implementation Summary
+
+### Overview
+
+Created `src/i18n/ui.ts` exporting a typed, bilingual map of all UI chrome micro-labels. The `UiLabels` type defines 14 string fields covering navigation (8), buttons (3), aria-labels (2), and footer (1). The `ui` constant has shape `Record<'fr' | 'en', UiLabels>`, which enforces at compile time that both locales provide every key.
+
+### Files Created
+
+- `src/i18n/ui.ts` — Main implementation: `UiLabels` type and `ui` constant (CREATED)
+- `src/i18n/ui.test.ts` — Unit tests validating structure and parity (CREATED)
+
+### Key Decisions
+
+1. **Key naming:** Followed the story's suggested structure exactly (e.g., `navHero`, `navAbout`, etc.) to establish a clear contract for story 04-05.
+2. **Locale parity:** Used `Record<'fr' | 'en', UiLabels>` to enforce compile-time verification — TypeScript will error if either locale omits a key.
+3. **String values:** Chose short, idiomatic French and English labels following the story's guidance (e.g., `navAbout: 'À propos' / 'About'`, `downloadCv: 'Télécharger le CV' / 'Download CV'`).
+4. **Aria-labels:** Made slightly more descriptive for accessibility (e.g., `languageSwitcher: 'Changer de langue' / 'Switch language'`).
+
+### Testing
+
+- **6 new tests** in `src/i18n/ui.test.ts`:
+  - Exports `ui` constant with both `fr` and `en` properties
+  - Both locales contain all 14 required keys as non-empty strings
+  - Both locales have identical key sets
+  - `navLanguages` and `languageSwitcher` keys are distinct (no collision)
+  - All values are truthy strings
+- **All 149 tests pass** (full suite, no regressions)
+
+### Build Verification
+
+- `npm run build` exits 0 with no TypeScript errors
+- Type checking confirms `Record<'fr' | 'en', UiLabels>` enforces parity
+
+### Notes for Story 04-05
+
+The `t(key: keyof UiLabels)` function in `LanguageProvider` should resolve to `ui[locale][key]`. All key names used here are the final contract.
