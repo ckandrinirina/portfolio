@@ -49,7 +49,7 @@ Third, the runtime language system is wired: `LanguageProvider` and `useLanguage
 
 | #   | Story                           | Size | Status |
 | --- | ------------------------------- | ---- | ------ |
-| 01  | Content type definitions        | M    | TODO   |
+| 01  | Content type definitions        | M    | DONE   |
 | 02  | French content module (default) | L    | TODO   |
 | 03  | English content module          | L    | TODO   |
 | 04  | UI micro-labels map             | S    | TODO   |
