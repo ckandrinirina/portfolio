@@ -2,7 +2,7 @@
 
 > **Epic:** Content Sections
 > **Size:** M
-> **Status:** TODO
+> **Status:** IN PROGRESS
 
 ## Description
 
@@ -18,19 +18,19 @@ accessibility invariants.
 
 ## Acceptance Criteria
 
-- [ ] The rendered output contains exactly one `<h1>` with the text "Erick Andrinirina".
-- [ ] The `<h1>` does not change on locale switch (name is the same in both languages).
-- [ ] The professional title "Fullstack JavaScript Engineer" is visible (rendered in the active locale's translation).
-- [ ] The one-line positioning statement (7 years of experience) is rendered from `content.hero`.
-- [ ] The location "Antananarivo, Madagascar" is rendered — city and country only; no street or postal address appears anywhere in the component.
-- [ ] A "View projects" CTA (link or button) is present; clicking/activating it smooth-scrolls the page to `#projects`.
-- [ ] `DownloadCvButton` renders and its `href` resolves to the CV PDF using `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'`.
-- [ ] `SocialLinks` renders with GitHub and LinkedIn icon links.
-- [ ] The outer element is `<section id="hero">`.
-- [ ] The component re-renders with French/English content when locale changes (title and positioning line update).
-- [ ] `Hero.test.tsx` — test asserts: (a) renders an `<h1>` containing "Erick Andrinirina"; (b) a link with the CV download href is present in the DOM.
-- [ ] `npm run test` passes for `Hero.test.tsx` with no skipped assertions.
-- [ ] No TypeScript errors on `npm run build`.
+- [x] The rendered output contains exactly one `<h1>` with the text "Erick Andrinirina".
+- [x] The `<h1>` does not change on locale switch (name is the same in both languages).
+- [x] The professional title "Fullstack JavaScript Engineer" is visible (rendered in the active locale's translation).
+- [x] The one-line positioning statement (7 years of experience) is rendered from `content.hero`.
+- [x] The location "Antananarivo, Madagascar" is rendered — city and country only; no street or postal address appears anywhere in the component.
+- [x] A "View projects" CTA (link or button) is present; clicking/activating it smooth-scrolls the page to `#projects`.
+- [x] `DownloadCvButton` renders and its `href` resolves to the CV PDF using `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'`.
+- [x] `SocialLinks` renders with GitHub and LinkedIn icon links.
+- [x] The outer element is `<section id="hero">`.
+- [x] The component re-renders with French/English content when locale changes (title and positioning line update).
+- [x] `Hero.test.tsx` — test asserts: (a) renders an `<h1>` containing "Erick Andrinirina"; (b) a link with the CV download href is present in the DOM.
+- [x] `npm run test` passes for `Hero.test.tsx` with no skipped assertions.
+- [x] No TypeScript errors on `npm run build`.
 
 ## Technical Notes
 
@@ -60,3 +60,45 @@ accessibility invariants.
 - **Epic:** content-sections
 - **Related stories:** 06-08 (Contact — also uses SocialLinks), 06-09 (App wiring)
 - **Spec reference:** spec §5.1 (Hero / introduction), §4 (CV download, social links), §7 (location privacy)
+
+## Implementation Plan
+
+- [x] Write failing tests in `Hero.test.tsx` (RED)
+  - Test: renders `<h1>` with "Erick Andrinirina"
+  - Test: h1 text does not change on locale switch
+  - Test: professional title is visible (FR and EN)
+  - Test: positioning statement is rendered
+  - Test: location "Antananarivo, Madagascar" is rendered
+  - Test: "View projects" CTA is present
+  - Test: DownloadCvButton renders with CV href
+  - Test: SocialLinks renders with GitHub and LinkedIn links
+  - Test: outer element is `<section id="hero">`
+  - Test: component re-renders with locale change
+- [x] Implement `Hero.tsx` (GREEN) — `<section id="hero">` with h1, title, positioning, location, CTAs, SocialLinks
+- [x] Refactor and SOLID check
+- [x] QA validation
+- [x] Mark all tasks completed
+
+## Implementation Summary
+
+### Files Touched
+
+| Action   | File                                            | Lines       |
+| -------- | ----------------------------------------------- | ----------- |
+| CREATED  | `src/components/sections/Hero.tsx`              | new file    |
+| CREATED  | `src/components/sections/Hero.test.tsx`         | new file    |
+
+### What Was Implemented
+
+`Hero.tsx` is the portfolio's above-the-fold section. It renders:
+- A single `<h1>` with the owner's name ("Erick Andrinirina") — locale-invariant
+- Professional title from `content.hero.title` (locale-aware)
+- Positioning statement from `content.hero.positioning`
+- Location from `content.hero.location` with a `data-testid="hero-location"` marker
+- A "View projects" `<button>` that calls `scrollToSection('projects')` with `prefers-reduced-motion` guard
+- `DownloadCvButton` for CV download
+- `SocialLinks` with `size="lg"`
+
+`Hero.test.tsx` covers 12 assertions including: h1 presence, name invariance, CV href, smooth-scroll, outer section id, location text, and no-street-address guard.
+
+All 341 tests pass. No TypeScript errors on build. ESLint clean.
