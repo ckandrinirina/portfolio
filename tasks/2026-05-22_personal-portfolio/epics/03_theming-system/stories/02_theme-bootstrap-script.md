@@ -2,7 +2,7 @@
 
 > **Epic:** Theming System
 > **Size:** S
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 
