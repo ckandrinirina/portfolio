@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from './App'
 import { ThemeProvider } from './theme/ThemeProvider'
 import { LanguageProvider } from './i18n/LanguageProvider'
 import { NAV_SECTIONS } from './lib/constants'
+import { SITE_META } from './lib/constants'
 
 function renderApp() {
   return render(
@@ -95,6 +97,65 @@ describe('App page shell', () => {
     renderApp()
     for (const { id } of NAV_SECTIONS) {
       expect(document.getElementById(id)).not.toBeNull()
+    }
+  })
+})
+
+describe('App wired sections (06-09)', () => {
+  // AC: rendered DOM contains exactly one <h1> (Hero's name).
+  it('renders exactly one <h1>', () => {
+    renderApp()
+    const h1s = document.querySelectorAll('h1')
+    expect(h1s).toHaveLength(1)
+  })
+
+  // AC: the single <h1> contains the owner name from SITE_META.
+  it('the <h1> contains the owner name', () => {
+    renderApp()
+    const h1 = document.querySelector('h1')
+    expect(h1?.textContent).toContain(SITE_META.name)
+  })
+
+  // AC: seven <h2> headings (one per non-Hero section via Section wrapper).
+  // The story criterion claims 8 — corrected to 7 (Hero owns the h1 and renders no h2).
+  it('renders exactly seven <h2> headings (one per non-Hero section)', () => {
+    renderApp()
+    const h2s = document.querySelectorAll('main h2')
+    expect(h2s).toHaveLength(7)
+  })
+
+  // AC: locale=fr (forced via localStorage) renders FR content.
+  // (jsdom's navigator.language is en-US, so the production-default "FR" path
+  // requires explicit localStorage override in test env.)
+  it('renders French content when locale=fr (About heading "À propos")', () => {
+    localStorage.setItem('locale', 'fr')
+    renderApp()
+    expect(
+      screen.getByRole('heading', { level: 2, name: /à propos/i }),
+    ).toBeInTheDocument()
+  })
+
+  // AC: switching to English re-renders sections with English content.
+  it('renders English About heading after locale switch', async () => {
+    localStorage.setItem('locale', 'fr')
+    renderApp()
+    const user = userEvent.setup()
+    // LanguageSwitcher may appear twice (desktop + mobile menu) — click the first EN button.
+    const enButtons = screen.getAllByRole('button', { name: 'EN' })
+    await user.click(enButtons[0])
+    expect(
+      screen.getByRole('heading', { level: 2, name: /^about$/i }),
+    ).toBeInTheDocument()
+  })
+
+  // AC: each NAV_SECTIONS id resolves to an actual content-bearing section, not an empty slot.
+  it('each section contains content beyond the heading', () => {
+    renderApp()
+    for (const { id } of NAV_SECTIONS) {
+      const section = document.getElementById(id)
+      expect(section).not.toBeNull()
+      // section should have at least some text content (heading + body)
+      expect(section!.textContent?.trim().length).toBeGreaterThan(0)
     }
   })
 })
