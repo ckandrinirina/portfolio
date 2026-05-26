@@ -44,10 +44,10 @@ The epic closes with `App.tsx`, which composes the page shell: `<Header>` + `<ma
 
 | #   | Story                    | Size | Status |
 | --- | ------------------------ | ---- | ------ |
-| 01  | main.tsx provider wiring | S    | TODO   |
-| 02  | Header component         | L    | TODO   |
-| 03  | Footer component         | M    | TODO   |
-| 04  | App.tsx page shell       | M    | TODO   |
+| 01  | main.tsx provider wiring | S    | DONE   |
+| 02  | Header component         | L    | DONE   |
+| 03  | Footer component         | M    | DONE   |
+| 04  | App.tsx page shell       | M    | DONE   |
 
 ## Acceptance Criteria
 
