@@ -43,7 +43,7 @@ The three stories are ordered by dependency: the provider must exist before eith
 
 | #   | Story                                   | Size | Status |
 | --- | --------------------------------------- | ---- | ------ |
-| 01  | ThemeProvider + useTheme                | M    | TODO   |
+| 01  | ThemeProvider + useTheme                | M    | DONE   |
 | 02  | Anti-FOUC inline theme bootstrap script | S    | TODO   |
 | 03  | ThemeToggle component + test            | M    | TODO   |
 
