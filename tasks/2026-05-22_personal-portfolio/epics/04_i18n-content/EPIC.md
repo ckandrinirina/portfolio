@@ -53,7 +53,7 @@ Third, the runtime language system is wired: `LanguageProvider` and `useLanguage
 | 02  | French content module (default) | L    | DONE   |
 | 03  | English content module          | L    | DONE   |
 | 04  | UI micro-labels map             | S    | DONE   |
-| 05  | LanguageProvider + useLanguage  | M    | TODO   |
+| 05  | LanguageProvider + useLanguage  | M    | DONE   |
 | 06  | LanguageSwitcher + test         | M    | TODO   |
 | 07  | Content parity test             | S    | TODO   |
 | 08  | DownloadCvButton component      | S    | TODO   |
