@@ -55,7 +55,7 @@ Third, the runtime language system is wired: `LanguageProvider` and `useLanguage
 | 04  | UI micro-labels map             | S    | DONE   |
 | 05  | LanguageProvider + useLanguage  | M    | TODO   |
 | 06  | LanguageSwitcher + test         | M    | TODO   |
-| 07  | Content parity test             | S    | TODO   |
+| 07  | Content parity test             | S    | DONE   |
 | 08  | DownloadCvButton component      | S    | TODO   |
 
 ## Acceptance Criteria
