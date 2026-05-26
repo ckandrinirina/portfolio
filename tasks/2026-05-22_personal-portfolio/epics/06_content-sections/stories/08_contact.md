@@ -2,7 +2,7 @@
 
 > **Epic:** Content Sections
 > **Size:** M
-> **Status:** IN PROGRESS
+> **Status:** DONE
 
 ## Description
 
