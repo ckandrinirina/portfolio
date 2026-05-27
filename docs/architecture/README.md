@@ -13,12 +13,19 @@ Erick Andrinirina, built as a static site and deployed to GitHub Pages.
 | [overview.md](overview.md)                 | Vision, goals, users, high-level system architecture    | ✅                                                      |
 | [folder-structure.md](folder-structure.md) | Directory layout and file conventions                   | ✅                                                      |
 | [tech-stack.md](tech-stack.md)             | Technologies, versions, and rationale                   | ✅                                                      |
-| [components.md](components.md)             | Component breakdown (providers, layout, sections, UI)   | ✅                                                      |
-| [data-flow.md](data-flow.md)               | Theme, language, content, scroll, and download flows    | ✅                                                      |
+| [components.md](components.md)             | Component breakdown (providers, layout, views, UI)      | ✅                                                      |
+| [data-flow.md](data-flow.md)               | Theme, language, content, route, and reveal flows       | ✅                                                      |
 | [configuration.md](configuration.md)       | Build, Tailwind, TS, lint, and deployment configuration | ✅                                                      |
 | [dev-guide.md](dev-guide.md)               | Scaffold, run, test, build, and deploy instructions     | ✅                                                      |
+| [features/](features/)                     | Feature-scoped architecture additions                   | ✅                                                      |
 | `api-contracts.md`                         | —                                                       | ➖ Not applicable (no backend; direct links only)       |
 | `database-schema.md`                       | —                                                       | ➖ Not applicable (no database; content is static data) |
+
+## Features
+
+| Date       | Feature                                                                                          | Summary                                                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| 2026-05-27 | [Atelier Terminal UI](features/2026-05-27_atelier-terminal-ui.md)                                | Sidebar+main shell with 6 routes, 4 themes via `[data-theme]`, command palette, project modal, custom cursor, scroll-navigate |
 
 ## Quick facts
 
@@ -26,7 +33,20 @@ Erick Andrinirina, built as a static site and deployed to GitHub Pages.
 - **Stack:** Vite 7 · React 19 · TypeScript 5.7+ · Tailwind CSS v4.
 - **Hosting:** GitHub Pages, auto-deployed via GitHub Actions on push to `main`.
 - **Languages:** French (default) and English, switchable at runtime.
-- **Theme:** Light/dark with a toggle, defaulting to the visitor's system preference.
+- **Theme:** Four palettes — Ember (default warm dark), Paper (light), Ocean
+  (dark blue), Forest (dark green) — toggled via `[data-theme]` on `<html>`,
+  defaulting to the visitor's system preference. See
+  [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
+- **Shell:** Sidebar + main view container with route-based navigation
+  (Home · Work · Experience · Skills · How I work · Contact) and `⌘K` command palette.
+
+## Changelog
+
+- **2026-05-27** — Atelier Terminal UI: new sidebar+main shell, 6 routes,
+  4-theme palette via `[data-theme]`, command palette, project modal, custom
+  cursor, scroll-to-navigate. Dropped Education section; Languages merged into
+  Contact. CV download moved to a Home CTA.
+  See [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
 
 ## Reading order
 

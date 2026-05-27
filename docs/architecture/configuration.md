@@ -23,49 +23,83 @@ export default defineConfig({
 > **project page**, set `base: '/<repo-name>/'` and reference assets via
 > `import.meta.env.BASE_URL`.
 
-## `src/index.css` (Tailwind v4)
+## `src/index.css` (Tailwind v4 + Atelier Terminal tokens)
 
 ```css
 @import 'tailwindcss';
 
-/* Class-based dark mode (toggled on <html>) */
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* Optional design tokens from the Claude Design */
+/* Optional Tailwind v4 theme bridge — exposes tokens as Tailwind colors/fonts */
 @theme {
-  /* --color-brand-500: ...; --font-sans: ...; */
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-accent: var(--accent);
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Instrument Serif", serif;
 }
+
+/* :root  — Ember palette (default warm dark) */
+:root { /* see features/2026-05-27_atelier-terminal-ui.md for the full list */ }
+[data-theme="paper"]  { /* light palette */ }
+[data-theme="ocean"]  { /* dark blue */ }
+[data-theme="forest"] { /* dark green */ }
+
+/* Component classes: .app, .sidebar, .sb-*, .topbar, .view, .proj-card,
+   .tl-item, .skill-card, .process-item, .cmdk-*, .modal, .marquee, .cursor-*,
+   .reveal, .scroll-hint, etc. — copied verbatim from the mockup. */
 ```
 
 Tailwind v4 needs no `tailwind.config.js` and no PostCSS file — the
 `@tailwindcss/vite` plugin handles everything; configuration is CSS-first.
 
+**Dark mode model:** `[data-theme]` attribute on `<html>` (not a `dark` class).
+The Ember default lives on `:root`; the three alternates live under their
+`[data-theme="..."]` selectors. Custom CSS classes do **not** use Tailwind's
+`dark:` variant — they read `var(--accent)`, `var(--bg)`, etc., directly so they
+restyle automatically when the attribute changes.
+
 ## `index.html`
 
-Holds the document-level metadata for SEO and social sharing:
+Holds the document-level metadata for SEO and social sharing, the Google
+Fonts preconnect/stylesheet, and the inline anti-FOUC theme bootstrap.
 
 ```html
 <html lang="fr">
   <head>
-    <meta
-      name="description"
-      content="Erick Andrinirina — Fullstack JavaScript Engineer, 7 years experience."
-    />
-    <meta
-      property="og:title"
-      content="Erick Andrinirina — Fullstack Engineer"
-    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Erick Andrinirina — Fullstack &amp; Interface · Madagascar</title>
+    <meta name="description" content="Erick Andrinirina — Fullstack JavaScript Engineer, 7 years experience." />
+
+    <meta property="og:title" content="Erick Andrinirina — Fullstack Engineer" />
     <meta property="og:description" content="..." />
     <meta property="og:image" content="/og-image.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <!-- inline theme bootstrap script (anti-FOUC) -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300..700&display=swap"
+    />
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+          var t = stored || (prefersDark ? 'default' : 'paper');
+          if (t !== 'default') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
   </head>
 </html>
 ```
 
-`lang` defaults to `fr` and is updated at runtime by `LanguageProvider` when the
-visitor switches.
+`lang` defaults to `fr` and is updated at runtime by `LanguageProvider` when
+the visitor switches. `data-theme` is set at runtime by `ThemeProvider`
+(initial value applied by the inline script before React hydrates).
 
 ## `tsconfig.json`
 
@@ -143,11 +177,13 @@ GitHub Actions.**
 
 ## Configuration matrix
 
-| Setting            | File               | Value                      | Notes                                          |
-| ------------------ | ------------------ | -------------------------- | ---------------------------------------------- |
-| Public base path   | `vite.config.ts`   | `'/'`                      | `/<repo>/` for project pages                   |
-| Dark mode strategy | `index.css`        | custom `dark` variant      | class on `<html>`                              |
-| Default language   | `LanguageProvider` | `fr`                       | falls back from `navigator.language` to French |
-| CV asset path      | `public/cv/`       | `erick-andrinirina-cv.pdf` | referenced via `BASE_URL`                      |
-| CI Node version    | `deploy.yml`       | `20`                       | LTS                                            |
-| Deploy trigger     | `deploy.yml`       | push to `main`             | + manual `workflow_dispatch`                   |
+| Setting            | File               | Value                                    | Notes                                                 |
+| ------------------ | ------------------ | ---------------------------------------- | ----------------------------------------------------- |
+| Public base path   | `vite.config.ts`   | `'/'`                                    | `/<repo>/` for project pages                          |
+| Theme strategy     | `index.css`        | `[data-theme]` attribute on `<html>`     | Ember default on `:root`; `paper` / `ocean` / `forest` |
+| Default theme      | `ThemeProvider`    | `default` if prefers-dark else `paper`   | persisted to `localStorage['theme']`                  |
+| Default language   | `LanguageProvider` | `fr`                                     | falls back from `navigator.language` to French        |
+| CV asset path      | `public/cv/`       | `erick-andrinirina-cv.pdf`               | referenced via `BASE_URL`; Home CTA                   |
+| Fonts              | `index.html`       | JetBrains Mono · Instrument Serif · Geist | Google Fonts via preconnect + stylesheet              |
+| CI Node version    | `deploy.yml`       | `20`                                     | LTS                                                   |
+| Deploy trigger     | `deploy.yml`       | push to `main`                           | + manual `workflow_dispatch`                          |

@@ -31,26 +31,32 @@ A purely client-side static single-page application. There is **no backend, no
 database, and no runtime API**. All content is compiled into the bundle as typed
 data; the browser does everything.
 
+The visual shell is the **Atelier Terminal** design (sidebar + main with
+route-based navigation). See
+[features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md)
+for the full visual / layout / interaction specification.
+
 ```
-                         ┌──────────────────────────────────────────┐
-   Visitor's browser     │              index.html                   │
-   ───────────────────►  │   ┌──────────────────────────────────┐   │
-                         │   │            React app              │   │
-                         │   │                                    │   │
-   GitHub Pages (CDN)    │   │  ThemeProvider  ──► <html class>   │   │
-   serves static files   │   │  LanguageProvider ─► locale + data │   │
-        (dist/)          │   │                                    │   │
-                         │   │  App                               │   │
-                         │   │   ├─ Header (nav, lang, theme)     │   │
-                         │   │   ├─ Hero / About / Skills /       │   │
-                         │   │   │   Experience / Projects /      │   │
-                         │   │   │   Education / Languages /      │   │
-                         │   │   │   Contact (sections)           │   │
-                         │   │   └─ Footer                        │   │
-                         │   └──────────────────────────────────┘   │
-                         │   localStorage: theme + language          │
-                         │   /cv/<resume>.pdf  (static asset)        │
-                         └──────────────────────────────────────────┘
+                         ┌────────────────────────────────────────────────┐
+   Visitor's browser     │              index.html                         │
+   ───────────────────►  │   ┌────────────────────────────────────────┐   │
+                         │   │            React app                    │   │
+                         │   │                                          │   │
+   GitHub Pages (CDN)    │   │  ThemeProvider  ──► <html data-theme>   │   │
+   serves static files   │   │  LanguageProvider ─► locale + content   │   │
+        (dist/)          │   │                                          │   │
+                         │   │  App  (route state, hash routing)        │   │
+                         │   │   ├─ Sidebar (brand · routes · status)   │   │
+                         │   │   ├─ Topbar  (breadcrumb · ⌘K · clock)   │   │
+                         │   │   ├─ View    (one of:                    │   │
+                         │   │   │   Home · Work · Experience ·         │   │
+                         │   │   │   Skills · Process · Contact)        │   │
+                         │   │   ├─ ProjectModal · CommandPalette       │   │
+                         │   │   └─ Cursor (dot + ring, hover devices)  │   │
+                         │   └────────────────────────────────────────┘   │
+                         │   localStorage: theme (4-palette) + locale     │
+                         │   /cv/<resume>.pdf  (static asset)              │
+                         └────────────────────────────────────────────────┘
 ```
 
 ### Build & deploy pipeline
@@ -93,3 +99,4 @@ push to main ─► GitHub Actions ─► npm ci ─► vite build ─► dist/
 - Custom domain (can be layered onto GitHub Pages later).
 - Separate English CV file (current CV is in French).
 - Visitor analytics.
+- Standalone Education view (content is dropped — not in the Atelier Terminal design).
