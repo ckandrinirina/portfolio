@@ -2,7 +2,7 @@
 
 > **Epic:** Assets, SEO & Social Sharing
 > **Size:** M
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,21 +10,21 @@ Populate the `<head>` section of `index.html` with the full set of SEO and socia
 
 ## Acceptance Criteria
 
-- [ ] `<html>` element has `lang="fr"` as the default attribute.
-- [ ] `<title>` reads `Erick Andrinirina — Fullstack JavaScript Engineer`.
-- [ ] `<meta name="description">` reads `Erick Andrinirina — Fullstack JavaScript Engineer with 7 years of experience building performant, scalable web applications.` (or an equivalent concise description under 160 characters).
-- [ ] `<meta property="og:title">` is present and matches the `<title>` text.
-- [ ] `<meta property="og:description">` is present and matches the meta description text.
-- [ ] `<meta property="og:image">` is present and its `content` is the absolute URL `https://ckandrinirina.github.io/og-image.png`.
-- [ ] `<meta property="og:type" content="website">` is present.
-- [ ] `<meta property="og:url">` is present with `content="https://ckandrinirina.github.io/"`.
-- [ ] `<meta name="twitter:card" content="summary_large_image">` is present.
-- [ ] `<meta name="twitter:title">` and `<meta name="twitter:description">` are present with the same values as the OG equivalents.
-- [ ] `<meta name="twitter:image">` is present with the same absolute URL as `og:image`.
-- [ ] `<link rel="icon" href="/favicon.svg" type="image/svg+xml">` is present and points to the asset added in story 07-02.
-- [ ] The anti-FOUC inline `<script>` block (reading `localStorage['theme']` and setting `<html class="dark">`) is present and unchanged from its state after story 03-02.
-- [ ] `<meta charset="UTF-8">` and `<meta name="viewport" content="width=device-width, initial-scale=1.0">` are present (Vite scaffold defaults; verify they were not accidentally removed).
-- [ ] Validating the page URL in a social-card validator (e.g., https://www.opengraph.xyz or LinkedIn Post Inspector) shows the correct title, description, and preview image.
+- [x] `<html>` element has `lang="fr"` as the default attribute.
+- [x] `<title>` reads `Erick Andrinirina — Fullstack JavaScript Engineer`.
+- [x] `<meta name="description">` reads `Erick Andrinirina — Fullstack JavaScript Engineer with 7 years of experience building performant, scalable web applications.` (124 characters, under 160).
+- [x] `<meta property="og:title">` is present and matches the `<title>` text.
+- [x] `<meta property="og:description">` is present and matches the meta description text.
+- [x] `<meta property="og:image">` is present and its `content` is the absolute URL `https://ckandrinirina.github.io/og-image.png`.
+- [x] `<meta property="og:type" content="website">` is present.
+- [x] `<meta property="og:url">` is present with `content="https://ckandrinirina.github.io/"`.
+- [x] `<meta name="twitter:card" content="summary_large_image">` is present.
+- [x] `<meta name="twitter:title">` and `<meta name="twitter:description">` are present with the same values as the OG equivalents.
+- [x] `<meta name="twitter:image">` is present with the same absolute URL as `og:image`.
+- [x] `<link rel="icon" href="/favicon.svg" type="image/svg+xml">` is present and points to the asset added in story 07-02.
+- [x] The anti-FOUC inline `<script>` block (reading `localStorage['theme']` and setting `<html class="dark">`) is present and unchanged from its state after story 03-02.
+- [x] `<meta charset="UTF-8">` and `<meta name="viewport" content="width=device-width, initial-scale=1.0">` are present (Vite scaffold defaults; verify they were not accidentally removed).
+- [ ] Validating the page URL in a social-card validator (e.g., https://www.opengraph.xyz or LinkedIn Post Inspector) shows the correct title, description, and preview image. **DEFERRED** — requires the site deployed to https://ckandrinirina.github.io/ first; validates as a post-deploy step (or under Epic 09 Lighthouse audit).
 
 ### Edge Cases
 
@@ -59,3 +59,32 @@ Populate the `<head>` section of `index.html` with the full set of SEO and socia
 - **Epic:** 07_assets-seo
 - **Related stories:** 03-02 (anti-FOUC theme script that must be preserved), 07-02 (brand assets consumed by these tags), 09-xx (Lighthouse SEO audit)
 - **Spec reference:** configuration.md §index.html SEO/OG; pre-spec.md §6 discoverability (social preview, page title, meta description)
+
+## Implementation Summary
+
+### Outcome
+
+`index.html` now ships a complete SEO + social-sharing `<head>`: French default lang, portfolio title, 124-char meta description, full Open Graph set (title, description, image, type, url), full Twitter Card set (`summary_large_image` + image + title + description), and the favicon link to the asset added in 07-02. The anti-FOUC theme bootstrap script from 03-02 is preserved unchanged.
+
+OG/Twitter image and url use **hardcoded absolute URLs** to `https://ckandrinirina.github.io/...` as required by social-card crawlers. A `<!-- Absolute URL required for OG; update og:image and og:url if domain changes -->` comment flags the two values that need updating if the site ever moves to a custom domain.
+
+### Files Touched
+
+**MODIFIED:**
+
+- `index.html` — full rewrite of `<head>`: `lang="en"` → `lang="fr"`, title set, description meta added, OG block (5 tags), Twitter block (4 tags), favicon link reordered into the asset group; charset/viewport and anti-FOUC `<script>` preserved.
+
+**CREATED (test-only):**
+
+- `src/test/index-html.test.ts` — 15 vitest assertions covering every AC tag (lang, title, description, OG x5, Twitter x4, favicon, anti-FOUC preservation, charset/viewport).
+
+### Verification
+
+- `npx vitest run`: PASS (460) FAIL (0) — includes 15 new tests for index.html structure
+- `npx eslint .`: no issues
+- `npm run build`: succeeds; `dist/index.html` size grew from 1.06 kB to 2.40 kB (still tiny, 0.92 kB gzipped) — confirms all meta tags are emitted to production
+- Production `dist/index.html` inspected: every AC tag present with the expected `content` values
+
+### Deferred (post-deploy)
+
+- The social-card validator AC requires the actual deployed URL; verifiable once `8_deployment` ships and the page is live at `https://ckandrinirina.github.io/`.
