@@ -12,6 +12,12 @@ const cvPath = resolve(repoRoot, 'public/cv/erick-andrinirina-cv.pdf')
 const cvPathRelative = 'public/cv/erick-andrinirina-cv.pdf'
 const tempCvPath = resolve(repoRoot, 'public/cv/.erick-andrinirina-cv.pdf.bak')
 
+const brandAssets = [
+  { rel: 'public/favicon.svg', tempRel: 'public/.favicon.svg.bak' },
+  { rel: 'public/profile.jpg', tempRel: 'public/.profile.jpg.bak' },
+  { rel: 'public/og-image.png', tempRel: 'public/.og-image.png.bak' },
+]
+
 function runScript() {
   return spawnSync('node', [scriptPath], { cwd: repoRoot, encoding: 'utf8' })
 }
@@ -48,6 +54,29 @@ describe('scripts/check-assets.mjs', () => {
       const output = (result.stderr ?? '') + (result.stdout ?? '')
       expect(output).toMatch(/ERROR/i)
       expect(output).toContain(cvPathRelative)
+    })
+  })
+
+  describe.each(brandAssets)('when $rel is missing', ({ rel, tempRel }) => {
+    const absPath = resolve(repoRoot, rel)
+    const tempPath = resolve(repoRoot, tempRel)
+
+    beforeEach(() => {
+      if (existsSync(absPath)) renameSync(absPath, tempPath)
+    })
+
+    afterEach(() => {
+      if (existsSync(tempPath)) renameSync(tempPath, absPath)
+    })
+
+    it('exits non-zero and names the missing brand asset', () => {
+      expect(existsSync(absPath)).toBe(false)
+
+      const result = runScript()
+
+      expect(result.status).not.toBe(0)
+      const output = (result.stderr ?? '') + (result.stdout ?? '')
+      expect(output).toContain(rel)
     })
   })
 })

@@ -5,7 +5,12 @@ import { dirname, resolve } from 'node:path'
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
-const ASSETS = ['public/cv/erick-andrinirina-cv.pdf']
+const ASSETS = [
+  'public/cv/erick-andrinirina-cv.pdf',
+  'public/favicon.svg',
+  'public/profile.jpg',
+  'public/og-image.png',
+]
 
 const missing = ASSETS.filter((rel) => !existsSync(resolve(repoRoot, rel)))
 
