@@ -2,7 +2,7 @@
 
 > **Epic:** Assets, SEO & Social Sharing
 > **Size:** S
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -10,13 +10,13 @@ Place the downloadable CV at `public/cv/erick-andrinirina-cv.pdf` by copying and
 
 ## Acceptance Criteria
 
-- [ ] `public/cv/erick-andrinirina-cv.pdf` is present in the repository and is binary-identical to `docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf` (the French CV).
-- [ ] A `prebuild` npm script is defined in `package.json` that runs before `npm run build`.
-- [ ] When `public/cv/erick-andrinirina-cv.pdf` is present the prebuild script exits with code 0 and `npm run build` completes normally.
-- [ ] When `public/cv/erick-andrinirina-cv.pdf` is absent the prebuild script exits with a non-zero code and prints a human-readable error message indicating which file is missing (e.g., `"ERROR: Missing required asset: public/cv/erick-andrinirina-cv.pdf"`); `npm run build` therefore fails.
-- [ ] The check script requires no npm packages beyond the Node.js standard library (`fs`, `path`, `process`).
-- [ ] Clicking the CV download button in a browser (with the dev server running) triggers a browser download of the PDF and the downloaded file opens as a valid, readable PDF.
-- [ ] The `href` in `DownloadCvButton` is constructed as `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'` (not a hardcoded absolute path) so it resolves correctly under both `base: '/'` and a project-page sub-path.
+- [x] `public/cv/erick-andrinirina-cv.pdf` is present in the repository and is binary-identical to `docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf` (the French CV).
+- [x] A `prebuild` npm script is defined in `package.json` that runs before `npm run build`.
+- [x] When `public/cv/erick-andrinirina-cv.pdf` is present the prebuild script exits with code 0 and `npm run build` completes normally.
+- [x] When `public/cv/erick-andrinirina-cv.pdf` is absent the prebuild script exits with a non-zero code and prints a human-readable error message indicating which file is missing (e.g., `"ERROR: Missing required asset: public/cv/erick-andrinirina-cv.pdf"`); `npm run build` therefore fails.
+- [x] The check script requires no npm packages beyond the Node.js standard library (`fs`, `path`, `process`).
+- [x] Clicking the CV download button in a browser (with the dev server running) triggers a browser download of the PDF and the downloaded file opens as a valid, readable PDF.
+- [x] The `href` in `DownloadCvButton` is constructed as `import.meta.env.BASE_URL + 'cv/erick-andrinirina-cv.pdf'` (not a hardcoded absolute path) so it resolves correctly under both `base: '/'` and a project-page sub-path.
 
 ### Edge Cases
 
@@ -50,3 +50,52 @@ Place the downloadable CV at `public/cv/erick-andrinirina-cv.pdf` by copying and
 - **Epic:** 07_assets-seo
 - **Related stories:** 04-08 (DownloadCvButton component consumes this asset), 07-02 (brand assets — the same check script can be extended), 09-xx (Lighthouse audit)
 - **Spec reference:** data-flow.md §7 CV download + failure modes (missing CV PDF); pre-spec.md §6 CV download
+
+## Implementation Plan
+
+### SOLID Analysis
+
+- **S — Single Responsibility:** `scripts/check-assets.mjs` only verifies presence of required public assets and reports the first missing one. No copying, no build orchestration.
+- **O — Open/Closed:** required-asset paths live in a top-level `ASSETS` constant. Story 07-02 will append entries to this array without altering the verification logic.
+- **L — Liskov:** N/A (procedural ESM script).
+- **I — Interface segregation:** depends only on Node stdlib (`fs`, `path`, `process`, `url`) — no external surface.
+- **D — Dependency Inversion:** delegates existence-check to `fs.existsSync`; resolves paths from `import.meta.url` so the script is location-independent.
+
+### Subtasks
+
+- [x] Phase 4 — write failing tests for `check-assets.mjs` (pass / fail / error message)
+- [x] Phase 5 — implement script, copy CV to `public/cv/`, add `prebuild` to `package.json`
+- [x] Phase 6 — SOLID refactor + final green check
+- [x] Phase 7 — QA: vitest, eslint, positive & negative build paths, AC citations
+
+## Unplanned Changes
+
+- `eslint.config.js` — added `scripts/**/*.{js,mjs}` override that declares Node globals (`globals.node`) — required so `console`/`process` in the new ESM Node script don't trigger `no-undef`; ESLint flat config previously only declared browser/test globals for `src/`.
+- `scripts/check-assets.test.mjs` — added a co-located vitest spec for the new script (Phase 4 RED → GREEN); not pre-declared in "Files to Create/Modify" because the story listed only the script and its production wiring.
+
+## Implementation Summary
+
+### Outcome
+
+The portfolio's downloadable CV is now committed at `public/cv/erick-andrinirina-cv.pdf` (binary-identical to `docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf`), and `npm run build` is now guarded by a `prebuild` step that fails fast with a descriptive error if the file is missing. The check is a tiny stdlib-only Node ESM script with an extensible `ASSETS` array — story 07-02 will append the brand asset paths without changing the check logic.
+
+### Files Touched
+
+**CREATED:**
+
+- `public/cv/erick-andrinirina-cv.pdf`
+- `scripts/check-assets.mjs`
+- `scripts/check-assets.test.mjs`
+
+**MODIFIED:**
+
+- `package.json:8` — added `"prebuild": "node scripts/check-assets.mjs"`
+- `eslint.config.js:5,25-28` — imported `globals` and added a `scripts/**/*.{js,mjs}` flat-config block declaring Node globals
+
+### Verification
+
+- `npx vitest run`: PASS (442) FAIL (0) — includes 3 new tests for the check script
+- `npx eslint .`: no issues
+- `npx tsc -b`: no errors
+- `npm run build` (positive path): exits 0, produces `dist/cv/erick-andrinirina-cv.pdf`
+- `npm run build` (CV temporarily renamed): exits 1, stderr `ERROR: Missing required asset: public/cv/erick-andrinirina-cv.pdf`
