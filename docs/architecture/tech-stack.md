@@ -45,10 +45,18 @@ context7). Exact patch versions are resolved at scaffold time with
 
 ## Theming
 
-- Tailwind v4 dark mode via a custom variant declared in CSS:
-  `@custom-variant dark (&:where(.dark, .dark *));`
-- The `dark` class is toggled on the `<html>` element by a `ThemeProvider`.
-- Initial theme: read `localStorage`, else `prefers-color-scheme`.
+- **Four palettes** — Ember (default warm dark), Paper (light), Ocean (dark
+  blue), Forest (dark green) — defined as CSS custom properties on `:root` and
+  `[data-theme="paper" | "ocean" | "forest"]` selectors.
+- The active palette is selected by the `data-theme` attribute on `<html>`
+  (no attribute = Ember default), toggled by a `ThemeProvider`.
+- Initial theme: read `localStorage['theme']`, else `prefers-color-scheme: dark`
+  picks Ember, otherwise Paper. Persisted on user choice.
+- Tailwind v4 utilities still available, but the bulk of styling is custom CSS
+  classes from the Atelier Terminal mockup (`.sb-row`, `.proj-card`,
+  `.tl-item`, etc.).
+- Full token list and component class inventory in
+  [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
 
 ## Deployment
 
@@ -59,6 +67,19 @@ context7). Exact patch versions are resolved at scaffold time with
 | `actions/upload-pages-artifact` | Upload the built `dist/`                    |
 | `actions/deploy-pages`          | Publish to GitHub Pages                     |
 | Node.js 20 LTS+                 | CI runtime (`actions/setup-node`, `npm ci`) |
+
+## Fonts (Atelier Terminal UI)
+
+Loaded from Google Fonts via `<link rel="stylesheet">` in `index.html` with
+`preconnect` to `fonts.googleapis.com` and `fonts.gstatic.com`.
+
+| Family | Weights / styles | Role |
+| --- | --- | --- |
+| **JetBrains Mono** | 300–700 | Body, UI labels, terminal-flavored text (`--font-mono`) |
+| **Instrument Serif** | regular + italic | Display headings, hero name, section titles (`--font-serif`) |
+| **Geist** | 300–700 | Loaded for fallback (`Geist Mono` mentioned in `--font-mono` chain) |
+
+`font-display: swap` everywhere; OpenType features `"ss01", "cv11"` enabled on body.
 
 ## Dependency summary
 
@@ -84,5 +105,7 @@ context7). Exact patch versions are resolved at scaffold time with
 "jsdom": "latest"
 ```
 
-> No runtime dependencies beyond React. No analytics, no UI kit — the Claude
-> Design governs the look, implemented directly with Tailwind utilities.
+> No runtime dependencies beyond React. No analytics, no UI kit — the Atelier
+> Terminal design governs the look, implemented as custom CSS (with Tailwind v4
+> for utilities). Command palette, modal, and cursor are hand-rolled — no
+> `cmdk` / `@headlessui/react` / icon library dependencies.

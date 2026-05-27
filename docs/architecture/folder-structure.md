@@ -3,6 +3,12 @@
 Proposed structure for a Vite + React + TypeScript static site. Verified against
 Vite's recommended layout and current React conventions.
 
+> The structure below has been **updated for the Atelier Terminal UI** (2026-05-27).
+> Notable changes: `src/views/` replaces `src/components/sections/`; new
+> `cursor/`, `cmdk/`, and `projects/artwork/` subdirectories; `Header.tsx` /
+> `Footer.tsx` are replaced by `Sidebar.tsx` + `Topbar.tsx`. Full delta in
+> [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
+
 ```
 ck-portfolio/
 ├── .github/
@@ -23,49 +29,75 @@ ck-portfolio/
 │   ├── index.css                    # @import "tailwindcss"; dark variant; base styles
 │   │
 │   ├── content/                     # Portfolio CONTENT (data, not UI)
-│   │   ├── types.ts                 # Shared content interfaces
+│   │   ├── types.ts                 # Shared content interfaces (updated for Atelier Terminal)
 │   │   ├── fr.ts                    # French content (default)
-│   │   └── en.ts                    # English content
+│   │   ├── en.ts                    # English content
+│   │   └── projects.ts              # Project list with id/num/year/tags/detail
 │   │
-│   ├── i18n/                        # Language plumbing
+│   ├── i18n/                        # Language plumbing (kept)
 │   │   ├── LanguageProvider.tsx     # Context provider (locale + content)
 │   │   ├── useLanguage.ts           # Hook: { locale, setLocale, content, t }
-│   │   └── ui.ts                    # UI micro-labels per locale (nav, buttons)
+│   │   └── ui.ts                    # UI micro-labels per locale (nav, buttons, cmdk groups)
 │   │
-│   ├── theme/                       # Theme plumbing
-│   │   ├── ThemeProvider.tsx        # Context provider (theme state + <html> class)
-│   │   └── useTheme.ts              # Hook: { theme, setTheme, toggle }
+│   ├── theme/                       # Theme plumbing (rewritten for 4 palettes)
+│   │   ├── ThemeProvider.tsx        # Context provider (data-theme attribute on <html>)
+│   │   ├── useTheme.ts              # Hook: { theme, setTheme, cycle }
+│   │   └── themeBootstrap.ts        # Inline script source for anti-FOUC bootstrap
+│   │
+│   ├── views/                       # Top-level route views
+│   │   ├── HomeView.tsx
+│   │   ├── WorkView.tsx
+│   │   ├── ExperienceView.tsx
+│   │   ├── SkillsView.tsx
+│   │   ├── ProcessView.tsx
+│   │   └── ContactView.tsx
 │   │
 │   ├── components/
 │   │   ├── layout/
-│   │   │   ├── Header.tsx           # Sticky nav + LanguageSwitcher + ThemeToggle
-│   │   │   ├── Footer.tsx           # Socials + copyright
-│   │   │   ├── Section.tsx          # Section wrapper (id, heading, reveal)
-│   │   │   └── Container.tsx        # Max-width content container
-│   │   ├── sections/
-│   │   │   ├── Hero.tsx
-│   │   │   ├── About.tsx
-│   │   │   ├── Skills.tsx
-│   │   │   ├── Experience.tsx
-│   │   │   ├── Projects.tsx
-│   │   │   ├── Education.tsx
-│   │   │   ├── Languages.tsx
-│   │   │   └── Contact.tsx
+│   │   │   ├── Sidebar.tsx          # 240px aside — brand + grouped routes + status
+│   │   │   ├── Topbar.tsx           # Breadcrumb + ⌘K trigger + TNR clock
+│   │   │   ├── ScrollHint.tsx       # Sticky "Scroll for X" chip at bottom of each view
+│   │   │   └── Container.tsx        # (kept; may be inlined as .view-inner)
+│   │   ├── cursor/
+│   │   │   └── Cursor.tsx           # Custom cursor (dot + ring) for hover devices
+│   │   ├── cmdk/
+│   │   │   ├── CommandPalette.tsx   # ⌘K modal with grouped, filterable results
+│   │   │   └── commands.ts          # COMMANDS data: nav + quick actions + projects
+│   │   ├── projects/
+│   │   │   ├── ProjectCard.tsx      # Used in WorkView grid
+│   │   │   ├── ProjectModal.tsx     # Detail modal (role/impact/stack)
+│   │   │   └── artwork/
+│   │   │       ├── ProjectArt.tsx   # Dispatcher: switch by project id
+│   │   │       ├── SokaArt.tsx
+│   │   │       ├── SokaLiveArt.tsx
+│   │   │       ├── LudokaArt.tsx
+│   │   │       ├── EerArt.tsx
+│   │   │       ├── ShoyoArt.tsx
+│   │   │       ├── OcrArt.tsx
+│   │   │       ├── HappyArt.tsx
+│   │   │       └── TheseisArt.tsx
 │   │   └── ui/
-│   │       ├── ThemeToggle.tsx
+│   │       ├── Reveal.tsx           # Letter-by-letter animated reveal
+│   │       ├── CountUp.tsx          # Animated number counter
+│   │       ├── Marquee.tsx          # Looping horizontal tech-stack strip
+│   │       ├── Button.tsx           # .btn / .btn-primary
 │   │       ├── LanguageSwitcher.tsx
-│   │       ├── Button.tsx
-│   │       ├── Badge.tsx            # Skill / tech chips
-│   │       ├── Card.tsx             # Project / experience card
+│   │       ├── ThemeSwitcher.tsx    # Cycle or segmented (Ember / Paper / Ocean / Forest)
+│   │       ├── Badge.tsx            # (kept; restyled)
+│   │       ├── Card.tsx             # (kept; restyled)
 │   │       ├── SocialLinks.tsx
-│   │       └── DownloadCvButton.tsx
+│   │       └── DownloadCvButton.tsx # Third Home CTA
 │   │
 │   ├── hooks/
-│   │   ├── useScrollSpy.ts          # Active section highlighting in nav
-│   │   └── useReveal.ts             # IntersectionObserver reveal-on-scroll
+│   │   ├── useScrollReveal.ts       # IntersectionObserver → .in class with stagger
+│   │   ├── useScrollToNavigate.ts   # Wheel + touch gestures to walk routes
+│   │   ├── useKeyboardArrows.ts     # ArrowUp/Down / PageUp/Down → route nav
+│   │   ├── useCmdK.ts               # ⌘/Ctrl+K toggle
+│   │   ├── useHashRoute.ts          # Read / write window.location.hash
+│   │   └── useReveal.ts             # (kept; legacy one-off use)
 │   │
 │   ├── lib/
-│   │   ├── constants.ts             # Site metadata, contact links, nav config
+│   │   ├── constants.ts             # Site metadata, contact links, ROUTE_ORDER
 │   │   └── utils.ts                 # cn() class merge helper, small utilities
 │   │
 │   └── test/
@@ -93,17 +125,15 @@ ck-portfolio/
 | Assets that can be hashed/optimized | Imported from `src/` (decorative images)                                  |
 | Tests                               | Co-located as `Component.test.tsx` next to the component                  |
 
-## Section ↔ content mapping
+## View ↔ content mapping
 
-Each section component reads its slice from the active-locale content object:
+Each view component reads its slice from the active-locale content object:
 
-| Section component | Content slice                                  |
-| ----------------- | ---------------------------------------------- |
-| `Hero`            | `content.hero`                                 |
-| `About`           | `content.about`                                |
-| `Skills`          | `content.skills` (grouped)                     |
-| `Experience`      | `content.experience[]`                         |
-| `Projects`        | `content.projects[]` (derived from experience) |
-| `Education`       | `content.education[]`                          |
-| `Languages`       | `content.spokenLanguages[]`                    |
-| `Contact`         | `content.contact` + `lib/constants.ts` links   |
+| View component    | Content slice                                                         |
+| ----------------- | --------------------------------------------------------------------- |
+| `HomeView`        | `content.hero` + `content.now` + `content.stats[]` + `content.marquee[]` |
+| `WorkView`        | `content.projects[]`                                                   |
+| `ExperienceView`  | `content.experience[]`                                                 |
+| `SkillsView`      | `content.skills[]` (4 cards)                                           |
+| `ProcessView`     | `content.process[]` (5 principles)                                     |
+| `ContactView`     | `content.contact` (email, whatsapp, location, languages[], pitch)      |
