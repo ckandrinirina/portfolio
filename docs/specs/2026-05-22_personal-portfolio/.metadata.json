@@ -13,6 +13,7 @@
   },
   "references": {
     "visualDesignUrl": "https://api.anthropic.com/v1/design/h/jd_0VzK3JMDU5aHs5wqyHA",
+    "localHtmlTemplate": "docs/specs/2026-05-22_personal-portfolio/Erick Andrinirina - Portfolio.html",
     "sourceCv": "docs/CV_ANDRINIRINA_ERICK_FULLSTACK.pdf"
   },
   "linkedDesign": "docs/architecture/"
