@@ -21,6 +21,14 @@ export default {
     ctaViewProjects: 'View projects',
     ctaDownloadCv: 'Download CV',
     ctaContact: 'Get in touch',
+    greet: "Hi, I'm",
+    tagline: 'I build performant, scalable web products end-to-end.',
+    roles: [
+      'Fullstack Engineer',
+      'React & Node specialist',
+      'Web3 builder',
+      'Problem solver',
+    ],
   },
 
   about: {
@@ -73,11 +81,26 @@ export default {
     },
     {
       label: 'Databases',
-      items: ['PostgreSQL', 'MySQL', 'MariaDB', 'MongoDB', 'SQLite', 'Firebase'],
+      items: [
+        'PostgreSQL',
+        'MySQL',
+        'MariaDB',
+        'MongoDB',
+        'SQLite',
+        'Firebase',
+      ],
     },
     {
       label: 'Tooling & DevOps',
-      items: ['Git', 'Docker', 'Vercel', 'Google Cloud Run', 'Azure', 'NPM', 'Composer'],
+      items: [
+        'Git',
+        'Docker',
+        'Vercel',
+        'Google Cloud Run',
+        'Azure',
+        'NPM',
+        'Composer',
+      ],
     },
     {
       label: 'Testing',
@@ -271,14 +294,26 @@ export default {
       company: 'SOKA / YAS Madagascar',
       description:
         'Real-time sports prediction platform with dynamic leaderboards and rewards system.',
-      techTags: ['Next.js', 'NestJS', 'Redux Toolkit', 'PostgreSQL', 'WebSocket'],
+      techTags: [
+        'Next.js',
+        'NestJS',
+        'Redux Toolkit',
+        'PostgreSQL',
+        'WebSocket',
+      ],
     },
     {
       name: 'LUDOKA',
       company: 'SOKA / YAS Madagascar',
       description:
         'Competitive online Ludo games integrated into the broader SOKA ecosystem with real-time game management.',
-      techTags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Real-time messaging'],
+      techTags: [
+        'Next.js',
+        'NestJS',
+        'Prisma',
+        'PostgreSQL',
+        'Real-time messaging',
+      ],
     },
     {
       name: 'EER Full Digital',
@@ -292,7 +327,13 @@ export default {
       company: 'SHOYO',
       description:
         'Digital dossier platform for managing financial procedures, including a major migration from PHP to JavaScript.',
-      techTags: ['React', 'NestJS', 'TypeScript', 'PostgreSQL', 'PHP migration'],
+      techTags: [
+        'React',
+        'NestJS',
+        'TypeScript',
+        'PostgreSQL',
+        'PHP migration',
+      ],
     },
     {
       name: 'THESEIS',
@@ -313,7 +354,13 @@ export default {
       company: 'SHOYO',
       description:
         'Automated data extraction from images and PDFs (IDs, IBANs, passports) using OCR and GPT-4.',
-      techTags: ['Node.js', 'OpenAI GPT-4', 'Tesseract OCR', 'TypeScript', 'PDF'],
+      techTags: [
+        'Node.js',
+        'OpenAI GPT-4',
+        'Tesseract OCR',
+        'TypeScript',
+        'PDF',
+      ],
     },
     {
       name: 'VTC Academy',
@@ -347,7 +394,8 @@ export default {
 
   education: [
     {
-      qualification: "Master's Engineer in Electronics, Applied Computing track",
+      qualification:
+        "Master's Engineer in Electronics, Applied Computing track",
       institution: "École Supérieure Polytechnique d'Antananarivo",
       year: 'June 2018',
     },
@@ -373,5 +421,174 @@ export default {
     location: 'Antananarivo, Madagascar',
     intro:
       'Feel free to reach out — I am always open to discussing new projects, opportunities, or ideas.',
+    pitch:
+      "Have a project in mind? I'm open to fullstack roles, freelance work, and ambitious collaborations — let's talk.",
+    languages: [
+      'Malagasy — Native',
+      'French — Fluent',
+      'English — Professional',
+    ],
+    meta: [
+      {
+        label: 'Email',
+        value: 'ckandrinirina@gmail.com',
+        href: 'mailto:ckandrinirina@gmail.com',
+        copy: true,
+      },
+      { label: 'Location', value: 'Antananarivo, Madagascar' },
+      { label: 'Status', value: 'Available for work' },
+    ],
   },
+
+  // ─── NOW ───────────────────────────────────────────────────────────────────
+
+  now: {
+    headline: 'Building the SOKA ecosystem',
+    body: 'Leading fullstack development on a Web3 platform spanning ticketing, commerce, and real-time games.',
+    meta: {
+      label: 'Currently',
+      period: 'Jan 2025 — present',
+    },
+  },
+
+  // ─── STATS ───────────────────────────────────────────────────────────────────
+
+  stats: [
+    { n: 7, suffix: '+', label: 'Years building' },
+    { n: 20, suffix: '+', label: 'Projects shipped' },
+    { n: 8, label: 'Featured works' },
+    { n: 6, label: 'Companies' },
+  ],
+
+  // ─── MARQUEE ─────────────────────────────────────────────────────────────────
+
+  marquee: [
+    'TypeScript',
+    'React',
+    'Next.js',
+    'Node.js',
+    'NestJS',
+    'PostgreSQL',
+    'Prisma',
+    'Tailwind CSS',
+    'Web3',
+    'OpenAI',
+    'Docker',
+    'Google Cloud',
+  ],
+
+  // ─── TIMELINE (new experience shape) ─────────────────────────────────────────
+
+  timeline: [
+    {
+      year: '2025 — now',
+      role: 'Full Stack Developer',
+      company: 'SOKA / YAS Madagascar',
+      desc: 'Leading development of a Web3 platform combining ticketing, commerce, and real-time games.',
+      stack: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Web3'],
+    },
+    {
+      year: '2024 — 25',
+      role: 'Full Stack Developer',
+      company: 'BMOI Madagascar',
+      desc: 'Built a remote bank-account onboarding service with video-based KYC verification.',
+      stack: ['React', 'Node.js', 'PostgreSQL'],
+    },
+    {
+      year: '2021 — 24',
+      role: 'Lead Developer',
+      company: 'SHOYO',
+      desc: 'Led the digital-dossier platform and its migration from PHP to a modern JavaScript stack.',
+      stack: ['React', 'NestJS', 'PostgreSQL', 'MongoDB', 'OpenAI'],
+    },
+    {
+      year: '2020',
+      role: 'Full Stack Developer',
+      company: 'VTC Academy',
+      desc: 'Built a driver-training platform with interactive quizzes and a progress dashboard.',
+      stack: ['React', 'Node.js', 'MySQL'],
+    },
+    {
+      year: '2020',
+      role: 'Full Stack Developer',
+      company: 'PANAFRI HELP',
+      desc: 'Delivered a project-funding platform end-to-end, from concept to production.',
+      stack: ['React', 'Node.js', 'MongoDB'],
+    },
+    {
+      year: '2019 — 20',
+      role: 'Lead Developer',
+      company: 'CREACTISOFT',
+      desc: 'Built sales, construction, and customer-service ERP solutions for multiple clients.',
+      stack: ['Angular', 'Symfony', 'PostgreSQL', 'MySQL'],
+    },
+    {
+      year: '2018 — 19',
+      role: 'Full Stack Developer',
+      company: 'INGENOSYA',
+      desc: 'Built banking and financing portals, plus a cross-platform document classifier.',
+      stack: ['Angular', 'Laravel', 'MySQL', 'PostgreSQL'],
+    },
+  ],
+
+  // ─── SKILL CARDS (new skills shape) ──────────────────────────────────────────
+
+  skillCards: [
+    {
+      title: 'Frontend',
+      lead: ['React', 'TypeScript', 'Next.js'],
+      chips: [
+        'Angular',
+        'Vue.js',
+        'Redux Toolkit',
+        'Tailwind CSS',
+        'React Native',
+      ],
+    },
+    {
+      title: 'Backend',
+      lead: ['Node.js', 'NestJS'],
+      chips: ['Symfony', 'Laravel', 'API Platform', 'Prisma'],
+    },
+    {
+      title: 'Data & Cloud',
+      lead: ['PostgreSQL', 'MongoDB'],
+      chips: ['MySQL', 'Docker', 'Google Cloud', 'Vercel', 'Firebase'],
+    },
+    {
+      title: 'AI & Craft',
+      lead: ['OpenAI', 'OCR / Tesseract'],
+      chips: ['Web3', 'Blockchain', 'Jest', 'Figma'],
+    },
+  ],
+
+  // ─── PROCESS ─────────────────────────────────────────────────────────────────
+
+  process: [
+    {
+      num: '01',
+      title: 'Understand first',
+      body: 'Start from the problem and the people who have it — not the framework. Clear requirements beat clever code.',
+    },
+    {
+      num: '02',
+      title: 'Ship in thin slices',
+      body: 'Deliver the smallest valuable increment, get it in front of users, and iterate on real feedback.',
+    },
+    {
+      num: '03',
+      title: 'Type everything',
+      body: 'Let the compiler carry the contracts. Strong types turn whole classes of bugs into build errors.',
+    },
+    {
+      num: '04',
+      title: 'Test what matters',
+      body: 'Cover the behaviour users depend on and the edges that break quietly — not coverage for its own sake.',
+    },
+    {
+      num: '05',
+      title: 'Refine relentlessly',
+      body: 'Leave each module clearer than I found it. Small, safe refactors keep velocity high over time.',
+    },
+  ],
 } satisfies PortfolioContent
