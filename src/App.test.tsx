@@ -1,11 +1,18 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+/**
+ * App integration tests (04-01).
+ *
+ * Drives the assembled Atelier Terminal shell: route navigation via every input
+ * source (sidebar, ⌘K, hash, arrow keys, wheel gesture), the re-keyed view
+ * shell, the command palette, and the project modal. Queries by role / testid
+ * (locale-independent) and wraps App in the real Theme + Language providers.
+ */
+
+import { describe, it, expect, beforeEach } from 'vitest'
+import { render, screen, fireEvent, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import { ThemeProvider } from './theme/ThemeProvider'
 import { LanguageProvider } from './i18n/LanguageProvider'
-import { NAV_SECTIONS } from './lib/constants'
-import { SITE_META } from './lib/constants'
 
 function renderApp() {
   return render(
@@ -17,145 +24,229 @@ function renderApp() {
   )
 }
 
-describe('App page shell', () => {
-  // AC: App.tsx renders a <Header/> component at the top of the output.
-  it('renders a Header (banner landmark)', () => {
-    renderApp()
-    expect(screen.getByRole('banner')).toBeInTheDocument()
-  })
+/** The scrollable view-inner the navigation hooks read for boundary checks. */
+function viewInner(container: HTMLElement): HTMLElement {
+  const el = container.querySelector<HTMLElement>('.view-inner')
+  if (!el) throw new Error('.view-inner not found')
+  return el
+}
 
-  // AC: App.tsx renders a <main> HTML landmark element below the Header.
-  it('renders a <main> landmark', () => {
-    renderApp()
+beforeEach(() => {
+  // Reset hash + storage so each test starts from a clean route/locale.
+  window.history.replaceState(null, '', window.location.pathname)
+  localStorage.clear()
+})
+
+describe('App shell structure', () => {
+  // AC: renders <aside> (Sidebar), <main>, and the chrome.
+  it('renders the sidebar (complementary) and main landmarks', () => {
+    const { container } = renderApp()
+    expect(container.querySelector('aside.sidebar')).not.toBeNull()
     expect(screen.getByRole('main')).toBeInTheDocument()
+    expect(container.querySelector('.topbar')).not.toBeNull()
   })
 
-  // AC: The <main> element contains exactly eight section slot elements.
-  it('renders exactly eight section slots inside <main>', () => {
+  // AC: overlays start closed.
+  it('renders no command palette or project modal initially', () => {
     renderApp()
-    const main = screen.getByRole('main')
-    const sections = main.querySelectorAll('section')
-    expect(sections).toHaveLength(8)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  // AC: Each section slot has the correct id, in the order defined by NAV_SECTIONS.
-  it('renders section slots with ids in the NAV_SECTIONS order', () => {
+  // AC: teardown — no old banner/contentinfo landmarks remain.
+  it('renders no <header> banner or <footer> contentinfo (old design gone)', () => {
     renderApp()
-    const main = screen.getByRole('main')
-    const ids = Array.from(main.querySelectorAll('section')).map((s) => s.id)
-    expect(ids).toEqual(NAV_SECTIONS.map((s) => s.id))
+    expect(screen.queryByRole('banner')).not.toBeInTheDocument()
+    expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument()
   })
 
-  // AC (parity check): the rendered ids match the canonical eight section ids.
-  it('renders the eight canonical section ids', () => {
-    renderApp()
-    const main = screen.getByRole('main')
-    const ids = Array.from(main.querySelectorAll('section')).map((s) => s.id)
-    expect(ids).toEqual([
-      'hero',
-      'about',
-      'skills',
-      'experience',
-      'projects',
-      'education',
-      'languages',
-      'contact',
-    ])
-  })
-
-  // AC: App.tsx renders a <Footer/> component below the <main> element.
-  it('renders a Footer (contentinfo landmark)', () => {
-    renderApp()
-    expect(screen.getByRole('contentinfo')).toBeInTheDocument()
-  })
-
-  // AC: The rendered DOM contains <header>, <main>, <footer> in correct top-to-bottom order.
-  it('renders landmarks in the order header → main → footer', () => {
+  // AC: the re-keyed .view carries a view-enter animation class.
+  it('renders the .view container with an enter-direction class', () => {
     const { container } = renderApp()
-    const landmarks = Array.from(
-      container.querySelectorAll('header, main, footer'),
-    ).map((el) => el.tagName.toLowerCase())
-    expect(landmarks).toEqual(['header', 'main', 'footer'])
-  })
-
-  // AC: <main> precedes <footer> in document order (footer is a sibling, after <main>).
-  it('places <footer> after <main> as a sibling of the shell', () => {
-    const { container } = renderApp()
-    const main = container.querySelector('main')
-    const footer = container.querySelector('footer')
-    expect(main).not.toBeNull()
-    expect(footer).not.toBeNull()
-    // compareDocumentPosition: 4 = DOCUMENT_POSITION_FOLLOWING (footer comes after main)
-    expect(
-      main!.compareDocumentPosition(footer!) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy()
-  })
-
-  // AC: useScrollSpy can resolve every NAV_SECTIONS id against the DOM.
-  it('exposes a DOM element for every NAV_SECTIONS id', () => {
-    renderApp()
-    for (const { id } of NAV_SECTIONS) {
-      expect(document.getElementById(id)).not.toBeNull()
-    }
+    const view = container.querySelector('.view')
+    expect(view).not.toBeNull()
+    expect(view!.className).toMatch(/view-enter-(down|up)/)
   })
 })
 
-describe('App wired sections (06-09)', () => {
-  // AC: rendered DOM contains exactly one <h1> (Hero's name).
-  it('renders exactly one <h1>', () => {
+describe('Default route', () => {
+  // AC: empty hash defaults to home (HomeView owns the only <h1>).
+  it('renders HomeView (the single <h1>) for an empty hash', () => {
     renderApp()
-    const h1s = document.querySelectorAll('h1')
-    expect(h1s).toHaveLength(1)
+    expect(document.querySelectorAll('h1')).toHaveLength(1)
   })
 
-  // AC: the single <h1> contains the owner name from SITE_META.
-  it('the <h1> contains the owner name', () => {
+  // AC: an unknown hash also defaults to home.
+  it('falls back to home for an unknown hash', () => {
+    window.history.replaceState(null, '', '#totally-unknown')
     renderApp()
-    const h1 = document.querySelector('h1')
-    expect(h1?.textContent).toContain(SITE_META.name)
+    expect(document.querySelector('h1')).not.toBeNull()
   })
 
-  // AC: seven <h2> headings (one per non-Hero section via Section wrapper).
-  // The story criterion claims 8 — corrected to 7 (Hero owns the h1 and renders no h2).
-  it('renders exactly seven <h2> headings (one per non-Hero section)', () => {
-    renderApp()
-    const h2s = document.querySelectorAll('main h2')
-    expect(h2s).toHaveLength(7)
+  // AC: a valid initial hash renders that view.
+  it('honours a valid initial hash (#work renders the project grid)', () => {
+    window.history.replaceState(null, '', '#work')
+    const { container } = renderApp()
+    expect(container.querySelectorAll('.proj-card')).toHaveLength(8)
   })
+})
 
-  // AC: locale=fr (forced via localStorage) renders FR content.
-  // (jsdom's navigator.language is en-US, so the production-default "FR" path
-  // requires explicit localStorage override in test env.)
-  it('renders French content when locale=fr (About heading "À propos")', () => {
-    localStorage.setItem('locale', 'fr')
-    renderApp()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /à propos/i }),
-    ).toBeInTheDocument()
-  })
-
-  // AC: switching to English re-renders sections with English content.
-  it('renders English About heading after locale switch', async () => {
-    localStorage.setItem('locale', 'fr')
-    renderApp()
+describe('Sidebar navigation', () => {
+  // AC: clicking a sidebar row navigates to that route.
+  it('navigates to work when the work row is clicked', async () => {
     const user = userEvent.setup()
-    // LanguageSwitcher may appear twice (desktop + mobile menu) — click the first EN button.
-    const enButtons = screen.getAllByRole('button', { name: 'EN' })
-    await user.click(enButtons[0])
+    const { container } = renderApp()
+    await user.click(screen.getByTestId('nav-row-work'))
+    expect(container.querySelectorAll('.proj-card')).toHaveLength(8)
+    expect(document.querySelector('h1')).toBeNull() // left home
+  })
+
+  // AC: on nav, the hash updates via history.replaceState.
+  it('updates the hash to the destination route', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('nav-row-skills'))
+    expect(window.location.hash).toBe('#skills')
+  })
+
+  // AC: breadcrumb reflects the active route (from ROUTE_META).
+  it('updates the topbar breadcrumb on navigation', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('nav-row-work'))
+    expect(screen.getByTestId('tb-breadcrumb')).toHaveTextContent(
+      'selected-work',
+    )
+  })
+
+  // AC: active row gets aria-current="page".
+  it('marks the active sidebar row with aria-current', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('nav-row-contact'))
+    expect(screen.getByTestId('nav-row-contact')).toHaveAttribute(
+      'aria-current',
+      'page',
+    )
+  })
+})
+
+describe('Keyboard & wheel navigation', () => {
+  // AC: ArrowDown at the bottom boundary advances to the next route.
+  it('ArrowDown advances home → work', async () => {
+    const user = userEvent.setup()
+    const { container } = renderApp()
+    await user.keyboard('{ArrowDown}')
+    expect(container.querySelectorAll('.proj-card')).toHaveLength(8)
+  })
+
+  // AC: a wheel gesture past threshold at the boundary advances the route.
+  it('a downward wheel gesture advances home → work', () => {
+    const { container } = renderApp()
+    fireEvent.wheel(viewInner(container), { deltaY: 120 })
+    expect(container.querySelectorAll('.proj-card')).toHaveLength(8)
+  })
+
+  // AC: navigation locks (850ms) — a second immediate gesture is ignored.
+  it('locks re-entrant navigation during the animation window', () => {
+    const { container } = renderApp()
+    fireEvent.wheel(viewInner(container), { deltaY: 120 }) // home → work
+    fireEvent.wheel(viewInner(container), { deltaY: 120 }) // locked, ignored
+    // Still on work (not advanced to experience).
+    expect(screen.getByTestId('tb-breadcrumb')).toHaveTextContent(
+      'selected-work',
+    )
+  })
+})
+
+describe('Hash-driven navigation', () => {
+  // AC: a hashchange event drives navigation.
+  it('navigates when the hash changes externally', () => {
+    const { container } = renderApp()
+    window.history.replaceState(null, '', '#skills')
+    fireEvent(window, new HashChangeEvent('hashchange'))
+    // Skills view renders skill cards.
+    expect(container.querySelector('.skill-cards')).not.toBeNull()
+  })
+})
+
+describe('Command palette (⌘K)', () => {
+  // AC: ⌘K opens the palette.
+  it('opens the palette on ⌘K', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.keyboard('{Meta>}k{/Meta}')
     expect(
-      screen.getByRole('heading', { level: 2, name: /^about$/i }),
+      screen.getByRole('dialog', { name: /command palette/i }),
     ).toBeInTheDocument()
   })
 
-  // AC: each NAV_SECTIONS id resolves to an actual content-bearing section, not an empty slot.
-  it('each section contains content beyond the heading', () => {
+  // AC: the topbar button opens the palette.
+  it('opens the palette from the topbar ⌘K button', async () => {
+    const user = userEvent.setup()
     renderApp()
-    for (const { id } of NAV_SECTIONS) {
-      const section = document.getElementById(id)
-      expect(section).not.toBeNull()
-      // section should have at least some text content (heading + body)
-      expect(section!.textContent?.trim().length).toBeGreaterThan(0)
-    }
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  // AC: a Navigation command navigates and closes the palette.
+  it('runs a navigation command and closes', async () => {
+    const user = userEvent.setup()
+    const { container } = renderApp()
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    const dialog = screen.getByRole('dialog')
+    // Click the "work" navigation option.
+    await user.click(within(dialog).getByText(/selected work|projets/i))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(container.querySelectorAll('.proj-card')).toHaveLength(8)
+  })
+
+  // AC: a Quick action runs (language toggle flips <html lang>).
+  it('runs the language-toggle quick action', async () => {
+    localStorage.setItem('locale', 'fr')
+    const user = userEvent.setup()
+    renderApp()
+    expect(document.documentElement.lang).toBe('fr')
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    const dialog = screen.getByRole('dialog')
+    // Filter to the language item to disambiguate, then run it.
+    await user.type(within(dialog).getByRole('combobox'), 'language')
+    await user.keyboard('{Enter}')
+    expect(document.documentElement.lang).toBe('en')
+  })
+})
+
+describe('Project modal', () => {
+  // AC: opening a project from a card sets the modal; closing clears it.
+  it('opens the modal from a project card and closes it', async () => {
+    const user = userEvent.setup()
+    window.history.replaceState(null, '', '#work')
+    const { container } = renderApp()
+    const firstCard = container.querySelector<HTMLElement>('.proj-card')!
+    await user.click(firstCard)
+    const dialog = screen.getByRole('dialog')
+    expect(dialog).toBeInTheDocument()
+    await user.click(within(dialog).getByRole('button', { name: /close/i }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  // AC: a cmdk Projects item opens the modal.
+  it('opens the modal from a command-palette project item', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    const dialog = screen.getByRole('dialog')
+    await user.type(within(dialog).getByRole('combobox'), 'soka club')
+    await user.keyboard('{Enter}')
+    expect(
+      screen.getByRole('dialog', { name: /soka club/i }),
+    ).toBeInTheDocument()
+  })
+})
+
+describe('Custom cursor overlay', () => {
+  // AC: the Cursor overlay mounts (jsdom matchMedia → fine pointer).
+  it('renders the custom cursor dot', () => {
+    renderApp()
+    expect(screen.getByTestId('cursor-dot')).toBeInTheDocument()
   })
 })

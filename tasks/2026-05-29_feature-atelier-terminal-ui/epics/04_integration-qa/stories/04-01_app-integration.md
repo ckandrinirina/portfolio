@@ -2,7 +2,7 @@
 
 > **Epic:** Integration & QA
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -32,23 +32,23 @@ them. The tree must contain only the new shell.
 
 ## Acceptance Criteria
 
-- [ ] `App.tsx` renders `<aside>` (Sidebar), `<main>` (Topbar + `.view` + `ScrollHint`), and the
+- [x] `App.tsx` renders `<aside>` (Sidebar), `<main>` (Topbar + `.view` + `ScrollHint`), and the
       overlays (`CommandPalette`, `ProjectModal`, `Cursor`).
-- [ ] The correct view renders for the active route; an unknown/empty hash defaults to `home`.
-- [ ] Clicking a sidebar row navigates and sets the enter-direction from `ROUTE_ORDER` position.
-- [ ] Scroll-gesture, arrow/Page keys, hash changes, and ⌘K all drive navigation/overlays via the
+- [x] The correct view renders for the active route; an unknown/empty hash defaults to `home`.
+- [x] Clicking a sidebar row navigates and sets the enter-direction from `ROUTE_ORDER` position.
+- [x] Scroll-gesture, arrow/Page keys, hash changes, and ⌘K all drive navigation/overlays via the
       wired hooks.
-- [ ] On every nav: the hash updates via `history.replaceState`, the view `scrollTop` resets to 0,
+- [x] On every nav: the hash updates via `history.replaceState`, the view `scrollTop` resets to 0,
       the `.view` remounts (re-keyed) with `view-enter-down`/`-up` per direction, and a 850 ms lock
       blocks re-entrant navs.
-- [ ] Opening a project (from a card or the cmdk Projects group) sets the modal state; closing
+- [x] Opening a project (from a card or the cmdk Projects group) sets the modal state; closing
       clears it and restores focus.
-- [ ] Command-palette items run: Navigation navigates, Quick actions fire (theme cycle / language
+- [x] Command-palette items run: Navigation navigates, Quick actions fire (theme cycle / language
       toggle / CV download), Projects open the modal or link.
-- [ ] `Header.tsx`, `Footer.tsx`, `Section.tsx`, `components/sections/*` (all 8), and any remaining
+- [x] `Header.tsx`, `Footer.tsx`, `Section.tsx`, `components/sections/*` (all 8), and any remaining
       `ThemeToggle`/`useScrollSpy` files + tests are deleted, with no dangling imports anywhere.
-- [ ] `npm run build` passes and the **entire** test suite is green (no references to removed files).
-- [ ] Provider order remains `ThemeProvider → LanguageProvider → App` (in `main.tsx`).
+- [x] `npm run build` passes and the **entire** test suite is green (no references to removed files).
+- [x] Provider order remains `ThemeProvider → LanguageProvider → App` (in `main.tsx`).
 
 ## Technical Notes
 
@@ -103,9 +103,77 @@ them. The tree must contain only the new shell.
 
 ### Subtasks
 
-- [ ] 1. Write integration tests for routing, transitions, overlays, and defaults (RED).
-- [ ] 2. Implement App state + `navigate` + hook wiring (GREEN).
-- [ ] 3. Render chrome + re-keyed view shell + ScrollHint.
-- [ ] 4. Wire overlays + command/project action mapping.
-- [ ] 5. Teardown obsolete files; grep for dangling imports/keys.
-- [ ] 6. QA validation — map each AC, run the full suite, check TypeScript.
+- [x] 1. Write integration tests for routing, transitions, overlays, and defaults (RED).
+- [x] 2. Implement App state + `navigate` + hook wiring (GREEN).
+- [x] 3. Render chrome + re-keyed view shell + ScrollHint.
+- [x] 4. Wire overlays + command/project action mapping.
+- [x] 5. Teardown obsolete files; grep for dangling imports/keys.
+- [x] 6. QA validation — map each AC, run the full suite, check TypeScript.
+
+### Build Notes (concrete decisions)
+
+- **`navigate(target: string)`** — single param typed `string` so it is assignable to
+  every consumer contract (`HomeView` `(route: string)`, hooks `(dir: 'up'|'down')`,
+  `Sidebar` `(id: RouteId)`). Internally narrows: `'up'|'down'` → neighbour via
+  `ROUTE_ORDER` (clamped, boundary no-op); otherwise `isRouteId()` guard → that route
+  (direction derived from index delta); unknown → ignored. Stable (`useCallback([])`),
+  reads current route from a `routeRef` updated inside handlers (no render-time ref writes).
+- **View ref → `.view-inner`** — views own their `.view-inner` scroller (cannot modify
+  them; only `App.tsx` is in scope). App puts a **callback ref** on the re-keyed `.view`
+  container that resolves `node.querySelector('.view-inner')` into a stable `viewRef`,
+  which all four ref-driven hooks consume. Ref callbacks run pre-effect, so `viewRef` is
+  current when the route-keyed hook effects re-run.
+- **Re-key + animation** — `<div className="view … {dir==='down'?'view-enter-down':'view-enter-up'}" key={route}>`;
+  remount replays the entrance keyframe and yields a fresh `scrollTop:0` view-inner.
+- **`<main>` pane** — index.css has no `.main` rule, so the Topbar+view column is laid out
+  with Tailwind utilities (`flex min-w-0 flex-col overflow-hidden`; `.view` gets
+  `flex-1 min-h-0`) — no stylesheet edits (out of scope).
+- **Overlays** — `CommandPalette`/`ProjectModal`/`Cursor` render as fixed-position siblings
+  outside `.app`. `runCommand` maps descriptors: nav→`navigate`, quick→`cycle`/`setLocale`
+  toggle/CV-download anchor, project→open modal. Modal focus-return captures
+  `document.activeElement` at open into `projectTriggerRef`.
+- **Hash routing** — `useHashRoute(applyHash)`; `applyHash` normalises unknown/empty hash
+  to `home` and derives direction from the index delta. `navigate` uses
+  `history.replaceState` (no `hashchange`), so no feedback loop.
+
+## Implementation Summary
+
+The Atelier Terminal shell is now the only UI. `App.tsx` was rewritten from the old
+8-section page into the route orchestrator: it owns `route` / `direction` / `cmdOpen` /
+`activeProject` / `locked` state, exposes one `navigate(target)` that accepts a route id
+(sidebar/cmdk) or a direction (gestures/keys), and wires all five interaction hooks against
+a `viewRef` resolved (via callback ref) to the active view's `.view-inner`. The chrome
+(Sidebar + Topbar), the re-keyed `.view` with directional entrance animation + ScrollHint,
+and the global overlays (CommandPalette, ProjectModal, Cursor) all render from App state;
+`runCommand` maps cmdk descriptors to real handlers (nav / theme-cycle / language-toggle /
+CV-download / open-project). The old section-based design was torn down.
+
+**Outcome:** all 10 acceptance criteria PASS (independent QA validation). `tsc -b` clean,
+`eslint` clean, `prettier` clean, `npm run build` passes, full suite **715/715 green**.
+
+### Files Touched
+
+- **MODIFIED** `src/App.tsx:1-244` — full rewrite: shell orchestration, `navigate`, hook
+  wiring, view render map, overlay handlers + command/project action mapping.
+- **MODIFIED** `src/App.test.tsx:1-252` — rewritten as 22 integration tests (shell, routing,
+  default-to-home, sidebar/keyboard/wheel/hash nav, ⌘K palette, project modal, cursor).
+- **DELETED** `src/components/layout/Header.tsx` (+ `Header.test.tsx`)
+- **DELETED** `src/components/layout/Footer.tsx` (+ `Footer.test.tsx`)
+- **DELETED** `src/components/layout/Section.tsx` (+ `Section.test.tsx`)
+- **DELETED** `src/components/sections/` — About, Contact, Education, Experience, Hero,
+  Languages, Projects, Skills (8 components + 8 tests)
+- **DELETED** `src/hooks/useScrollSpy.ts` (+ `useScrollSpy.test.ts`)
+
+24 files deleted, 2 rewritten · 426 insertions / 3227 deletions.
+
+### Notes / deviations
+
+- `useReveal` was **kept** (orphaned but retained per the feature arch doc's Hooks table —
+  "still useful for one-off section reveals"); its test stays green.
+- `ThemeToggle` was already removed in 01-02 (0 files) — nothing to delete.
+- The story's deletion list mentioned `ThemeToggle`; the live control is `ThemeSwitcher`,
+  which is **used by Sidebar** and therefore correctly retained.
+- `constants.ts` `NAV_SECTIONS`/`SITE_META` are now unused exports (no longer imported);
+  left in place (out of scope, not dangling imports). Stale doc-comments in
+  `test/setup.ts` / `content/types.ts` reference removed files but are comments, not imports.
+- `<main>` pane laid out with Tailwind utilities (no `index.css` edits — out of scope).
