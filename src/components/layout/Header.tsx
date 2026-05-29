@@ -26,7 +26,9 @@ import { useLanguage } from '../../i18n/useLanguage'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 import { NAV_SECTIONS } from '../../lib/constants'
 import LanguageSwitcher from '../ui/LanguageSwitcher'
-import ThemeToggle from '../ui/ThemeToggle'
+// NOTE: Header is slated for deletion in 04-01 (replaced by Sidebar + Topbar).
+// Minimal swap only — ThemeToggle was removed in 01-02; ThemeSwitcher replaces it.
+import ThemeSwitcher from '../ui/ThemeSwitcher'
 import { cn } from '../../lib/utils'
 import type { UiLabels } from '../../i18n/ui'
 
@@ -66,7 +68,14 @@ type NavLinkProps = {
   mobile?: boolean
 }
 
-function NavLink({ id, label, isActive, onClick, ref, mobile = false }: NavLinkProps) {
+function NavLink({
+  id,
+  label,
+  isActive,
+  onClick,
+  ref,
+  mobile = false,
+}: NavLinkProps) {
   return (
     <a
       ref={ref}
@@ -79,9 +88,9 @@ function NavLink({ id, label, isActive, onClick, ref, mobile = false }: NavLinkP
       className={cn(
         'rounded text-sm font-medium transition-colors',
         mobile ? 'px-3 py-2' : 'px-3 py-1.5',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2',
+        'focus-visible:ring-brand-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         isActive
-          ? 'font-semibold text-brand-500'
+          ? 'text-brand-500 font-semibold'
           : 'text-text-secondary hover:text-text-primary dark:text-zinc-400 dark:hover:text-zinc-100',
       )}
     >
@@ -144,7 +153,8 @@ export default function Header({ className }: HeaderProps = {}) {
   // Scroll handler — smooth or instant per prefers-reduced-motion
   // ---------------------------------------------------------------------------
   const handleNavClick = useCallback((id: string) => {
-    const smoothAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const smoothAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)')
+      .matches
     const el = document.getElementById(id)
     if (el && typeof el.scrollIntoView === 'function') {
       el.scrollIntoView({ behavior: smoothAllowed ? 'smooth' : 'auto' })
@@ -191,7 +201,10 @@ export default function Header({ className }: HeaderProps = {}) {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Desktop nav — visible only on md+ */}
-        <nav aria-label="Main navigation" className="hidden md:flex md:items-center md:gap-1">
+        <nav
+          aria-label="Main navigation"
+          className="hidden md:flex md:items-center md:gap-1"
+        >
           {NAV_SECTIONS.map((section) => (
             <NavLink
               key={section.id}
@@ -214,7 +227,7 @@ export default function Header({ className }: HeaderProps = {}) {
             className={cn(
               'inline-flex items-center justify-center rounded-lg p-2 transition-colors',
               'text-text-primary hover:bg-surface-elevated',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2',
+              'focus-visible:ring-brand-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
             )}
           >
             <HamburgerIcon isOpen={menuOpen} />
@@ -224,14 +237,17 @@ export default function Header({ className }: HeaderProps = {}) {
         {/* Desktop controls: LanguageSwitcher + ThemeToggle */}
         <div className="hidden items-center gap-2 md:flex">
           <LanguageSwitcher />
-          <ThemeToggle />
+          <ThemeSwitcher />
         </div>
       </div>
 
       {/* Mobile nav panel — conditionally rendered when menu is open */}
       {menuOpen && (
-        <div className="border-t border-zinc-200 bg-white px-4 pb-4 dark:border-zinc-700 dark:bg-zinc-900 md:hidden">
-          <nav aria-label="Main navigation" className="flex flex-col gap-1 pt-3">
+        <div className="border-t border-zinc-200 bg-white px-4 pb-4 md:hidden dark:border-zinc-700 dark:bg-zinc-900">
+          <nav
+            aria-label="Main navigation"
+            className="flex flex-col gap-1 pt-3"
+          >
             {NAV_SECTIONS.map((section, index) => (
               <NavLink
                 key={section.id}
@@ -248,7 +264,7 @@ export default function Header({ className }: HeaderProps = {}) {
           {/* Language + theme controls in mobile menu panel */}
           <div className="mt-3 flex items-center gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-700">
             <LanguageSwitcher />
-            <ThemeToggle />
+            <ThemeSwitcher />
           </div>
         </div>
       )}

@@ -7,24 +7,35 @@ import {
   type ReactNode,
 } from 'react'
 
-export type Theme = 'light' | 'dark'
+/** The four Atelier palettes. `default` is the Ember `:root` palette. */
+export type Theme = 'default' | 'paper' | 'ocean' | 'forest'
 
 export type ThemeContextValue = {
   theme: Theme
   setTheme: (next: Theme) => void
-  toggle: () => void
+  /** Advance through the documented cycle order and persist. */
+  cycle: () => void
 }
 
-// Named export so tests can read or inject the context directly (per story 03-01 tech notes).
+// Named export so tests can read or inject the context directly.
 // eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 const STORAGE_KEY = 'theme'
 
+/** Documented cycle order: default → ocean → forest → paper → default. */
+const CYCLE_ORDER: readonly Theme[] = ['default', 'ocean', 'forest', 'paper']
+
+const THEMES: readonly Theme[] = ['default', 'paper', 'ocean', 'forest']
+
+function isTheme(value: string | null): value is Theme {
+  return value !== null && (THEMES as readonly string[]).includes(value)
+}
+
 function readStoredTheme(): Theme | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw === 'dark' || raw === 'light' ? raw : null
+    return isTheme(raw) ? raw : null
   } catch {
     return null
   }
@@ -40,7 +51,20 @@ function readSystemPrefersDark(): boolean {
 }
 
 function resolveInitialTheme(): Theme {
-  return readStoredTheme() ?? (readSystemPrefersDark() ? 'dark' : 'light')
+  return readStoredTheme() ?? (readSystemPrefersDark() ? 'default' : 'paper')
+}
+
+/**
+ * Apply a theme to `<html>`: `default` removes the attribute so the `:root`
+ * Ember palette governs; every other theme sets `data-theme="<theme>"`.
+ */
+function applyTheme(theme: Theme): void {
+  const root = document.documentElement
+  if (theme === 'default') {
+    root.removeAttribute('data-theme')
+  } else {
+    root.setAttribute('data-theme', theme)
+  }
 }
 
 function persistTheme(theme: Theme): void {
@@ -55,12 +79,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(resolveInitialTheme)
 
   useEffect(() => {
-    const root = document.documentElement
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
+    applyTheme(theme)
     persistTheme(theme)
   }, [theme])
 
@@ -68,13 +87,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setThemeState(next)
   }, [])
 
-  const toggle = useCallback(() => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  const cycle = useCallback(() => {
+    setThemeState((prev) => {
+      const idx = CYCLE_ORDER.indexOf(prev)
+      return CYCLE_ORDER[(idx + 1) % CYCLE_ORDER.length]
+    })
   }, [])
 
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, setTheme, toggle }),
-    [theme, setTheme, toggle],
+    () => ({ theme, setTheme, cycle }),
+    [theme, setTheme, cycle],
   )
 
   return <ThemeContext value={value}>{children}</ThemeContext>

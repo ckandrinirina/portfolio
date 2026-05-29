@@ -3,12 +3,12 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { ThemeProvider, ThemeContext } from './ThemeProvider'
 import { useTheme } from './useTheme'
 
-function setMatchMedia(matches: boolean) {
+function setMatchMedia(prefersDark: boolean) {
   vi.stubGlobal(
     'matchMedia',
     (query: string): MediaQueryList =>
       ({
-        matches,
+        matches: prefersDark && query === '(prefers-color-scheme: dark)',
         media: query,
         onchange: null,
         addEventListener: vi.fn(),
@@ -21,19 +21,24 @@ function setMatchMedia(matches: boolean) {
 }
 
 function Probe() {
-  const { theme, setTheme, toggle } = useTheme()
+  const { theme, setTheme, cycle } = useTheme()
   return (
     <div>
       <span data-testid="theme">{theme}</span>
-      <button onClick={() => setTheme('dark')}>set-dark</button>
-      <button onClick={() => setTheme('light')}>set-light</button>
-      <button onClick={() => toggle()}>toggle</button>
+      <button onClick={() => setTheme('ocean')}>set-ocean</button>
+      <button onClick={() => setTheme('default')}>set-default</button>
+      <button onClick={() => cycle()}>cycle</button>
     </div>
   )
 }
 
-describe('ThemeProvider', () => {
+function dataTheme(): string | null {
+  return document.documentElement.getAttribute('data-theme')
+}
+
+describe('ThemeProvider (4-palette data-theme model)', () => {
   beforeEach(() => {
+    document.documentElement.removeAttribute('data-theme')
     document.documentElement.className = ''
     localStorage.clear()
     setMatchMedia(false)
@@ -43,7 +48,7 @@ describe('ThemeProvider', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders children and provides a non-null context value', () => {
+  it('provides a non-null context value', () => {
     render(
       <ThemeProvider>
         <Probe />
@@ -52,94 +57,100 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('theme').textContent).toBeTruthy()
   })
 
-  it("uses 'dark' when localStorage['theme'] is 'dark'", () => {
-    localStorage.setItem('theme', 'dark')
+  it("uses the stored theme when localStorage['theme'] is set", () => {
+    localStorage.setItem('theme', 'ocean')
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    expect(screen.getByTestId('theme').textContent).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(screen.getByTestId('theme').textContent).toBe('ocean')
+    expect(dataTheme()).toBe('ocean')
   })
 
-  it("uses 'light' when localStorage['theme'] is 'light'", () => {
-    localStorage.setItem('theme', 'light')
-    render(
-      <ThemeProvider>
-        <Probe />
-      </ThemeProvider>,
-    )
-    expect(screen.getByTestId('theme').textContent).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-  })
-
-  it("falls back to matchMedia('(prefers-color-scheme: dark)') when localStorage is absent", () => {
+  it("resolves 'default' when no storage and system prefers dark", () => {
     setMatchMedia(true)
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    expect(screen.getByTestId('theme').textContent).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(screen.getByTestId('theme').textContent).toBe('default')
+    // default removes the attribute (the :root Ember palette governs)
+    expect(dataTheme()).toBeNull()
   })
 
-  it("defaults to 'light' when neither localStorage nor system preference indicates dark", () => {
+  it("resolves 'paper' when no storage and system prefers light", () => {
+    setMatchMedia(false)
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    expect(screen.getByTestId('theme').textContent).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(screen.getByTestId('theme').textContent).toBe('paper')
+    expect(dataTheme()).toBe('paper')
   })
 
-  it("setTheme('dark') adds the dark class and persists 'dark' to localStorage", () => {
+  it('applying default removes data-theme; other themes set it', () => {
+    localStorage.setItem('theme', 'forest')
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    fireEvent.click(screen.getByRole('button', { name: 'set-dark' }))
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    expect(localStorage.getItem('theme')).toBe('dark')
-    expect(screen.getByTestId('theme').textContent).toBe('dark')
+    expect(dataTheme()).toBe('forest')
+    fireEvent.click(screen.getByRole('button', { name: 'set-default' }))
+    expect(screen.getByTestId('theme').textContent).toBe('default')
+    expect(dataTheme()).toBeNull()
+    expect(localStorage.getItem('theme')).toBe('default')
   })
 
-  it("setTheme('light') removes the dark class and persists 'light' to localStorage", () => {
-    localStorage.setItem('theme', 'dark')
+  it('setTheme updates state, attribute, and localStorage', () => {
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    fireEvent.click(screen.getByRole('button', { name: 'set-light' }))
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-    expect(localStorage.getItem('theme')).toBe('light')
-    expect(screen.getByTestId('theme').textContent).toBe('light')
+    fireEvent.click(screen.getByRole('button', { name: 'set-ocean' }))
+    expect(screen.getByTestId('theme').textContent).toBe('ocean')
+    expect(dataTheme()).toBe('ocean')
+    expect(localStorage.getItem('theme')).toBe('ocean')
   })
 
-  it("toggle() flips theme, html class, and localStorage", () => {
+  it('cycle() advances default → ocean → forest → paper → default', () => {
     render(
       <ThemeProvider>
         <Probe />
       </ThemeProvider>,
     )
-    // initial = light
-    fireEvent.click(screen.getByRole('button', { name: 'toggle' }))
-    expect(screen.getByTestId('theme').textContent).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    expect(localStorage.getItem('theme')).toBe('dark')
+    // start: no storage, system light → paper. Set to default first.
+    fireEvent.click(screen.getByRole('button', { name: 'set-default' }))
+    expect(screen.getByTestId('theme').textContent).toBe('default')
 
-    fireEvent.click(screen.getByRole('button', { name: 'toggle' }))
-    expect(screen.getByTestId('theme').textContent).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-    expect(localStorage.getItem('theme')).toBe('light')
+    const cycleBtn = screen.getByRole('button', { name: 'cycle' })
+    fireEvent.click(cycleBtn)
+    expect(screen.getByTestId('theme').textContent).toBe('ocean')
+    fireEvent.click(cycleBtn)
+    expect(screen.getByTestId('theme').textContent).toBe('forest')
+    fireEvent.click(cycleBtn)
+    expect(screen.getByTestId('theme').textContent).toBe('paper')
+    fireEvent.click(cycleBtn)
+    expect(screen.getByTestId('theme').textContent).toBe('default')
+    expect(localStorage.getItem('theme')).toBe('default')
   })
 
-  it('useTheme() throws a descriptive error when called outside ThemeProvider', () => {
+  it('ignores an unrecognised stored value and falls back to system default', () => {
+    localStorage.setItem('theme', 'solarized')
+    setMatchMedia(true)
+    render(
+      <ThemeProvider>
+        <Probe />
+      </ThemeProvider>,
+    )
+    expect(screen.getByTestId('theme').textContent).toBe('default')
+  })
+
+  it('useTheme() throws a descriptive error outside the provider', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     expect(() => render(<Probe />)).toThrow(
       /useTheme must be used within a ThemeProvider/i,
@@ -147,19 +158,14 @@ describe('ThemeProvider', () => {
     errorSpy.mockRestore()
   })
 
-  it('falls back to system preference and stays functional when localStorage.getItem throws', () => {
-    const getItemSpy = vi
-      .spyOn(Storage.prototype, 'getItem')
-      .mockImplementation(() => {
-        throw new Error('storage disabled')
-      })
-    const setItemSpy = vi
-      .spyOn(Storage.prototype, 'setItem')
-      .mockImplementation(() => {
-        throw new Error('storage disabled')
-      })
+  it('stays functional when localStorage throws (privacy mode)', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('storage disabled')
+    })
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('storage disabled')
+    })
     setMatchMedia(true)
-
     expect(() =>
       render(
         <ThemeProvider>
@@ -167,40 +173,14 @@ describe('ThemeProvider', () => {
         </ThemeProvider>,
       ),
     ).not.toThrow()
-
-    // Initial state derives from matchMedia (dark) because localStorage is unreadable.
-    expect(screen.getByTestId('theme').textContent).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-
-    // Toggle still updates in-memory state + html class without throwing on setItem.
+    expect(screen.getByTestId('theme').textContent).toBe('default')
     expect(() =>
-      fireEvent.click(screen.getByRole('button', { name: 'toggle' })),
+      fireEvent.click(screen.getByRole('button', { name: 'set-ocean' })),
     ).not.toThrow()
-    expect(screen.getByTestId('theme').textContent).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-
-    getItemSpy.mockRestore()
-    setItemSpy.mockRestore()
+    expect(screen.getByTestId('theme').textContent).toBe('ocean')
   })
 
-  it('does not remove the dark class when bootstrap already applied it (no flicker)', () => {
-    localStorage.setItem('theme', 'dark')
-    document.documentElement.classList.add('dark')
-    const removeSpy = vi.spyOn(document.documentElement.classList, 'remove')
-
-    render(
-      <ThemeProvider>
-        <Probe />
-      </ThemeProvider>,
-    )
-
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    expect(removeSpy).not.toHaveBeenCalledWith('dark')
-    removeSpy.mockRestore()
-  })
-
-  it('exports ThemeContext as a named export with a non-null default of null', () => {
-    // The context itself is named-exported so tests can read or inject it directly.
+  it('exports ThemeContext as a named export', () => {
     expect(ThemeContext).toBeDefined()
   })
 })

@@ -350,7 +350,9 @@ describe('Mobile menu closes on link selection', () => {
     // When mobile menu is open there are two <nav> elements (desktop + mobile).
     // Use userEvent to click the first available about link.
     const header = screen.getByRole('banner')
-    const aboutLink = header.querySelector('a[href="#about"]') as HTMLAnchorElement
+    const aboutLink = header.querySelector(
+      'a[href="#about"]',
+    ) as HTMLAnchorElement
     await user.click(aboutLink)
 
     expect(hamburger).toHaveAttribute('aria-expanded', 'false')
@@ -408,20 +410,22 @@ describe('LanguageSwitcher and ThemeToggle in Header', () => {
     expect(screen.getByRole('button', { name: /^EN$/i })).toBeInTheDocument()
   })
 
-  it('renders the ThemeToggle button inside the Header', () => {
+  it('renders the ThemeSwitcher button inside the Header', () => {
     renderHeader()
-    // ThemeToggle has aria-label matching "Switch to light/dark mode"
-    const themeBtn = screen.getByRole('button', { name: /light mode|dark mode|theme/i })
+    // ThemeSwitcher has an aria-label containing "theme"
+    const themeBtn = screen.getByRole('button', { name: /theme/i })
     expect(themeBtn).toBeInTheDocument()
   })
 
-  it('ThemeToggle click changes theme app-wide', async () => {
+  it('ThemeSwitcher click changes theme app-wide (data-theme attribute)', async () => {
     const user = userEvent.setup()
     renderHeader()
 
-    const themeBtn = screen.getByRole('button', { name: /light mode|dark mode|theme/i })
+    const before = document.documentElement.getAttribute('data-theme')
+    const themeBtn = screen.getByRole('button', { name: /theme/i })
     await user.click(themeBtn)
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    // cycling advances to a different palette, mutating the data-theme attribute
+    expect(document.documentElement.getAttribute('data-theme')).not.toBe(before)
   })
 
   it('LanguageSwitcher click changes language app-wide', async () => {
