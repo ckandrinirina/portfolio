@@ -2,7 +2,7 @@
 
 > **Epic:** Shell & Interaction Layer
 > **Size:** L
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 

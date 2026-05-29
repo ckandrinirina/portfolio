@@ -2,7 +2,7 @@
 
 > **Epic:** Shell & Interaction Layer
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -48,6 +48,8 @@ testable, and consumed by `App.tsx` in 04-01 and the command palette in 03-02.
       the viewport and unobserves each after revealing; re-runs cleanly on route change.
 - [ ] All five hooks are unit-tested (fake timers + synthetic events); `npm run build` passes.
 - [ ] `src/hooks/useScrollSpy.ts` and its test are removed; no remaining imports reference them.
+      **DEFERRED to 04-01:** the obsolete `Header.tsx` still imports `useScrollSpy`; deleting it
+      now breaks the build. Removal moves to the 04-01 obsolete-file teardown when `Header` is removed.
 
 ## Technical Notes
 
