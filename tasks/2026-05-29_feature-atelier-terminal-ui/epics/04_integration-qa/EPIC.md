@@ -55,7 +55,7 @@ remaining `ThemeToggle`/`useScrollSpy` references so the new shell is the only U
 | #     | Story                                                      | Size | Status |
 | ----- | ---------------------------------------------------------- | ---- | ------ |
 | 04-01 | App.tsx integration, view routing & obsolete-file teardown | XL   | DONE   |
-| 04-02 | Accessibility, reduced-motion & responsiveness pass        | L    | TODO   |
+| 04-02 | Accessibility, reduced-motion & responsiveness pass        | L    | DONE   |
 | 04-03 | Lighthouse performance & SEO audit                         | M    | TODO   |
 
 ## Acceptance Criteria

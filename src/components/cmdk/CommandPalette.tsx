@@ -129,6 +129,11 @@ export default function CommandPalette({
     } else if (e.key === 'Escape') {
       e.preventDefault()
       onClose()
+    } else if (e.key === 'Tab') {
+      // Trap focus: the input is the only tabbable control (results are an
+      // arrow-key-driven listbox), so keep focus on it instead of leaking to
+      // the page behind the palette.
+      e.preventDefault()
     }
   }
 

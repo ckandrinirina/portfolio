@@ -190,4 +190,14 @@ describe('CommandPalette', () => {
     const descriptor = onRun.mock.calls[0][0] as CommandDescriptor
     expect(descriptor.kind).toBe('nav')
   })
+
+  // ── AC (04-02): Tab keeps focus trapped on the input ──────────────────────
+  it('keeps focus on the input when Tab is pressed (focus trap)', async () => {
+    const user = userEvent.setup()
+    renderPalette()
+    const input = screen.getByRole('combobox')
+    expect(input).toHaveFocus()
+    await user.tab()
+    expect(input).toHaveFocus()
+  })
 })

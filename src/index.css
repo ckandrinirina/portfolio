@@ -199,6 +199,23 @@ body::after {
   z-index: 1;
 }
 
+/* === FOCUS VISIBILITY =====================================================
+   One visible keyboard-focus ring for every interactive control. Independent
+   of the custom cursor (which only hides the pointer via `cursor: none`, and
+   never the focus outline), so keyboard users always see where they are.
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The cmdk search input clears its default outline for the framed look
+   (`.cmdk-input { outline: none }`); restore a visible ring on keyboard focus. */
+.cmdk-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 /* === LAYOUT ================================================================
    .app — the outer shell grid: sidebar (240px) + main (1fr).
    Below 880px: stacks to horizontal topbar (56px) + scrollable view.

@@ -35,6 +35,30 @@ export default function ProjectModal({
 }: ProjectModalProps) {
   const { t } = useLanguage()
   const closeRef = useRef<HTMLButtonElement | null>(null)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
+
+  // Keep keyboard focus inside the modal: Tab / Shift+Tab cycle through the
+  // dialog's focusable controls (close button + the action links) and wrap at
+  // the ends. Focus is moved in on open and restored to the trigger on close.
+  function trapTabFocus(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== 'Tab') return
+    const root = dialogRef.current
+    if (!root) return
+    const focusables = root.querySelectorAll<HTMLElement>(
+      'button, a[href], input, textarea, select, [tabindex]:not([tabindex="-1"])',
+    )
+    if (focusables.length === 0) return
+    const first = focusables[0]
+    const last = focusables[focusables.length - 1]
+    const active = document.activeElement
+    if (e.shiftKey && active === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
 
   // Lock body scroll + move focus into the modal while a project is shown.
   useEffect(() => {
@@ -78,11 +102,13 @@ export default function ProjectModal({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
         className="modal"
         role="dialog"
         aria-modal="true"
         aria-label={project.name}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={trapTabFocus}
       >
         <div className="modal-header">
           <span className="proj-num">{project.num}</span>
