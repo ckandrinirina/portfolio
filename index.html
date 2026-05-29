@@ -12,40 +12,58 @@
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    <!-- Google Fonts: Geist (sans), JetBrains Mono, Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300..700&display=swap"
+    />
+
     <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
     <!-- Absolute URL required for OG; update og:image and og:url if domain changes -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ckandrinirina.github.io/" />
-    <meta property="og:title" content="Erick Andrinirina — Fullstack JavaScript Engineer" />
+    <meta
+      property="og:title"
+      content="Erick Andrinirina — Fullstack JavaScript Engineer"
+    />
     <meta
       property="og:description"
       content="Erick Andrinirina — Fullstack JavaScript Engineer with 7 years of experience building performant, scalable web applications."
     />
-    <meta property="og:image" content="https://ckandrinirina.github.io/og-image.png" />
+    <meta
+      property="og:image"
+      content="https://ckandrinirina.github.io/og-image.png"
+    />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Erick Andrinirina — Fullstack JavaScript Engineer" />
+    <meta
+      name="twitter:title"
+      content="Erick Andrinirina — Fullstack JavaScript Engineer"
+    />
     <meta
       name="twitter:description"
       content="Erick Andrinirina — Fullstack JavaScript Engineer with 7 years of experience building performant, scalable web applications."
     />
-    <meta name="twitter:image" content="https://ckandrinirina.github.io/og-image.png" />
+    <meta
+      name="twitter:image"
+      content="https://ckandrinirina.github.io/og-image.png"
+    />
 
-    <!-- Anti-FOUC: read localStorage['theme'] (or fall back to prefers-color-scheme)
-         and apply the `dark` class to <html> synchronously before any CSS paint.
-         Must stay in sync with ThemeProvider's resolveInitialTheme() precedence. -->
+    <!-- Anti-FOUC data-theme bootstrap — runs before React so the correct
+         palette is applied on first paint. MUST stay byte-in-sync with
+         THEME_BOOTSTRAP in src/theme/themeBootstrap.ts (enforced by a test). -->
     <script>
       ;(function () {
         try {
-          var t = localStorage.getItem('theme')
-          if (
-            t === 'dark' ||
-            (!t && matchMedia('(prefers-color-scheme: dark)').matches)
-          ) {
-            document.documentElement.classList.add('dark')
-          }
-        } catch (_) {}
+          var stored = localStorage.getItem('theme')
+          var prefersDark = matchMedia('(prefers-color-scheme: dark)').matches
+          var t = stored || (prefersDark ? 'default' : 'paper')
+          if (t !== 'default')
+            document.documentElement.setAttribute('data-theme', t)
+        } catch (e) {}
       })()
     </script>
   </head>

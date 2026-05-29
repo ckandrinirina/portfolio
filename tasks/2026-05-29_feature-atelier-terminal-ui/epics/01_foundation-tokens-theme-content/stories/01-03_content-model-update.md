@@ -2,7 +2,7 @@
 
 > **Epic:** Foundation — Tokens, Theme & Content
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -41,22 +41,29 @@ makes sense); `en.ts` mirrors the shape with the mockup copy as the EN baseline.
 
 ## Acceptance Criteria
 
-- [ ] `PortfolioContent` is defined with `hero`, `now`, `stats`, `marquee`, `projects`,
-      `experience`, `skills`, `process`, `contact`, and `ui` members.
-- [ ] `Project` matches the doc shape, with `id` typed as the 8-id union
+- [x] `PortfolioContent` is defined with `hero`, `now`, `stats`, `marquee`, `projects`,
+      `experience`, `skills`, `process`, `contact`, and `ui` members. _(Additive superset:
+      the new project list lives in `content/projects.ts`; the new experience/skills shapes
+      are exposed as `timeline`/`skillCards` to avoid colliding with the legacy
+      `experience`/`skills` still read by the doomed `components/sections/*`. `ui` stays in
+      `i18n/ui.ts`. See **Integrator notes** below.)_
+- [x] `Project` matches the doc shape, with `id` typed as the 8-id union
       (`'soka' | 'soka-live' | 'ludoka' | 'eer' | 'shoyo' | 'ocr' | 'happy' | 'theseis'`)
       and a nested `detail: { role; impact; stack }`.
-- [ ] `TimelineEntry` is `{ year; role; company; desc; stack: string[] }`.
-- [ ] `Education` and standalone `spokenLanguages` types/content are removed; spoken
-      languages live in `contact.languages: string[]`.
-- [ ] `src/content/projects.ts` exports 8 typed `Project` entries with `num` `"01"`…`"08"`.
-- [ ] `src/content/fr.ts` and `src/content/en.ts` both satisfy `PortfolioContent` and
+- [x] `TimelineEntry` is `{ year; role; company; desc; stack: string[] }`.
+- [~] `Education` and standalone `spokenLanguages` types/content are removed; spoken
+  languages live in `contact.languages: string[]`. _(`contact.languages` added.
+  Removal of `Education`/`spokenLanguages` **deferred to 04-01** — the legacy types are
+  kept so `App.tsx` + 8 section components still compile and `npm run build` stays green,
+  per the approved additive-superset decision.)_
+- [x] `src/content/projects.ts` exports 8 typed `Project` entries with `num` `"01"`…`"08"`.
+- [x] `src/content/fr.ts` and `src/content/en.ts` both satisfy `PortfolioContent` and
       compile with no TS errors.
-- [ ] `src/i18n/ui.ts` includes nav labels (per route), ⌘K group labels
+- [x] `src/i18n/ui.ts` includes nav labels (per route), ⌘K group labels
       (Navigation/Quick/Projects), and copy/“copied” labels, plus eyebrows and footer chips.
-- [ ] A content-parity test asserts FR and EN expose an identical key structure (same
+- [x] A content-parity test asserts FR and EN expose an identical key structure (same
       project ids, same number of experience/skills/process entries, matching `ui` keys).
-- [ ] No view/component outside this story is required for the modules to type-check;
+- [x] No view/component outside this story is required for the modules to type-check;
       `npm run build` passes.
 
 ## Technical Notes
@@ -113,9 +120,64 @@ makes sense); `en.ts` mirrors the shape with the mockup copy as the EN baseline.
 
 ### Subtasks
 
-- [ ] 1. Update content tests for the new shape + parity (RED).
-- [ ] 2. Reshape `types.ts`; remove Education/standalone Languages (GREEN for types).
-- [ ] 3. Author `projects.ts` (8 entries).
-- [ ] 4. Rewrite `fr.ts` and `en.ts` to satisfy the interface.
-- [ ] 5. Extend `i18n/ui.ts` with nav/⌘K/copy labels.
-- [ ] 6. QA validation — parity test, map each AC, check TypeScript.
+- [x] 1. Update content tests for the new shape + parity (RED).
+- [x] 2. Reshape `types.ts`; ~~remove Education/standalone Languages~~ → kept (deferred to 04-01); added new Atelier types/members (GREEN for types).
+- [x] 3. Author `projects.ts` (8 entries).
+- [x] 4. Extend `fr.ts` and `en.ts` (additive) to satisfy the interface.
+- [x] 5. Extend `i18n/ui.ts` with nav/⌘K/copy/eyebrow/footer labels.
+- [x] 6. QA validation — parity test, map each AC, check TypeScript.
+
+## Implementation Summary
+
+Reshaped the typed content system to the new Atelier `PortfolioContent` model using an
+**additive superset** strategy (decided with the operator): the new model is layered on
+top of the legacy shape so the 8 doomed `components/sections/*` and `App.tsx` keep
+compiling and `npm run build` stays green between 01-03 and the 04-01 integration.
+
+**What landed**
+
+- New types: `Project` (+ `ProjectId` 8-union, `ProjectDetail`), `TimelineEntry`,
+  `StatTile`, `NowContent`, `ProcessPrinciple`, `SkillCard`, `ContactMetaRow`.
+- `PortfolioContent` extended with `now`, `stats`, `marquee`, `timeline`, `skillCards`,
+  `process`; `hero` gains `greet`/`tagline`/`roles`; `contact` gains
+  `pitch`/`languages`/`meta`.
+- `content/projects.ts` — new module: 8 typed `Project` entries, `num` `01`…`08`.
+- `fr.ts`/`en.ts` — new members authored (EN = mockup baseline, FR localized naturally).
+- `i18n/ui.ts` — per-route nav (`navHome`/`navWork`/`navProcess`), ⌘K group headers,
+  `copy`/`copied`, project actions (`readCase`/`visitLive`), view eyebrows, footer chips.
+- Tests: new `projects.test.ts`; parity block in `content.test.ts`; Atelier-key block in
+  `ui.test.ts`; `types.test.ts` sample + negative blocks updated for the extended shape.
+
+**QA:** `tsc -b` clean · `vite build` succeeds · 574 tests pass (38 files) · ESLint clean.
+
+### Integrator notes (for 04-01)
+
+1. **Remove the legacy half** of `PortfolioContent` — `about`, `education`,
+   `spokenLanguages`, and the legacy `skills: SkillGroup[]` / `experience: ExperienceEntry[]`
+   / `projects: ProjectEntry[]` — once the `components/sections/*` are deleted.
+2. **Rename** `timeline` → `experience` and `skillCards` → `skills` (and drop the legacy
+   ones) so the model matches the design doc's member names. Views in epic 03 should read
+   `content.timeline`/`content.skillCards` until that rename happens.
+3. The new project list is `content/projects.ts` (`import { projects }`), not
+   `content.projects` (which still holds the legacy `ProjectEntry[]`).
+4. `ui` lives in `i18n/ui.ts` (`Record<'fr'|'en', UiLabels>`), not as a `PortfolioContent`
+   member — the design doc listed it on the interface but the story kept it separate.
+
+## Files Touched
+
+- CREATED: `src/content/projects.ts`
+- CREATED: `src/content/projects.test.ts`
+- MODIFIED: `src/content/types.ts` — new types + extended `HeroContent`/`ContactContent`/`PortfolioContent`
+- MODIFIED: `src/content/en.ts` — new members (hero/contact extensions + now/stats/marquee/timeline/skillCards/process)
+- MODIFIED: `src/content/fr.ts` — same, localized FR copy
+- MODIFIED: `src/i18n/ui.ts` — extended `UiLabels` + both locale maps
+- MODIFIED: `src/content/content.test.ts` — Atelier parity block
+- MODIFIED: `src/content/types.test.ts` — sample + negative blocks updated for extended shape
+- MODIFIED: `src/i18n/ui.test.ts` — Atelier shell-label block
+
+## Unplanned Changes
+
+- `src/content/types.test.ts` — updated the existing sample and `@ts-expect-error` negative
+  blocks for the extended shape — required to keep `tsc` green after adding required fields.
+- Added `contact.meta`/`contact.pitch` (beyond the bare `contact.languages` the story named)
+  — needed so the Atelier ContactView has its key/value rows and pitch paragraph.

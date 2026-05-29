@@ -70,9 +70,9 @@ Education section. FR and EN modules are rewritten to the new shape and kept at 
 
 | #     | Story                                                    | Size | Status |
 | ----- | -------------------------------------------------------- | ---- | ------ |
-| 01-01 | Global stylesheet rewrite — tokens, classes, fonts       | XL   | TODO   |
-| 01-02 | Theme system rewrite — 4 palettes, data-theme, switcher  | L    | TODO   |
-| 01-03 | Content model update — types, projects, FR/EN, UI labels | XL   | TODO   |
+| 01-01 | Global stylesheet rewrite — tokens, classes, fonts       | XL   | DONE   |
+| 01-02 | Theme system rewrite — 4 palettes, data-theme, switcher  | L    | DONE   |
+| 01-03 | Content model update — types, projects, FR/EN, UI labels | XL   | DONE   |
 
 ## Acceptance Criteria
 

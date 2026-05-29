@@ -31,7 +31,9 @@ describe('index.html — SEO metadata', () => {
   it('has the portfolio title', () => {
     const m = html.match(/<title>([^<]+)<\/title>/i)
     expect(m).not.toBeNull()
-    expect(m![1].trim()).toBe('Erick Andrinirina — Fullstack JavaScript Engineer')
+    expect(m![1].trim()).toBe(
+      'Erick Andrinirina — Fullstack JavaScript Engineer',
+    )
   })
 
   it('has a meta description under 160 characters mentioning the name', () => {
@@ -67,7 +69,9 @@ describe('index.html — SEO metadata', () => {
   })
 
   it('has twitter:card="summary_large_image"', () => {
-    expect(metaContent(html, 'name', 'twitter:card')).toBe('summary_large_image')
+    expect(metaContent(html, 'name', 'twitter:card')).toBe(
+      'summary_large_image',
+    )
   })
 
   it('has twitter:title and twitter:description mirroring OG values', () => {
@@ -89,9 +93,11 @@ describe('index.html — SEO metadata', () => {
     )
   })
 
-  it('preserves the anti-FOUC theme bootstrap script', () => {
-    expect(html).toMatch(/localStorage\.getItem\('theme'\)/)
-    expect(html).toMatch(/document\.documentElement\.classList\.add\('dark'\)/)
+  it('runs the anti-FOUC data-theme bootstrap before the bundle', () => {
+    expect(html).toMatch(/localStorage\.getItem\(['"]theme['"]\)/)
+    expect(html).toMatch(/setAttribute\(\s*['"]data-theme['"]/)
     expect(html).toMatch(/prefers-color-scheme:\s*dark/)
+    // legacy dark-class bootstrap must be gone
+    expect(html).not.toMatch(/classList\.add\(['"]dark['"]\)/)
   })
 })

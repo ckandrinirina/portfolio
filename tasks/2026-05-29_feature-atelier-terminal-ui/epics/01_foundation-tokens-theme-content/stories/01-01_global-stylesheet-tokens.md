@@ -2,7 +2,7 @@
 
 > **Epic:** Foundation — Tokens, Theme & Content
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -26,40 +26,40 @@ font links and may leave a placeholder comment where the bootstrap will go.)
 
 ## Acceptance Criteria
 
-- [ ] `src/index.css` begins with `@import 'tailwindcss';` and an `@theme { ... }` block
+- [x] `src/index.css` begins with `@import 'tailwindcss';` and an `@theme { ... }` block
       bridging the key tokens (`--color-bg`, `--color-fg`, `--color-accent`,
       `--font-mono`, `--font-serif`) so Tailwind utilities resolve.
-- [ ] The Ember palette is defined on `:root` with every token value from the design doc
+- [x] The Ember palette is defined on `:root` with every token value from the design doc
       (`--bg #16130F`, `--accent #E08660`, … through `--shadow-lift`).
-- [ ] `[data-theme="paper"]`, `[data-theme="ocean"]`, and `[data-theme="forest"]` each
+- [x] `[data-theme="paper"]`, `[data-theme="ocean"]`, and `[data-theme="forest"]` each
       override the palette tokens with their exact documented values.
-- [ ] `--font-mono`, `--font-serif`, and `--ease` (`cubic-bezier(0.22, 1, 0.36, 1)`) are
+- [x] `--font-mono`, `--font-serif`, and `--ease` (`cubic-bezier(0.22, 1, 0.36, 1)`) are
       defined; the body uses `font-mono` at `14px / 1.6` with `font-feature-settings`
       enabling `"ss01"` and `"cv11"`.
-- [ ] Section titles use `font-serif` italic at `clamp(32px, 4.5vw, 52px)`; the Hero name
+- [x] Section titles use `font-serif` italic at `clamp(32px, 4.5vw, 52px)`; the Hero name
       uses `clamp(48px, 7vw, 88px)`.
-- [ ] `body::before` (radial glow, two gradients, `pointer-events:none`, `z-index:0`) and
+- [x] `body::before` (radial glow, two gradients, `pointer-events:none`, `z-index:0`) and
       `body::after` (perpendicular `linear-gradient` grid at `64px 64px`, `opacity:0.5`)
       are present and fixed behind content.
-- [ ] All mockup component classes exist: `.app`, `.sidebar`, `.sb-*`, `.topbar`, `.tb-*`,
+- [x] All mockup component classes exist: `.app`, `.sidebar`, `.sb-*`, `.topbar`, `.tb-*`,
       `.view`, `.view-inner`, `.view-enter` (+ `-down`/`-up`), `.eyebrow`, `.section-title`,
       `.section-sub`, `.home-*`, `.avatar-*`, `.now-card`, `.stats-grid`, `.stat-tile`,
       `.marquee`, `.marquee-track`, `.work-grid`, `.proj-card`, `.modal-bg`, `.modal`,
       `.modal-body`, `.timeline`, `.tl-*`, `.skill-cards`, `.skill-card`, `.process-*`,
       `.contact-*`, `.cmdk-*`, `.deco-corner`, `.stg-1`…`.stg-8`, `.reveal`, `.nav-lock`,
       `.scroll-hint`, `.cursor-dot`, `.cursor-ring`, `.btn`/`.btn-primary`.
-- [ ] All mockup keyframes exist: `orbit`, `blink`, `viewEnter`, `viewEnterDown`,
+- [x] All mockup keyframes exist: `orbit`, `blink`, `viewEnter`, `viewEnterDown`,
       `viewEnterUp`, `marquee`, `navSweep`, `bounce`, `charIn`, `cardIn`.
-- [ ] `@media (prefers-reduced-motion: reduce)` disables entrance/letter/scroll animations
+- [x] `@media (prefers-reduced-motion: reduce)` disables entrance/letter/scroll animations
       and forces the final visible state.
-- [ ] `@media (hover: hover) and (pointer: fine)` sets `cursor: none` on `html, body,
-    button, a, input` (for the custom cursor).
-- [ ] The `.app` grid is `240px 1fr`, `height: 100vh`, `overflow: hidden`; below `880px`
+- [x] `@media (hover: hover) and (pointer: fine)` sets `cursor: none` on `html, body,
+  button, a, input` (for the custom cursor).
+- [x] The `.app` grid is `240px 1fr`, `height: 100vh`, `overflow: hidden`; below `880px`
       it stacks to `grid-template-rows: 56px 1fr`; view padding steps `56px 80px 80px` →
       `40px 40px 60px` (≤1100px) → `24px 18px 60px` (≤600px).
-- [ ] `index.html` includes the two `preconnect` links and the Google Fonts stylesheet
+- [x] `index.html` includes the two `preconnect` links and the Google Fonts stylesheet
       for Geist, Instrument Serif, and JetBrains Mono with `display=swap`.
-- [ ] `npm run build` completes with no errors and the existing test suite still passes
+- [x] `npm run build` completes with no errors and the existing test suite still passes
       (or failing tests are limited to components being replaced later in the feature).
 
 ## Technical Notes
@@ -114,10 +114,43 @@ font links and may leave a placeholder comment where the bootstrap will go.)
 
 ### Subtasks
 
-- [ ] 1. Add a CSS-presence test (RED) asserting the four palettes, key tokens, and core
+- [x] 1. Add a CSS-presence test (RED) asserting the four palettes, key tokens, and core
      class names exist in `src/index.css`.
-- [ ] 2. Write the `@import`/`@theme` header + the four palette token blocks (GREEN).
-- [ ] 3. Add base typography, ambient effects, layout shell, and all component classes.
-- [ ] 4. Add keyframes + `prefers-reduced-motion` + cursor media queries.
-- [ ] 5. Add Google Fonts to `index.html`; verify `npm run build`.
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 2. Write the `@import`/`@theme` header + the four palette token blocks (GREEN).
+- [x] 3. Add base typography, ambient effects, layout shell, and all component classes.
+- [x] 4. Add keyframes + `prefers-reduced-motion` + cursor media queries.
+- [x] 5. Add Google Fonts to `index.html`; verify `npm run build`.
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.
+
+## Implementation Summary
+
+### What was built
+
+Rewrote `src/index.css` from scratch as the complete visual foundation for the
+Atelier Terminal redesign: a Tailwind v4 CSS-first stylesheet containing the 4-palette
+token system (Ember/Paper/Ocean/Forest), all base typography, ambient effects, every
+mockup component class, all 10 keyframes, and the required media queries. Updated
+`index.html` to load Geist, JetBrains Mono, and Instrument Serif via Google Fonts.
+
+Added 2 new test files that assert structural facts about the stylesheet (97 new tests).
+Fixed a test infrastructure issue where `@tailwindcss/vite` was intercepting `?raw`
+CSS imports — resolved by reading the file directly via Node `fs.readFileSync`.
+
+### Files Touched
+
+| Status   | File                                 | Lines                                              |
+| -------- | ------------------------------------ | -------------------------------------------------- |
+| MODIFIED | `src/index.css`                      | 1–1750 (full rewrite, +1742 lines)                 |
+| MODIFIED | `index.html`                         | 14–22 (Google Fonts preconnects + stylesheet link) |
+| CREATED  | `src/test/stylesheet-tokens.test.ts` | 1–353                                              |
+| CREATED  | `src/test/google-fonts.test.ts`      | 1–41                                               |
+
+### Test results
+
+- 557 tests pass (37 test files) — 0 failures
+- `npm run build` succeeds with no TypeScript or Vite errors
+- CSS output: 43.87 kB / 9.29 kB gzip
+
+### QA
+
+All 13 acceptance criteria verified PASS in iteration 1.

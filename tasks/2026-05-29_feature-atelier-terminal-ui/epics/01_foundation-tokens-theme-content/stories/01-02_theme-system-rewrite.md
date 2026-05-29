@@ -2,7 +2,7 @@
 
 > **Epic:** Foundation — Tokens, Theme & Content
 > **Size:** L
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -23,24 +23,26 @@ applied on first paint. The logic must match the provider's resolution exactly.
 
 ## Acceptance Criteria
 
-- [ ] `Theme` type is `'default' | 'paper' | 'ocean' | 'forest'`.
-- [ ] `ThemeProvider` resolves the initial theme as `localStorage['theme']` if present,
+- [x] `Theme` type is `'default' | 'paper' | 'ocean' | 'forest'`.
+- [x] `ThemeProvider` resolves the initial theme as `localStorage['theme']` if present,
       else `default` when `matchMedia('(prefers-color-scheme: dark)').matches`, else `paper`.
-- [ ] Applying `default` **removes** the `data-theme` attribute; any other theme sets
+- [x] Applying `default` **removes** the `data-theme` attribute; any other theme sets
       `data-theme="<theme>"` on `document.documentElement`.
-- [ ] `setTheme(t)` updates state, the attribute, and `localStorage['theme']`.
-- [ ] `cycle()` advances through `default → ocean → forest → paper → default` (the
+- [x] `setTheme(t)` updates state, the attribute, and `localStorage['theme']`.
+- [x] `cycle()` advances through `default → ocean → forest → paper → default` (the
       documented order) and persists.
-- [ ] `useTheme()` returns `{ theme, setTheme, cycle }` and throws a clear error when used
+- [x] `useTheme()` returns `{ theme, setTheme, cycle }` and throws a clear error when used
       outside the provider.
-- [ ] `themeBootstrap.ts` exports the inline-script string; `index.html` runs it before the
+- [x] `themeBootstrap.ts` exports the inline-script string; `index.html` runs it before the
       React bundle and its resolution matches the provider (no flash of wrong theme on a
-      hard reload with a stored preference).
-- [ ] `ThemeSwitcher` renders the active theme and switches it app-wide on click/activation
-      (segmented control or cycle button), with an accessible label and visible focus ring.
-- [ ] `src/components/ui/ThemeToggle.tsx` and its test are removed; no remaining import
-      references them.
-- [ ] Provider/switcher/bootstrap unit tests pass; `npm run build` has no TS errors.
+      hard reload with a stored preference). _(In-sync enforced by a whitespace/semicolon-
+      insensitive test asserting `index.html` embeds `THEME_BOOTSTRAP`.)_
+- [x] `ThemeSwitcher` renders the active theme and switches it app-wide on click/activation
+      (cycle button), with an accessible label and visible focus ring.
+- [x] `src/components/ui/ThemeToggle.tsx` and its test are removed; no remaining import
+      references them. _(Doomed `Header` swapped to `ThemeSwitcher` — minimal change, full
+      teardown in 04-01.)_
+- [x] Provider/switcher/bootstrap unit tests pass; `npm run build` has no TS errors.
 
 ## Technical Notes
 
@@ -96,9 +98,43 @@ applied on first paint. The logic must match the provider's resolution exactly.
 
 ### Subtasks
 
-- [ ] 1. Write provider/hook/switcher/bootstrap tests (RED).
-- [ ] 2. Implement `themeBootstrap.ts` + `ThemeProvider`/`useTheme` (GREEN).
-- [ ] 3. Wire the inline script into `index.html`; add the in-sync test.
-- [ ] 4. Build `ThemeSwitcher`; delete `ThemeToggle` + test.
-- [ ] 5. Refactor + SOLID check; verify no dangling imports.
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 1. Write provider/hook/switcher/bootstrap tests (RED).
+- [x] 2. Implement `themeBootstrap.ts` + `ThemeProvider`/`useTheme` (GREEN).
+- [x] 3. Wire the inline script into `index.html`; add the in-sync test.
+- [x] 4. Build `ThemeSwitcher`; delete `ThemeToggle` + test.
+- [x] 5. Refactor + SOLID check; verify no dangling imports.
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.
+
+## Implementation Summary
+
+Replaced the old `light`/`dark` class-based theme system with the 4-palette
+`data-theme` model. `ThemeProvider` now exposes `{ theme, setTheme, cycle }` over
+`'default' | 'paper' | 'ocean' | 'forest'`; applying `default` removes the `data-theme`
+attribute (the `:root` Ember palette governs), every other theme sets it. Initial theme
+resolves `stored → (prefers-dark ? 'default' : 'paper')`, persisted to
+`localStorage['theme']`. The anti-FOUC bootstrap is a single canonical string in
+`themeBootstrap.ts`, pasted into `index.html` and kept in sync by a test.
+
+`ThemeSwitcher` (new) is a cycle button reading `useTheme()` — no duplicated persistence.
+`ThemeToggle` + its test were deleted; the doomed `Header` was given a minimal
+`ThemeToggle → ThemeSwitcher` swap (full teardown is 04-01).
+
+**QA:** `tsc -b` clean · `vite build` green · 551 tests pass (38 files) · ESLint clean.
+
+## Files Touched
+
+- CREATED: `src/theme/themeBootstrap.ts`
+- CREATED: `src/components/ui/ThemeSwitcher.tsx`
+- CREATED: `src/components/ui/ThemeSwitcher.test.tsx`
+- MODIFIED: `src/theme/ThemeProvider.tsx` — 4-palette `data-theme` provider, `cycle`, persist
+- MODIFIED: `src/theme/useTheme.ts` — return shape now `{ theme, setTheme, cycle }` (via context type)
+- MODIFIED: `src/theme/ThemeProvider.test.tsx` — rewritten for the new model
+- MODIFIED: `src/theme/themeBootstrap.test.ts` — rewritten: new resolution + `index.html` in-sync
+- MODIFIED: `index.html` — `data-theme` anti-FOUC bootstrap (replaces the dark-class script)
+- DELETED: `src/components/ui/ThemeToggle.tsx`, `src/components/ui/ThemeToggle.test.tsx`
+
+## Unplanned Changes
+
+- `src/components/layout/Header.tsx` — swapped `ThemeToggle` import/usages for `ThemeSwitcher` — required so the doomed Header keeps compiling after ThemeToggle's deletion (minimal, per story note; full teardown in 04-01).
+- `src/components/layout/Header.test.tsx` — updated the two theme assertions (button name + `data-theme` instead of `dark` class) to match the swap.
+- `src/test/index-html.test.ts` — updated the bootstrap assertion from the `dark` class to `data-theme` (the script the story rewrites).

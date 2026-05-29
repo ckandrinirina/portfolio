@@ -37,6 +37,9 @@ const sample = {
     ctaViewProjects: 'View projects',
     ctaDownloadCv: 'Download CV',
     ctaContact: 'Get in touch',
+    greet: "Hi, I'm",
+    tagline: 'I build reliable web products end-to-end.',
+    roles: ['Fullstack Engineer', 'Problem solver'],
   },
   about: {
     narrative: 'Short profile narrative.',
@@ -57,9 +60,7 @@ const sample = {
       role: 'Senior Engineer',
       period: '2022 → present',
       techHighlights: ['React', 'Node.js'],
-      projects: [
-        { name: 'Acme Web', description: 'Customer-facing SPA.' },
-      ],
+      projects: [{ name: 'Acme Web', description: 'Customer-facing SPA.' }],
     },
   ],
   projects: [
@@ -92,7 +93,51 @@ const sample = {
   contact: {
     location: 'Antananarivo, Madagascar',
     intro: 'Open to opportunities.',
+    pitch: 'Open to fullstack roles and collaborations.',
+    languages: ['Malagasy — Native', 'English — Professional'],
+    meta: [
+      {
+        label: 'Email',
+        value: 'ckandrinirina@gmail.com',
+        href: 'mailto:ckandrinirina@gmail.com',
+        copy: true,
+      },
+      { label: 'Location', value: 'Antananarivo, Madagascar' },
+    ],
   },
+  now: {
+    headline: 'Building the SOKA ecosystem',
+    body: 'Leading fullstack development on a Web3 platform.',
+    meta: { label: 'Currently', period: 'Jan 2025 — present' },
+  },
+  stats: [
+    { n: 7, suffix: '+', label: 'Years building' },
+    { n: 8, label: 'Featured works' },
+  ],
+  marquee: ['TypeScript', 'React', 'Node.js'],
+  timeline: [
+    {
+      year: '2025 — now',
+      role: 'Full Stack Developer',
+      company: 'SOKA / YAS Madagascar',
+      desc: 'Leading development of a Web3 platform.',
+      stack: ['Next.js', 'NestJS'],
+    },
+  ],
+  skillCards: [
+    {
+      title: 'Frontend',
+      lead: ['React', 'TypeScript'],
+      chips: ['Angular', 'Tailwind CSS'],
+    },
+  ],
+  process: [
+    {
+      num: '01',
+      title: 'Understand first',
+      body: 'Start from the problem, not the framework.',
+    },
+  ],
 } satisfies PortfolioContent
 
 describe('PortfolioContent shape (runtime parity smoke checks)', () => {
@@ -168,15 +213,7 @@ describe('PortfolioContent shape (runtime parity smoke checks)', () => {
 describe('PortfolioContent rejects missing required sections (compile-time)', () => {
   it('refuses an object that omits the hero slice', () => {
     // @ts-expect-error — hero is required on PortfolioContent.
-    const _missingHero: PortfolioContent = {
-      about: { narrative: '' },
-      skills: [],
-      experience: [],
-      projects: [],
-      education: [],
-      spokenLanguages: [],
-      contact: { location: '', intro: '' },
-    }
+    const _missingHero: Pick<PortfolioContent, 'hero'> = {}
     expect(_missingHero).toBeDefined()
   })
 
@@ -189,6 +226,9 @@ describe('PortfolioContent rejects missing required sections (compile-time)', ()
       location: '',
       ctaViewProjects: '',
       ctaDownloadCv: '',
+      greet: '',
+      tagline: '',
+      roles: [],
     }
     expect(_badHero).toBeDefined()
   })
@@ -197,5 +237,14 @@ describe('PortfolioContent rejects missing required sections (compile-time)', ()
     // @ts-expect-error — items is required on SkillGroup.
     const _badGroup: SkillGroup = { label: 'Languages' }
     expect(_badGroup).toBeDefined()
+  })
+
+  it('refuses a contact slice missing the new Atelier fields', () => {
+    // @ts-expect-error — pitch, languages, and meta are required on ContactContent.
+    const _badContact: PortfolioContent['contact'] = {
+      location: '',
+      intro: '',
+    }
+    expect(_badContact).toBeDefined()
   })
 })
