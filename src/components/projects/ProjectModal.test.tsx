@@ -8,6 +8,7 @@
 
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../../i18n/LanguageProvider'
 import type { Project } from '../../content/types'
 import ProjectModal from './ProjectModal'
@@ -129,6 +130,32 @@ describe('ProjectModal — closing', () => {
     renderModal(baseProject, onClose)
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(onClose).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('ProjectModal — focus management (04-02)', () => {
+  it('moves focus to the close button on open', () => {
+    renderModal(baseProject)
+    expect(screen.getByRole('button', { name: /close/i })).toHaveFocus()
+  })
+
+  it('traps Tab focus inside the modal (wraps forward to the first element)', async () => {
+    const user = userEvent.setup()
+    renderModal(baseProject) // close + 2 action links = 3 focusables
+    const close = screen.getByRole('button', { name: /close/i })
+    expect(close).toHaveFocus()
+    await user.tab() // → visit live
+    await user.tab() // → read case
+    await user.tab() // → wraps back to close
+    expect(close).toHaveFocus()
+  })
+
+  it('wraps backward with Shift+Tab from the first element to the last', async () => {
+    const user = userEvent.setup()
+    renderModal(baseProject)
+    expect(screen.getByRole('button', { name: /close/i })).toHaveFocus()
+    await user.tab({ shift: true }) // wraps to last focusable
+    expect(screen.getByRole('link', { name: /read case/i })).toHaveFocus()
   })
 })
 
