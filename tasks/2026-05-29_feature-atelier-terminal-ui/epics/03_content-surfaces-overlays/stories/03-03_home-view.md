@@ -2,7 +2,7 @@
 
 > **Epic:** Content Surfaces & Overlays
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -26,22 +26,22 @@ The view contains:
 
 ## Acceptance Criteria
 
-- [ ] The hero renders the greeting/eyebrow, the name via `Reveal` as the only `<h1>` on the
+- [x] The hero renders the greeting/eyebrow, the name via `Reveal` as the only `<h1>` on the
       page, and the serif tagline.
-- [ ] The role rotor cycles through `hero.roles` on an interval, is wrapped in an
+- [x] The role rotor cycles through `hero.roles` on an interval, is wrapped in an
       `aria-live="polite"` region, and pauses/settles under reduced motion.
-- [ ] Three CTAs render: a primary that navigates to `contact`, a secondary action, and the CV
+- [x] Three CTAs render: a primary that navigates to `contact`, a secondary action, and the CV
       download (via `DownloadCvButton`) as the third CTA.
-- [ ] The avatar frame renders an `<img>` from `public/profile.jpg` with appropriate `alt`, plus
+- [x] The avatar frame renders an `<img>` from `public/profile.jpg` with appropriate `alt`, plus
       the orbit accent and avatar tag.
-- [ ] The Now-card renders `now.headline`, `now.body`, and the meta label/period.
-- [ ] The Stats grid renders each `stats` entry as a `.stat-tile` with a `CountUp` value
+- [x] The Now-card renders `now.headline`, `now.body`, and the meta label/period.
+- [x] The Stats grid renders each `stats` entry as a `.stat-tile` with a `CountUp` value
       (+ suffix) and label.
-- [ ] The Marquee renders `content.marquee` tokens in a seamless loop with the edge mask.
-- [ ] Revealable elements (`.now-card`, `.stats-grid`, `.reveal`) carry the classes
+- [x] The Marquee renders `content.marquee` tokens in a seamless loop with the edge mask.
+- [x] Revealable elements (`.now-card`, `.stats-grid`, `.reveal`) carry the classes
       `useScrollReveal` targets so they animate in on route entry.
-- [ ] Navigation/CV/contact CTAs invoke the supplied callbacks/props (App wires them in 04-01).
-- [ ] Unit tests cover hero/rotor/CTAs/avatar/now/stats/marquee; `npm run build` passes.
+- [x] Navigation/CV/contact CTAs invoke the supplied callbacks/props (App wires them in 04-01).
+- [x] Unit tests cover hero/rotor/CTAs/avatar/now/stats/marquee; `npm run build` passes.
 
 ## Technical Notes
 
@@ -87,9 +87,9 @@ The view contains:
 
 ### Subtasks
 
-- [ ] 1. Write HomeView tests incl. rotor + reduced-motion (RED).
-- [ ] 2. Implement hero (Reveal name, tagline, rotor, CTAs) (GREEN).
-- [ ] 3. Implement avatar frame + Now-card.
-- [ ] 4. Implement Stats grid (CountUp) + Marquee.
-- [ ] 5. Wire reveal classes; refactor + a11y check.
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 1. Write HomeView tests incl. rotor + reduced-motion (RED).
+- [x] 2. Implement hero (Reveal name, tagline, rotor, CTAs) (GREEN).
+- [x] 3. Implement avatar frame + Now-card.
+- [x] 4. Implement Stats grid (CountUp) + Marquee.
+- [x] 5. Wire reveal classes; refactor + a11y check.
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.

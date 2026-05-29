@@ -2,7 +2,7 @@
 
 > **Epic:** Content Surfaces & Overlays
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -24,21 +24,21 @@ comes from `content/projects.ts` (01-03) and copy from `useLanguage()`.
 
 ## Acceptance Criteria
 
-- [ ] `ProjectArt` renders the correct artwork for each of the 8 ids and renders nothing/an
+- [x] `ProjectArt` renders the correct artwork for each of the 8 ids and renders nothing/an
       empty fallback (not a crash) for an unknown id.
-- [ ] All 8 artwork components exist and render valid inline SVG (no external image requests).
-- [ ] `ProjectCard` renders `num`, `name`, `year`, `category`, `desc`, and tag chips from a
+- [x] All 8 artwork components exist and render valid inline SVG (no external image requests).
+- [x] `ProjectCard` renders `num`, `name`, `year`, `category`, `desc`, and tag chips from a
       `Project`, applies `.proj-card`, and carries `data-cursor`/`data-cursor-label` for the cursor.
-- [ ] Activating a `ProjectCard` (click or keyboard) calls the `onOpen(project)` prop.
-- [ ] `ProjectModal` renders the artwork, the `detail.role`/`detail.impact`/`detail.stack`
+- [x] Activating a `ProjectCard` (click or keyboard) calls the `onOpen(project)` prop.
+- [x] `ProjectModal` renders the artwork, the `detail.role`/`detail.impact`/`detail.stack`
       columns, and only the action buttons whose links exist (`link`/`repo` non-null).
-- [ ] `ProjectModal` closes on `Escape` and on backdrop click, and restores focus to the
+- [x] `ProjectModal` closes on `Escape` and on backdrop click, and restores focus to the
       triggering element on close.
-- [ ] Opening the modal locks body scroll; closing restores it.
-- [ ] `WorkView` renders an `<h2>` `.section-title`, the eyebrow, and a 2-col `.work-grid` of
+- [x] Opening the modal locks body scroll; closing restores it.
+- [x] `WorkView` renders an `<h2>` `.section-title`, the eyebrow, and a 2-col `.work-grid` of
       all projects, wiring each card’s `onOpen` to the supplied callback.
-- [ ] Tag chips and action labels are localized via `useLanguage()` (`ui` labels).
-- [ ] Unit tests cover artwork switching, card rendering/activation, modal open/close/focus,
+- [x] Tag chips and action labels are localized via `useLanguage()` (`ui` labels).
+- [x] Unit tests cover artwork switching, card rendering/activation, modal open/close/focus,
       and WorkView grid; `npm run build` passes.
 
 ## Technical Notes
@@ -104,9 +104,9 @@ comes from `content/projects.ts` (01-03) and copy from `useLanguage()`.
 
 ### Subtasks
 
-- [ ] 1. Write tests for `ProjectArt` dispatch, `ProjectCard`, `ProjectModal`, `WorkView` (RED).
-- [ ] 2. Implement the 8 `*Art` components + `ProjectArt` dispatcher (GREEN).
-- [ ] 3. Implement `ProjectCard` (shine, cursor hooks, activation).
-- [ ] 4. Implement `ProjectModal` (Esc/backdrop/scroll-lock/focus).
-- [ ] 5. Implement `WorkView` grid.
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 1. Write tests for `ProjectArt` dispatch, `ProjectCard`, `ProjectModal`, `WorkView` (RED).
+- [x] 2. Implement the 8 `*Art` components + `ProjectArt` dispatcher (GREEN).
+- [x] 3. Implement `ProjectCard` (shine, cursor hooks, activation).
+- [x] 4. Implement `ProjectModal` (Esc/backdrop/scroll-lock/focus).
+- [x] 5. Implement `WorkView` grid.
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.

@@ -2,7 +2,7 @@
 
 > **Epic:** Content Surfaces & Overlays
 > **Size:** L
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -24,20 +24,20 @@ cursor; a modal layer for the palette) and are driven by App state in 04-01.
 
 ## Acceptance Criteria
 
-- [ ] `CommandPalette` renders an input and three labelled groups (Navigation, Quick, Projects)
+- [x] `CommandPalette` renders an input and three labelled groups (Navigation, Quick, Projects)
       sourced from `commands.ts`, with localized group/item labels.
-- [ ] Typing filters items across all groups; empty/no-match shows an appropriate empty state.
-- [ ] Arrow Up/Down move the active item across the filtered list (wrapping or clamping per the
+- [x] Typing filters items across all groups; empty/no-match shows an appropriate empty state.
+- [x] Arrow Up/Down move the active item across the filtered list (wrapping or clamping per the
       mockup); `Enter` runs the active item’s action; `Escape` closes the palette.
-- [ ] Running a Navigation item navigates routes; a Quick item performs its action (theme cycle,
+- [x] Running a Navigation item navigates routes; a Quick item performs its action (theme cycle,
       language toggle, CV download); a Projects item opens the project (modal or link).
-- [ ] The palette is keyboard-operable end-to-end and the input is focused on open.
-- [ ] `Cursor` renders a dot that tracks the pointer and a ring that lerps behind it via RAF.
-- [ ] `Cursor` switches to `hover` over interactive elements, `label` over
+- [x] The palette is keyboard-operable end-to-end and the input is focused on open.
+- [x] `Cursor` renders a dot that tracks the pointer and a ring that lerps behind it via RAF.
+- [x] `Cursor` switches to `hover` over interactive elements, `label` over
       `[data-cursor][data-cursor-label]` (showing the label), and `text` over text inputs.
-- [ ] `Cursor` does not render / is inert when `(hover: none) or (max-width: 880px)` matches.
-- [ ] The cursor never replaces native focus styling (focus rings remain visible).
-- [ ] Unit tests cover palette filtering/keyboard/actions and cursor state transitions
+- [x] `Cursor` does not render / is inert when `(hover: none) or (max-width: 880px)` matches.
+- [x] The cursor never replaces native focus styling (focus rings remain visible).
+- [x] Unit tests cover palette filtering/keyboard/actions and cursor state transitions
       (with mocked `matchMedia`/RAF); `npm run build` passes.
 
 ## Technical Notes
@@ -87,9 +87,9 @@ cursor; a modal layer for the palette) and are driven by App state in 04-01.
 
 ### Subtasks
 
-- [ ] 1. Write tests for palette filter/keyboard/dispatch and cursor states (RED).
-- [ ] 2. Implement `commands.ts` data + descriptor types.
-- [ ] 3. Implement `CommandPalette` UI (GREEN).
-- [ ] 4. Implement `Cursor` (RAF lerp + state machine + media guard).
-- [ ] 5. Refactor + a11y/perf check (focus, translate3d).
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 1. Write tests for palette filter/keyboard/dispatch and cursor states (RED).
+- [x] 2. Implement `commands.ts` data + descriptor types.
+- [x] 3. Implement `CommandPalette` UI (GREEN).
+- [x] 4. Implement `Cursor` (RAF lerp + state machine + media guard).
+- [x] 5. Refactor + a11y/perf check (focus, translate3d).
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.

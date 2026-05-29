@@ -2,7 +2,7 @@
 
 > **Epic:** Content Surfaces & Overlays
 > **Size:** XL
-> **Status:** TODO
+> **Status:** DONE
 
 ## Description
 
@@ -22,20 +22,20 @@ applying the Epic 01 classes, and starting with an `<h2>` `.section-title` + eye
 
 ## Acceptance Criteria
 
-- [ ] Each of the four views renders an `<h2>` `.section-title` and its eyebrow.
-- [ ] `ExperienceView` renders all `experience` entries in reverse-chronological order as
+- [x] Each of the four views renders an `<h2>` `.section-title` and its eyebrow.
+- [x] `ExperienceView` renders all `experience` entries in reverse-chronological order as
       `.tl-item`s with year/role/company/desc and stack chips, with dot markers.
-- [ ] `SkillsView` renders a 2×2 grid of `.skill-card`s, each with title, lead pills, and
+- [x] `SkillsView` renders a 2×2 grid of `.skill-card`s, each with title, lead pills, and
       secondary chips from `skills`.
-- [ ] `ProcessView` renders 5 numbered `.process-item`s with `.process-num` and content from
+- [x] `ProcessView` renders 5 numbered `.process-item`s with `.process-num` and content from
       `process`.
-- [ ] `ContactView` renders the key/value card including the languages row and the pitch card.
-- [ ] Each copyable value has a copy button that writes the value via `navigator.clipboard` and
+- [x] `ContactView` renders the key/value card including the languages row and the pitch card.
+- [x] Each copyable value has a copy button that writes the value via `navigator.clipboard` and
       shows the "✓ copied" state (success colour) for ~1400 ms, then reverts.
-- [ ] Copy buttons are accessible (the success state is announced; buttons have labels).
-- [ ] Revealable items carry the classes `useScrollReveal` targets (`.tl-item`, `.skill-card`,
+- [x] Copy buttons are accessible (the success state is announced; buttons have labels).
+- [x] Revealable items carry the classes `useScrollReveal` targets (`.tl-item`, `.skill-card`,
       `.process-item`, `.reveal`).
-- [ ] All four views are unit-tested (incl. clipboard mock + timer for the copied state);
+- [x] All four views are unit-tested (incl. clipboard mock + timer for the copied state);
       `npm run build` passes.
 
 ## Technical Notes
@@ -86,9 +86,9 @@ applying the Epic 01 classes, and starting with an `<h2>` `.section-title` + eye
 
 ### Subtasks
 
-- [ ] 1. Write tests for the four views incl. clipboard + copied-state timer (RED).
-- [ ] 2. Implement `ExperienceView` + `SkillsView` (GREEN).
-- [ ] 3. Implement `ProcessView`.
-- [ ] 4. Implement `ContactView` (copy buttons, languages row, pitch).
-- [ ] 5. Wire reveal classes; refactor + a11y check.
-- [ ] 6. QA validation — map each AC, run the suite, check TypeScript.
+- [x] 1. Write tests for the four views incl. clipboard + copied-state timer (RED).
+- [x] 2. Implement `ExperienceView` + `SkillsView` (GREEN).
+- [x] 3. Implement `ProcessView`.
+- [x] 4. Implement `ContactView` (copy buttons, languages row, pitch).
+- [x] 5. Wire reveal classes; refactor + a11y check.
+- [x] 6. QA validation — map each AC, run the suite, check TypeScript.
