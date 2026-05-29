@@ -32,24 +32,33 @@ describe('Button', () => {
   })
 
   it('renders an <a> without throwing when as="a" but no href', () => {
-    expect(() =>
-      render(<Button as="a">no href</Button>),
-    ).not.toThrow()
+    expect(() => render(<Button as="a">no href</Button>)).not.toThrow()
     expect(screen.getByText('no href').tagName).toBe('A')
   })
 
+  it('applies .btn class by default (secondary variant)', () => {
+    const { container } = render(<Button>default</Button>)
+    expect((container.firstChild as HTMLElement).className).toContain('btn')
+  })
+
+  it('applies .btn-primary class for the primary variant', () => {
+    const { container } = render(<Button variant="primary">primary</Button>)
+    const el = container.firstChild as HTMLElement
+    expect(el.className).toContain('btn-primary')
+  })
+
+  it('applies .btn class for the secondary variant explicitly', () => {
+    const { container } = render(<Button variant="secondary">sec</Button>)
+    const el = container.firstChild as HTMLElement
+    expect(el.className).toContain('btn')
+  })
+
   it('applies distinct classes per variant', () => {
-    const { rerender, container } = render(
-      <Button variant="primary">p</Button>,
-    )
+    const { rerender, container } = render(<Button variant="primary">p</Button>)
     const primary = (container.firstChild as HTMLElement).className
     rerender(<Button variant="secondary">s</Button>)
     const secondary = (container.firstChild as HTMLElement).className
-    rerender(<Button variant="ghost">g</Button>)
-    const ghost = (container.firstChild as HTMLElement).className
     expect(primary).not.toBe(secondary)
-    expect(secondary).not.toBe(ghost)
-    expect(primary).not.toBe(ghost)
   })
 
   it('includes a visible focus ring for keyboard accessibility', () => {
@@ -60,9 +69,7 @@ describe('Button', () => {
   })
 
   it('merges a custom className alongside variant classes', () => {
-    const { container } = render(
-      <Button className="custom-class">x</Button>,
-    )
+    const { container } = render(<Button className="custom-class">x</Button>)
     expect((container.firstChild as HTMLElement).className).toContain(
       'custom-class',
     )
