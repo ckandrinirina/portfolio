@@ -91,22 +91,28 @@ describe('ContactView — contact grid structure', () => {
 // ---------------------------------------------------------------------------
 
 describe('ContactView — key/value card content', () => {
-  it('renders .contact-row elements for each meta row', () => {
+  it('renders .row elements for each meta row', () => {
     const { container } = renderContact()
-    const rows = container.querySelectorAll('.contact-row')
+    const rows = container.querySelectorAll('.contact-card .row')
     expect(rows.length).toBeGreaterThan(0)
   })
 
-  it('renders .contact-key labels', () => {
+  it('renders .key labels', () => {
     const { container } = renderContact()
-    const keys = container.querySelectorAll('.contact-key')
+    const keys = container.querySelectorAll('.contact-card .row .key')
     expect(keys.length).toBeGreaterThan(0)
   })
 
-  it('renders .contact-val values', () => {
+  it('renders .val values', () => {
     const { container } = renderContact()
-    const vals = container.querySelectorAll('.contact-val')
+    const vals = container.querySelectorAll('.contact-card .row .val')
     expect(vals.length).toBeGreaterThan(0)
+  })
+
+  it('renders a WhatsApp link to wa.me', () => {
+    const { container } = renderContact()
+    const link = container.querySelector('a[href="https://wa.me/261385096664"]')
+    expect(link).not.toBeNull()
   })
 
   it('renders the email address', () => {
@@ -126,11 +132,16 @@ describe('ContactView — key/value card content', () => {
 // ---------------------------------------------------------------------------
 
 describe('ContactView — pitch card', () => {
-  it('renders the pitch text from content.contact.pitch', () => {
+  it('renders the pitch heading, paragraphs and signature', () => {
     localStorage.setItem('locale', 'fr')
-    renderContact()
+    const { container } = renderContact()
     // FR locale pitch from fr.ts
-    expect(screen.getByText(/Un projet en tête/i)).toBeInTheDocument()
+    expect(
+      screen.getByText('Ce que je cherche pour la suite.'),
+    ).toBeInTheDocument()
+    const pitch = container.querySelector('.contact-pitch')
+    expect(pitch?.querySelectorAll('p').length).toBe(2)
+    expect(pitch?.querySelector('.sig')?.textContent).toContain('Erick')
   })
 })
 
@@ -207,7 +218,7 @@ describe('ContactView — copy buttons', () => {
       copyButtons[0].click()
     })
 
-    const copiedBtn = container.querySelector('.contact-copy.copied')
+    const copiedBtn = container.querySelector('.copy-btn.copied')
     expect(copiedBtn).not.toBeNull()
   })
 
@@ -224,7 +235,7 @@ describe('ContactView — copy buttons', () => {
       vi.advanceTimersByTime(1500)
     })
 
-    const copiedBtn = container.querySelector('.contact-copy.copied')
+    const copiedBtn = container.querySelector('.copy-btn.copied')
     expect(copiedBtn).toBeNull()
   })
 })

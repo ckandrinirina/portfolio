@@ -1,10 +1,15 @@
 /**
- * WorkView — the `work` route: the selected-work grid.
+ * WorkView — the `work` route: the selected-work gallery.
  *
- * Renders the section eyebrow + `<h2>` title and a 2-column `.work-grid` of
- * `ProjectCard`s sourced from `content/projects.ts`. Each card's `onOpen` is
- * wired to the supplied callback; App (04-01) owns the modal state and passes a
- * handler that opens `ProjectModal` for the chosen project.
+ * Verbatim port of the "Atelier Terminal" Work view: an `.eyebrow`, a serif
+ * `.section-title` with an accent `.mark` span, a `.section-sub` with `<strong>`
+ * emphasis, then a `.work-grid` of `ProjectCard`s sourced from
+ * `content/projects.ts`. Each card's `onOpen` is wired to the supplied callback;
+ * App (04-01) owns the modal state and opens `ProjectModal` for the chosen
+ * project.
+ *
+ * The root stays `.view-inner` (the scroll container App queries per view); the
+ * reference's editorial header lives inside it.
  *
  * SOLID notes:
  *   - S: lays out the grid only; the tile renders in `ProjectCard`.
@@ -28,7 +33,18 @@ export default function WorkView({ onOpen }: WorkViewProps) {
   return (
     <div className="view-inner">
       <p className="eyebrow">{t('eyebrowWork')}</p>
-      <h2 className="section-title">{t('navWork')}</h2>
+      <h2 className="section-title">
+        {t('workTitleLead')}
+        <span className="mark">{t('workTitleMark')}</span>
+        {t('workTitleTail')}
+      </h2>
+      <p className="section-sub">
+        {t('workSubLead')}
+        <strong>{t('workSubStrong1')}</strong>
+        {t('workSubMid')}
+        <strong>{t('workSubStrong2')}</strong>
+        {t('workSubTail')}
+      </p>
 
       <div className="work-grid">
         {projects.map((project) => (

@@ -1,10 +1,14 @@
 /**
- * ProcessView — 5 numbered principles.
+ * ProcessView — five numbered principles.
  *
- * Reads `content.process` from useLanguage(), renders a vertical
- * .process-list of .process-item elements, each with a .process-num,
- * .process-title, and .process-desc.
- * Items carry the .process-item class targeted by useScrollReveal.
+ * Verbatim port of the "Atelier Terminal" Process view: an `.eyebrow`, a serif
+ * `.section-title` with an accent `.mark` span, a `.section-sub` with `<strong>`
+ * emphasis, then a `.process-list` of `.process-item` rows. Each row is a
+ * `80px / 1fr` grid of a serif `.process-num` accent and a `.process-content`
+ * holding a serif `<h3>` title and a `<p>` body.
+ *
+ * Reads `content.process` + header labels from useLanguage(). Each
+ * `.process-item` is targeted by useScrollReveal and carries a `stg-N` stagger.
  */
 
 import { useLanguage } from '../i18n/useLanguage'
@@ -16,17 +20,19 @@ import type { ProcessPrinciple } from '../content/types'
 
 type ProcessItemProps = {
   principle: ProcessPrinciple
+  /** 1-based stagger position. */
+  stagger: number
 }
 
-function ProcessItem({ principle }: ProcessItemProps) {
+function ProcessItem({ principle, stagger }: ProcessItemProps) {
   return (
-    <div className="process-item">
+    <div className={`process-item stg-${stagger}`}>
       <div className="process-num" aria-hidden="true">
         {principle.num}
       </div>
       <div className="process-content">
-        <div className="process-title">{principle.title}</div>
-        <div className="process-desc">{principle.body}</div>
+        <h3>{principle.title}</h3>
+        <p>{principle.body}</p>
       </div>
     </div>
   )
@@ -42,11 +48,26 @@ export default function ProcessView() {
   return (
     <div className="view-inner">
       <p className="eyebrow">{t('eyebrowProcess')}</p>
-      <h2 className="section-title">{t('navProcess')}</h2>
+      <h2 className="section-title">
+        {t('processTitleLead')}
+        <span className="mark">{t('processTitleMark')}</span>
+        {t('processTitleTail')}
+      </h2>
+      <p className="section-sub">
+        {t('processSubLead')}
+        <strong>{t('processSubStrong1')}</strong>
+        {t('processSubMid')}
+        <strong>{t('processSubStrong2')}</strong>
+        {t('processSubTail')}
+      </p>
 
       <div className="process-list">
-        {content.process.map((principle) => (
-          <ProcessItem key={principle.num} principle={principle} />
+        {content.process.map((principle, i) => (
+          <ProcessItem
+            key={principle.num}
+            principle={principle}
+            stagger={i + 1}
+          />
         ))}
       </div>
     </div>

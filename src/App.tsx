@@ -45,7 +45,12 @@ import type { UiLabels } from './i18n/ui'
 import { useTheme } from './theme/useTheme'
 import { projects } from './content/projects'
 import type { Project } from './content/types'
-import { ROUTE_ORDER, ROUTE_META, type RouteId } from './lib/constants'
+import {
+  ROUTE_ORDER,
+  ROUTE_META,
+  SITE_META,
+  type RouteId,
+} from './lib/constants'
 import { cn } from './lib/utils'
 
 /** Milliseconds the shell ignores re-entrant navigation after a nav fires. */
@@ -156,6 +161,10 @@ function App() {
           if (cmd.actionId === 'cycleTheme') cycle()
           else if (cmd.actionId === 'toggleLanguage')
             setLocale(locale === 'fr' ? 'en' : 'fr')
+          else if (cmd.actionId === 'copyEmail')
+            void navigator.clipboard?.writeText(SITE_META.email)
+          else if (cmd.actionId === 'whatsapp')
+            window.open(SITE_META.whatsapp, '_blank', 'noopener')
           else downloadCv()
           break
         case 'project': {

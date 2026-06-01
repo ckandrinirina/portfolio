@@ -120,14 +120,18 @@ describe('Sidebar', () => {
     }
   })
 
-  // ── AC 3: desktop-only status block ───────────────────────────────────────
-  it('renders the status block with three status lines', () => {
+  // ── AC 3: desktop-only status block (status + region; theme/language and
+  //          the "paired with" row now live in the Topbar / were removed) ────
+  it('renders the status block with the status and region lines', () => {
     renderSidebar()
-    // status, region, paired with
     expect(screen.getByTestId('sb-status')).toBeInTheDocument()
     expect(screen.getByTestId('sb-status-available')).toBeInTheDocument()
     expect(screen.getByTestId('sb-status-region')).toBeInTheDocument()
-    expect(screen.getByTestId('sb-status-paired')).toBeInTheDocument()
+  })
+
+  it('no longer renders the "paired with" status line', () => {
+    renderSidebar()
+    expect(screen.queryByTestId('sb-status-paired')).not.toBeInTheDocument()
   })
 
   it('status block contains a green availability dot', () => {
@@ -136,16 +140,14 @@ describe('Sidebar', () => {
     expect(dot.classList.contains('sb-dot')).toBe(true)
   })
 
-  // ── AC 4: ThemeSwitcher and LanguageSwitcher ──────────────────────────────
-  it('renders the ThemeSwitcher button', () => {
+  it('does not render the theme/language switchers (they moved to the Topbar)', () => {
     renderSidebar()
-    expect(screen.getByRole('button', { name: /theme/i })).toBeInTheDocument()
-  })
-
-  it('renders the LanguageSwitcher FR/EN buttons', () => {
-    renderSidebar()
-    expect(screen.getByRole('button', { name: /^FR$/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /^EN$/i })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('group', { name: /theme/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /langue|language/i }),
+    ).toBeNull()
   })
 
   // ── AC 9: accessibility — glyphs are decorative ───────────────────────────

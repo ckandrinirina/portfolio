@@ -16,6 +16,8 @@
 import { useEffect, useState } from 'react'
 import type { RouteId } from '../../lib/constants'
 import { ROUTE_META } from '../../lib/constants'
+import ThemeSwitcher from '../ui/ThemeSwitcher'
+import LanguageSwitcher from '../ui/LanguageSwitcher'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -64,8 +66,8 @@ export default function Topbar({ route, onOpenCmdK }: TopbarProps) {
       {/* Breadcrumb -------------------------------------------------------- */}
       <div className="tb-breadcrumb" data-testid="tb-breadcrumb">
         <span>~/portfolio</span>
-        <span className="tb-sep">·</span>
-        <span>{breadcrumb}</span>
+        <span className="tb-sep">/</span>
+        <span className="tb-cur">{breadcrumb}</span>
       </div>
 
       {/* ⌘K button --------------------------------------------------------- */}
@@ -76,13 +78,17 @@ export default function Topbar({ route, onOpenCmdK }: TopbarProps) {
         aria-label="Open command palette (⌘K)"
         onClick={onOpenCmdK}
       >
-        <span>Search</span>
+        <span>Quick nav</span>
         <kbd className="tb-kbd">⌘K</kbd>
       </button>
 
+      {/* Top-right controls: theme palette + language flag ----------------- */}
+      <ThemeSwitcher />
+      <LanguageSwitcher />
+
       {/* TNR clock --------------------------------------------------------- */}
       <div className="tb-clock" data-testid="tb-clock">
-        {clock}
+        {clock} TNR
       </div>
     </div>
   )

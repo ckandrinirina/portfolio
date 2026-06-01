@@ -49,7 +49,9 @@ describe('fr.ts — about section', () => {
   })
 
   it('narrative mentions key technologies', () => {
-    expect(fr.about.narrative).toMatch(/React|Angular|Node\.js|Symfony|Laravel/i)
+    expect(fr.about.narrative).toMatch(
+      /React|Angular|Node\.js|Symfony|Laravel/i,
+    )
   })
 
   it('narrative mentions databases', () => {
@@ -70,9 +72,10 @@ describe('fr.ts — skills section', () => {
   })
 
   it('includes a Languages group with TypeScript and JavaScript', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('langage') ||
-      g.label.toLowerCase().includes('language'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('langage') ||
+        g.label.toLowerCase().includes('language'),
     )
     expect(group).toBeDefined()
     expect(group!.items).toContain('TypeScript')
@@ -80,9 +83,10 @@ describe('fr.ts — skills section', () => {
   })
 
   it('includes a Front-end group with React and Angular', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('front') ||
-      g.label.toLowerCase().includes('frontend'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('front') ||
+        g.label.toLowerCase().includes('frontend'),
     )
     expect(group).toBeDefined()
     expect(group!.items).toContain('React')
@@ -90,52 +94,52 @@ describe('fr.ts — skills section', () => {
   })
 
   it('includes a Back-end group with Node.js', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('back') ||
-      g.label.toLowerCase().includes('backend'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('back') ||
+        g.label.toLowerCase().includes('backend'),
     )
     expect(group).toBeDefined()
     expect(group!.items.some((i) => i.includes('Node'))).toBe(true)
   })
 
   it('includes a Databases group with PostgreSQL', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('base') ||
-      g.label.toLowerCase().includes('database') ||
-      g.label.toLowerCase().includes('donnée'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('base') ||
+        g.label.toLowerCase().includes('database') ||
+        g.label.toLowerCase().includes('donnée'),
     )
     expect(group).toBeDefined()
     expect(group!.items).toContain('PostgreSQL')
   })
 
   it('includes a Testing group with Jest', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('test'),
-    )
+    const group = fr.skills.find((g) => g.label.toLowerCase().includes('test'))
     expect(group).toBeDefined()
     expect(group!.items).toContain('Jest')
   })
 
   it('includes an AI/Specialized group mentioning OpenAI or OCR or Blockchain', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('ai') ||
-      g.label.toLowerCase().includes('ia') ||
-      g.label.toLowerCase().includes('spécialisé') ||
-      g.label.toLowerCase().includes('specialized'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('ai') ||
+        g.label.toLowerCase().includes('ia') ||
+        g.label.toLowerCase().includes('spécialisé') ||
+        g.label.toLowerCase().includes('specialized'),
     )
     expect(group).toBeDefined()
-    expect(
-      group!.items.some((i) =>
-        /openai|ocr|blockchain/i.test(i),
-      ),
-    ).toBe(true)
+    expect(group!.items.some((i) => /openai|ocr|blockchain/i.test(i))).toBe(
+      true,
+    )
   })
 
   it('includes a Tooling/DevOps group with Git and Docker', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('tool') ||
-      g.label.toLowerCase().includes('outil') ||
-      g.label.toLowerCase().includes('devops'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('tool') ||
+        g.label.toLowerCase().includes('outil') ||
+        g.label.toLowerCase().includes('devops'),
     )
     expect(group).toBeDefined()
     expect(group!.items).toContain('Git')
@@ -143,16 +147,15 @@ describe('fr.ts — skills section', () => {
   })
 
   it('includes a Project/design tools group mentioning Jira or Figma', () => {
-    const group = fr.skills.find((g) =>
-      g.label.toLowerCase().includes('projet') ||
-      g.label.toLowerCase().includes('project') ||
-      g.label.toLowerCase().includes('design') ||
-      g.label.toLowerCase().includes('gestion'),
+    const group = fr.skills.find(
+      (g) =>
+        g.label.toLowerCase().includes('projet') ||
+        g.label.toLowerCase().includes('project') ||
+        g.label.toLowerCase().includes('design') ||
+        g.label.toLowerCase().includes('gestion'),
     )
     expect(group).toBeDefined()
-    expect(
-      group!.items.some((i) => /jira|figma/i.test(i)),
-    ).toBe(true)
+    expect(group!.items.some((i) => /jira|figma/i.test(i))).toBe(true)
   })
 })
 
@@ -342,27 +345,30 @@ describe('fr.ts — spokenLanguages section', () => {
   })
 
   it('Malagasy is listed as native/langue maternelle', () => {
-    const entry = fr.spokenLanguages.find((l) =>
-      l.language.toLowerCase().includes('malagasy') ||
-      l.language.toLowerCase().includes('malgache'),
+    const entry = fr.spokenLanguages.find(
+      (l) =>
+        l.language.toLowerCase().includes('malagasy') ||
+        l.language.toLowerCase().includes('malgache'),
     )
     expect(entry).toBeDefined()
     expect(entry!.proficiency).toMatch(/maternell|native/i)
   })
 
   it('French is listed as courant/fluent', () => {
-    const entry = fr.spokenLanguages.find((l) =>
-      l.language.toLowerCase().includes('français') ||
-      l.language.toLowerCase().includes('french'),
+    const entry = fr.spokenLanguages.find(
+      (l) =>
+        l.language.toLowerCase().includes('français') ||
+        l.language.toLowerCase().includes('french'),
     )
     expect(entry).toBeDefined()
     expect(entry!.proficiency).toMatch(/courant|fluent/i)
   })
 
   it('English is listed at professional/working level', () => {
-    const entry = fr.spokenLanguages.find((l) =>
-      l.language.toLowerCase().includes('anglais') ||
-      l.language.toLowerCase().includes('english'),
+    const entry = fr.spokenLanguages.find(
+      (l) =>
+        l.language.toLowerCase().includes('anglais') ||
+        l.language.toLowerCase().includes('english'),
     )
     expect(entry).toBeDefined()
     expect(entry!.proficiency).toMatch(/professionnel|working/i)
@@ -380,8 +386,12 @@ describe('fr.ts — contact section', () => {
 
   it('contact contains no street address', () => {
     const contactStr = JSON.stringify(fr.contact)
-    // Street numbers / postal code patterns
-    expect(contactStr).not.toMatch(/\b\d{3,5}\b.*rue|avenue|street|boulevard/i)
+    // A real street address pairs a number with a street keyword, e.g.
+    // "12 rue …" / "5 avenue …". Each keyword is a whole word so JSON tokens
+    // like "true" (…rue) or "street" inside keys cannot trigger a false match.
+    expect(contactStr).not.toMatch(
+      /\b\d{1,5}\s+(rue|avenue|boulevard|street|road|ave|blvd)\b/i,
+    )
   })
 })
 

@@ -32,18 +32,30 @@ export type NavCommand = {
   glyph: string
   /** i18n key for the item label (resolved via t() in the palette). */
   labelKey: string
+  /** i18n key for the right-aligned per-item description (resolved via t()). */
+  descriptionKey: string
   /** Flat string for filtering (lowercase, no diacritics). */
   searchText: string
 }
+
+/** Abstract quick-action identifier; App maps each to a real handler. */
+export type QuickActionId =
+  | 'cycleTheme'
+  | 'toggleLanguage'
+  | 'downloadCv'
+  | 'copyEmail'
+  | 'whatsapp'
 
 /** A quick-action command (theme, language, CV download, etc.). */
 export type QuickCommand = {
   kind: 'quick'
   id: string
   /** Abstract action identifier; App maps this to the real handler. */
-  actionId: 'cycleTheme' | 'toggleLanguage' | 'downloadCv'
+  actionId: QuickActionId
   glyph: string
   labelKey: string
+  /** i18n key for the right-aligned per-item description (resolved via t()). */
+  descriptionKey: string
   searchText: string
 }
 
@@ -74,6 +86,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'home',
     glyph: '⌂',
     labelKey: 'navHome',
+    descriptionKey: 'cmdkDescHome',
     searchText: 'home accueil',
   },
   {
@@ -82,6 +95,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'work',
     glyph: '◫',
     labelKey: 'navWork',
+    descriptionKey: 'cmdkDescWork',
     searchText: 'work projets selected work projets sélectionnés',
   },
   {
@@ -90,6 +104,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'experience',
     glyph: '◎',
     labelKey: 'navExperience',
+    descriptionKey: 'cmdkDescExperience',
     searchText: 'experience expérience parcours career',
   },
   {
@@ -98,6 +113,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'skills',
     glyph: '◈',
     labelKey: 'navSkills',
+    descriptionKey: 'cmdkDescSkills',
     searchText: 'skills compétences toolkit boîte à outils',
   },
   {
@@ -106,6 +122,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'process',
     glyph: '◆',
     labelKey: 'navProcess',
+    descriptionKey: 'cmdkDescProcess',
     searchText: 'process méthode how i work ma méthode',
   },
   {
@@ -114,6 +131,7 @@ const NAV_COMMANDS: NavCommand[] = [
     route: 'contact',
     glyph: '◉',
     labelKey: 'navContact',
+    descriptionKey: 'cmdkDescContact',
     searchText: 'contact prendre contact get in touch',
   },
 ]
@@ -125,10 +143,29 @@ const NAV_COMMANDS: NavCommand[] = [
 const QUICK_COMMANDS: QuickCommand[] = [
   {
     kind: 'quick',
+    id: 'copyEmail',
+    actionId: 'copyEmail',
+    glyph: '✉',
+    labelKey: 'cmdkActionEmail',
+    descriptionKey: 'cmdkDescEmail',
+    searchText: 'email copy mail clipboard copier courriel adresse',
+  },
+  {
+    kind: 'quick',
+    id: 'whatsapp',
+    actionId: 'whatsapp',
+    glyph: '◈',
+    labelKey: 'cmdkActionWhatsapp',
+    descriptionKey: 'cmdkDescWhatsapp',
+    searchText: 'whatsapp chat message wa discuter',
+  },
+  {
+    kind: 'quick',
     id: 'cycleTheme',
     actionId: 'cycleTheme',
     glyph: '◑',
     labelKey: 'cmdkQuick',
+    descriptionKey: 'cmdkDescTheme',
     searchText: 'theme thème cycle ember paper ocean forest couleur',
   },
   {
@@ -137,6 +174,7 @@ const QUICK_COMMANDS: QuickCommand[] = [
     actionId: 'toggleLanguage',
     glyph: '⌥',
     labelKey: 'cmdkQuick',
+    descriptionKey: 'cmdkDescLanguage',
     searchText: 'language langue fr en english français switch toggle',
   },
   {
@@ -145,6 +183,7 @@ const QUICK_COMMANDS: QuickCommand[] = [
     actionId: 'downloadCv',
     glyph: '↓',
     labelKey: 'downloadCv',
+    descriptionKey: 'cmdkDescDownloadCv',
     searchText: 'cv resume download télécharger curriculum vitae',
   },
 ]

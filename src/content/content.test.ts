@@ -97,14 +97,17 @@ describe('Atelier content model: fr vs en parity', () => {
     })
   })
 
-  it('skillCards has 4 cards in both locales with matching lead/chip counts', () => {
+  it('skillCards has 4 cards in both locales with matching lead/item counts and deco letters', () => {
     expect(frContent.skillCards).toHaveLength(4)
     expect(enContent.skillCards).toHaveLength(4)
     frContent.skillCards.forEach((card, i) => {
       expect(card.title).toBeTruthy()
+      expect(card.deco).toBeTruthy()
       expect(card.lead.length).toBeGreaterThan(0)
       expect(enContent.skillCards[i].lead.length).toBe(card.lead.length)
-      expect(enContent.skillCards[i].chips.length).toBe(card.chips.length)
+      expect(enContent.skillCards[i].items.length).toBe(card.items.length)
+      // Deco letters are locale-independent (the reference watermark).
+      expect(enContent.skillCards[i].deco).toBe(card.deco)
     })
   })
 
@@ -135,7 +138,9 @@ describe('Atelier content model: fr vs en parity', () => {
     )
     expect(enContent.contact.meta.length).toBe(frContent.contact.meta.length)
     for (const c of [frContent, enContent]) {
-      expect(c.contact.pitch).toBeTruthy()
+      expect(c.contact.pitch.heading).toBeTruthy()
+      expect(c.contact.pitch.paragraphs).toHaveLength(2)
+      expect(c.contact.pitch.signature).toBeTruthy()
       expect(c.contact.languages.length).toBeGreaterThan(0)
       expect(c.contact.meta.length).toBeGreaterThan(0)
     }

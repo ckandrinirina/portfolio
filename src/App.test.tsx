@@ -7,7 +7,7 @@
  * (locale-independent) and wraps App in the real Theme + Language providers.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
@@ -213,6 +213,41 @@ describe('Command palette (⌘K)', () => {
     await user.keyboard('{Enter}')
     expect(document.documentElement.lang).toBe('en')
   })
+
+  // AC: the copyEmail quick action writes the email to the clipboard.
+  // userEvent.setup() installs its own clipboard stub on navigator, so we
+  // assert through it (readText) rather than spying on writeText.
+  it('runs the copy-email quick action', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    const dialog = screen.getByRole('dialog')
+    // "clipboard" only matches the copyEmail description/searchText.
+    await user.type(within(dialog).getByRole('combobox'), 'clipboard')
+    await user.keyboard('{Enter}')
+    await expect(navigator.clipboard.readText()).resolves.toBe(
+      'ckandrinirina@gmail.com',
+    )
+  })
+
+  // AC: the whatsapp quick action opens the chat link in a new tab.
+  it('runs the whatsapp quick action', async () => {
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null)
+    const user = userEvent.setup()
+    renderApp()
+    await user.click(screen.getByTestId('tb-cmdk-btn'))
+    const dialog = screen.getByRole('dialog')
+    // "open whatsapp" disambiguates from the Contact nav item (whose
+    // description mentions "WhatsApp" but not "open").
+    await user.type(within(dialog).getByRole('combobox'), 'open whatsapp')
+    await user.keyboard('{Enter}')
+    expect(open).toHaveBeenCalledWith(
+      'https://wa.me/261385096664',
+      '_blank',
+      'noopener',
+    )
+    open.mockRestore()
+  })
 })
 
 describe('Project modal', () => {
@@ -225,7 +260,7 @@ describe('Project modal', () => {
     await user.click(firstCard)
     const dialog = screen.getByRole('dialog')
     expect(dialog).toBeInTheDocument()
-    await user.click(within(dialog).getByRole('button', { name: /close/i }))
+    await user.click(within(dialog).getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 

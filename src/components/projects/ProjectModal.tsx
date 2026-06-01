@@ -1,11 +1,19 @@
 /**
  * ProjectModal — the project detail overlay.
  *
+ * Verbatim port of the "Atelier Terminal" project modal: a blurred `.modal-bg`
+ * backdrop (click closes), a `.modal` card (stopPropagation) with a round
+ * `.close` button, the inline-SVG `.art` header, then a `.modal-body` with the
+ * num/category line, serif name, role·client·year meta, summary, a two-column
+ * `.row` (My role / Impact), a "Stack" heading + `.stack` of token pills, and an
+ * `.actions` row with a conditional "Visit live ↗" primary button and a "Close"
+ * button.
+ *
  * A controlled component: App (04-01) owns the open state by passing the active
- * `project` (or `null`). Renders the artwork header, the role/impact/stack
- * columns, and only the action buttons whose links exist. Closes on `Escape`
- * and backdrop click; locks body scroll while open; moves focus into the modal
- * on open and restores it to the trigger on close.
+ * `project` (or `null`). The live app's a11y contract is preserved on top of the
+ * reference visuals: `role="dialog"` + `aria-modal`, Escape + backdrop close,
+ * body-scroll lock, focus moved to the close button on open and restored to the
+ * trigger on close, and a Tab/Shift+Tab focus trap.
  *
  * SOLID notes:
  *   - S: renders detail UI only; open state is owned by the parent.
@@ -16,7 +24,6 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import type { Project } from '../../content/types'
-import Button from '../ui/Button'
 import ProjectArt from './artwork/ProjectArt'
 
 export interface ProjectModalProps {
@@ -93,10 +100,11 @@ export default function ProjectModal({
   if (!project) return null
 
   const { detail } = project
+  const stackTokens = detail.stack.split(/ · | /).filter((s) => s.trim())
 
   return (
     <div
-      className="modal-bg"
+      className="modal-bg open"
       data-testid="modal-backdrop"
       role="presentation"
       onClick={onClose}
@@ -110,63 +118,62 @@ export default function ProjectModal({
         onClick={(e) => e.stopPropagation()}
         onKeyDown={trapTabFocus}
       >
-        <div className="modal-header">
-          <span className="proj-num">{project.num}</span>
-          <h3 className="proj-name">{project.name}</h3>
-        </div>
-
         <button
           ref={closeRef}
           type="button"
-          className="modal-close"
-          aria-label="Close"
+          className="close"
+          aria-label="Close dialog"
           onClick={onClose}
         >
-          ✕
+          ×
         </button>
 
+        <div className="art">
+          <ProjectArt id={project.id} />
+        </div>
+
         <div className="modal-body">
-          <div className="modal-art">
-            <ProjectArt id={project.id} />
+          <div className="num">
+            {project.num} · {project.category}
+          </div>
+          <div className="name">{project.name}</div>
+          <div className="meta">
+            {project.role} · {project.client} · {project.year}
+          </div>
+          <div className="desc">{project.desc}</div>
+
+          <div className="row">
+            <div className="col">
+              <h4>My role</h4>
+              <p>{detail.role}</p>
+            </div>
+            <div className="col">
+              <h4>Impact</h4>
+              <p>{detail.impact}</p>
+            </div>
           </div>
 
-          <div className="modal-cols">
-            <div>
-              <div className="modal-col-label">Role</div>
-              <div className="modal-col-value">{detail.role}</div>
-            </div>
-            <div>
-              <div className="modal-col-label">Impact</div>
-              <div className="modal-col-value">{detail.impact}</div>
-            </div>
-            <div>
-              <div className="modal-col-label">Stack</div>
-              <div className="modal-col-value">{detail.stack}</div>
-            </div>
+          <h4 className="stack-label">Stack</h4>
+          <div className="stack">
+            {stackTokens.map((token, i) => (
+              <span key={i}>{token}</span>
+            ))}
           </div>
 
-          <div className="modal-actions">
+          <div className="actions">
             {project.link && (
-              <Button
-                as="a"
+              <a
                 href={project.link}
-                variant="primary"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
+                className="btn btn-primary"
               >
-                {t('visitLive')}
-              </Button>
+                {t('visitLive')} <span className="arrow">↗</span>
+              </a>
             )}
-            {project.repo && (
-              <Button
-                as="a"
-                href={project.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('readCase')}
-              </Button>
-            )}
+            <button type="button" className="btn" onClick={onClose}>
+              Close
+            </button>
           </div>
         </div>
       </div>

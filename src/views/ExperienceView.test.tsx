@@ -94,20 +94,31 @@ describe('ExperienceView — .tl-item content', () => {
     })
   })
 
-  it('each .tl-item contains a .tl-stack with .tl-tag chips', () => {
+  it('each .tl-item contains a .tl-stack with stack pills', () => {
     const { container } = renderExperience()
     const items = container.querySelectorAll('.tl-item')
     items.forEach((item) => {
       const stack = item.querySelector('.tl-stack')
       expect(stack).not.toBeNull()
-      expect(stack!.querySelectorAll('.tl-tag').length).toBeGreaterThan(0)
+      expect(stack!.querySelectorAll('span').length).toBeGreaterThan(0)
+    })
+  })
+
+  it('each .tl-item company carries the muted .at prefix span', () => {
+    const { container } = renderExperience()
+    const items = container.querySelectorAll('.tl-item')
+    items.forEach((item) => {
+      expect(item.querySelector('.tl-co .at')).not.toBeNull()
     })
   })
 
   it('renders company names from timeline data', () => {
-    renderExperience()
-    expect(screen.getByText(/SOKA \/ YAS Madagascar/i)).toBeInTheDocument()
-    expect(screen.getByText(/INGENOSYA/i)).toBeInTheDocument()
+    const { container } = renderExperience()
+    const companies = Array.from(container.querySelectorAll('.tl-co')).map(
+      (el) => el.textContent ?? '',
+    )
+    expect(companies.some((c) => /SOKA · YAS Madagascar/i.test(c))).toBe(true)
+    expect(companies.some((c) => /Ingenosya/i.test(c))).toBe(true)
   })
 })
 

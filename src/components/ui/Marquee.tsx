@@ -23,20 +23,25 @@ type Props = {
 }
 
 export default function Marquee({ items }: Props) {
+  // One visual "set" of items, each followed by an accent dot separator.
+  const renderSet = (hidden: boolean) =>
+    items.map((item, i) => (
+      <span
+        key={`${hidden ? 'dup' : 'set'}-${i}`}
+        className="marquee-item"
+        aria-hidden={hidden ? 'true' : undefined}
+      >
+        {item}
+        <span className="marquee-dot" aria-hidden="true" />
+      </span>
+    ))
+
   return (
-    <div className="marquee">
+    <div className="marquee" aria-hidden="true">
       <div className="marquee-track">
-        {items.map((item, i) => (
-          <span key={i} className="marquee-item">
-            {item}
-          </span>
-        ))}
-        {/* Duplicate for seamless loop; hidden from screen readers */}
-        {items.map((item, i) => (
-          <span key={`dup-${i}`} aria-hidden="true" className="marquee-item">
-            {item}
-          </span>
-        ))}
+        {renderSet(false)}
+        {/* Duplicate set for a seamless -50% loop. */}
+        {renderSet(true)}
       </div>
     </div>
   )

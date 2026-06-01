@@ -144,42 +144,33 @@ describe('HomeView — Role rotor', () => {
 // ---------------------------------------------------------------------------
 
 describe('HomeView — CTAs', () => {
-  it('renders three CTA elements in .home-actions', () => {
+  it('renders the two CTA buttons in .home-actions', () => {
     renderHomeView()
     const actions = document.querySelector('.home-actions')
     expect(actions).toBeInTheDocument()
-    // Primary button + secondary button + DownloadCvButton anchor = 3 interactive elements
+    // Reference hero has exactly two CTAs: "See selected work" + "Get in touch".
     const btns = actions?.querySelectorAll('button, a')
-    expect(btns?.length).toBeGreaterThanOrEqual(2)
+    expect(btns?.length).toBe(2)
   })
 
-  it('calls navigate("contact") when the primary CTA is clicked', () => {
+  it('calls navigate("work") when the primary CTA ("See selected work") is clicked', () => {
     const navigate = vi.fn()
     renderHomeView(navigate)
     const primaryBtn = screen.getByRole('button', {
-      name: /get in touch|contact|nous contacter/i,
+      name: /see selected work|voir les projets/i,
     })
     primaryBtn.click()
+    expect(navigate).toHaveBeenCalledWith('work')
+  })
+
+  it('calls navigate("contact") when the secondary CTA ("Get in touch") is clicked', () => {
+    const navigate = vi.fn()
+    renderHomeView(navigate)
+    const secondaryBtn = screen.getByRole('button', {
+      name: /get in touch|me contacter/i,
+    })
+    secondaryBtn.click()
     expect(navigate).toHaveBeenCalledWith('contact')
-  })
-
-  it('renders a DownloadCvButton anchor (CV download as 3rd CTA)', () => {
-    renderHomeView()
-    // DownloadCvButton renders as an <a> with download attribute
-    const links = document.querySelectorAll('a[download]')
-    expect(links.length).toBeGreaterThanOrEqual(1)
-    const cvLink = Array.from(links).find((l) =>
-      l.getAttribute('href')?.includes('cv/'),
-    )
-    expect(cvLink).toBeInTheDocument()
-  })
-
-  it('renders a secondary CTA button', () => {
-    renderHomeView()
-    const actions = document.querySelector('.home-actions')
-    const buttons = actions?.querySelectorAll('button')
-    // At least 2 buttons: primary + secondary
-    expect(buttons?.length).toBeGreaterThanOrEqual(2)
   })
 })
 
@@ -252,7 +243,7 @@ describe('HomeView — Now card', () => {
     renderHomeView()
     const meta = document.querySelector('.now-meta')
     expect(meta).toBeInTheDocument()
-    expect(meta?.textContent).toMatch(/currently|actuellement/i)
+    expect(meta?.textContent).toMatch(/yas|madagascar/i)
   })
 
   it('renders now.meta.period inside .now-meta', () => {

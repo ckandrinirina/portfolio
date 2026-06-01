@@ -21,6 +21,10 @@ type Props = {
   className?: string
   /** Base stagger delay between each character in ms (default 40). */
   charDelay?: number
+  /** Render the word in serif italic (used for the hero name's first word). */
+  italic?: boolean
+  /** Starting stagger offset in ms (so a second word continues the cascade). */
+  delay?: number
 }
 
 function prefersReducedMotion(): boolean {
@@ -32,15 +36,20 @@ export default function Reveal({
   text,
   className = '',
   charDelay = 40,
+  italic = false,
+  delay = 0,
 }: Props) {
   const reduced = prefersReducedMotion()
+  const rootClass = `reveal ${italic ? 'italic' : ''} ${className}`
+    .replace(/\s+/g, ' ')
+    .trim()
 
   if (reduced) {
-    return <span className={`reveal ${className}`.trim()}>{text}</span>
+    return <span className={rootClass}>{text}</span>
   }
 
   return (
-    <span className={`reveal ${className}`.trim()} aria-label={text}>
+    <span className={rootClass} aria-label={text}>
       {/* Visually hidden full text for screen readers */}
       <span className="sr-only">{text}</span>
 
@@ -50,7 +59,7 @@ export default function Reveal({
           key={i}
           aria-hidden="true"
           className="char-in"
-          style={{ animationDelay: `${i * charDelay}ms` }}
+          style={{ animationDelay: `${delay + i * charDelay}ms` }}
         >
           {char === ' ' ? ' ' : char}
         </span>

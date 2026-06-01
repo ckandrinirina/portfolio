@@ -92,12 +92,36 @@ export interface SpokenLanguage {
 /**
  * One key/value row in the Atelier Contact card. `copy: true` marks a row whose
  * value can be copied to the clipboard; `href` makes it a link (mail/tel/url).
+ *
+ * `copyValue` overrides what lands on the clipboard when it differs from the
+ * displayed `value` (e.g. WhatsApp shows "+261 38 50 966 64" but copies the
+ * unspaced "+261385096664"). `muted` is an optional trailing fragment rendered
+ * in the muted colour (e.g. the "· UTC+3" after a location). `dot` colours a
+ * leading status bullet ("●") in the value — "success" for the open/available
+ * row.
  */
 export interface ContactMetaRow {
   label: string
   value: string
   href?: string
   copy?: boolean
+  /** Clipboard payload when it differs from the displayed `value`. */
+  copyValue?: string
+  /** Trailing fragment rendered muted, appended after the value. */
+  muted?: string
+  /** Leading status bullet colour. */
+  dot?: 'success'
+}
+
+/**
+ * The Atelier Contact "pitch" card: a serif heading, two body paragraphs, and a
+ * signature. Replaces the former single `pitch` string so the view can mirror
+ * the reference markup verbatim (`<h3>` + two `<p>` + `<div class="sig">`).
+ */
+export interface ContactPitch {
+  heading: string
+  paragraphs: [string, string]
+  signature: string
 }
 
 /**
@@ -111,11 +135,11 @@ export interface ContactMetaRow {
 export interface ContactContent {
   location: string
   intro: string
-  /** Atelier: the pitch paragraph in the secondary contact card. */
-  pitch: string
+  /** Atelier: the structured pitch card (heading + two paragraphs + signature). */
+  pitch: ContactPitch
   /** Atelier: spoken languages rendered as a Contact-card row. */
   languages: string[]
-  /** Atelier: key/value rows (email, region, status, …). */
+  /** Atelier: key/value rows (email, WhatsApp, region, status, …). */
   meta: ContactMetaRow[]
 }
 
@@ -200,12 +224,16 @@ export interface ProcessPrinciple {
 
 /**
  * One Atelier skill card (Frontend / Backend / Data & Cloud / AI & Craft).
- * `lead` holds the headline pills; `chips` the secondary technologies.
+ * `lead` holds the solid headline pills (the daily drivers); `items` the
+ * outlined secondary technologies. `deco` is the single decorative watermark
+ * letter rendered via the `.skill-card::before` `content: attr(data-deco)`.
  */
 export interface SkillCard {
   title: string
+  /** Decorative watermark letter (e.g. "F" for Frontend). */
+  deco: string
   lead: string[]
-  chips: string[]
+  items: string[]
 }
 
 /**

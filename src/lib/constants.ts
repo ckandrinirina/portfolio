@@ -105,33 +105,33 @@ export interface RouteMeta {
 export const ROUTE_META: Record<RouteId, RouteMeta> = {
   home: {
     labelKey: 'navHome',
-    glyph: '⌂',
+    glyph: '◇',
     breadcrumb: 'home',
   },
   work: {
     labelKey: 'navWork',
-    glyph: '◫',
+    glyph: '▸',
     badge: '8',
     breadcrumb: 'selected-work',
   },
   experience: {
     labelKey: 'navExperience',
-    glyph: '◎',
+    glyph: '≡',
     breadcrumb: 'experience',
   },
   skills: {
     labelKey: 'navSkills',
-    glyph: '◈',
+    glyph: '⌬',
     breadcrumb: 'skills',
   },
   process: {
     labelKey: 'navProcess',
-    glyph: '◆',
+    glyph: '✦',
     breadcrumb: 'how-i-work',
   },
   contact: {
     labelKey: 'navContact',
-    glyph: '◉',
+    glyph: '@',
     breadcrumb: 'contact',
   },
 }
