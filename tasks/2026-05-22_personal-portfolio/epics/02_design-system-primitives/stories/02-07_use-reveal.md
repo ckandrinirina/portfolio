@@ -115,10 +115,10 @@ accessible regardless of animation preference.
 
 ### Files Touched
 
-| Action | File | Notes |
-|--------|------|-------|
-| CREATED | `src/hooks/useReveal.ts` | Named export `useReveal(options?)` — IntersectionObserver + reduced-motion hook |
-| CREATED | `src/hooks/useReveal.test.ts` | 13 tests covering all acceptance criteria |
+| Action  | File                          | Notes                                                                           |
+| ------- | ----------------------------- | ------------------------------------------------------------------------------- |
+| CREATED | `src/hooks/useReveal.ts`      | Named export `useReveal(options?)` — IntersectionObserver + reduced-motion hook |
+| CREATED | `src/hooks/useReveal.test.ts` | 13 tests covering all acceptance criteria                                       |
 
 `src/test/setup.ts` was NOT modified — the existing `MockIntersectionObserver` and `matchMedia` stubs were already present and sufficient. Per-test class-based mocks were used inside the test file for controllable callback triggering.
 
@@ -135,3 +135,47 @@ accessible regardless of animation preference.
 - `useEffect` deps = `[]` (intentional one-shot; `eslint-disable` comment explains the conscious omission of `isVisible` from deps to avoid double-effect).
 - Return type uses `React.RefObject<Element | null>` to match TypeScript 5.7+ `useRef<Element>(null)` inference.
 - `typeof window !== 'undefined'` guard for SSR safety.
+
+---
+
+## Bug Report — BUG-20260602-01
+
+> **Status:** FIXED
+> **Reported:** 2026-06-02
+> **Scope:** Multi-story (verdict B) — primary record in story 06-01.
+
+### Symptom
+
+Home (`accueil`) entrance animations from the reveal primitives were missing /
+degraded: the tech marquee popped in instantly, and the hero name faded as a
+block instead of cascading letter-by-letter.
+
+### Root cause (primitive layer)
+
+- **`Reveal`** (`src/components/ui/Reveal.tsx`): the container carried the
+  `.reveal` scroll-reveal class (`opacity:0` + transform until `useScrollReveal`
+  adds `.in`). Layered over the per-character `charIn` animation it washed out
+  the letter cascade. The reference gives the wrapper no `.reveal` class.
+- **`Marquee`** (`src/components/ui/Marquee.tsx`): wrapper omitted `reveal r-fade`
+  so `useScrollReveal` never faded it in.
+
+`useReveal.ts` itself was **not** at fault — the defect was in the consuming
+`Reveal` / `Marquee` primitives' class wiring.
+
+### Fix
+
+- `Reveal` container no longer prepends `reveal` to its class string.
+- `Marquee` wrapper gains `reveal r-fade`.
+
+### Resolution
+
+- SOLID (bounded to diff): S/O/L/I/D all PASS — className placement only.
+- Regression tests added in `Reveal.test.tsx` and `Marquee.test.tsx`.
+- Full suite: **748 passed**. Build + ESLint clean.
+
+### Files Touched
+
+- MODIFIED `src/components/ui/Reveal.tsx:14-17,45`
+- MODIFIED `src/components/ui/Marquee.tsx:40`
+- MODIFIED `src/components/ui/Reveal.test.tsx`
+- MODIFIED `src/components/ui/Marquee.test.tsx`

@@ -49,9 +49,15 @@ describe('Reveal', () => {
       expect(uniqueDelays.size).toBeGreaterThan(1)
     })
 
-    it('applies the reveal class to the container', () => {
+    // BUG-20260602-01: the container must NOT carry the `.reveal` class. That
+    // class sets opacity:0 + a translate/scale transform and is gated behind
+    // useScrollReveal adding `.in`; layering it over the per-character `charIn`
+    // animation washes out the letter-by-letter cascade (the whole word fades as
+    // a block instead). The reference (app.jsx:570-571) gives the wrapper only
+    // an optional `italic` class — the letters animate autonomously via charIn.
+    it('does NOT gate the container behind the .reveal scroll class', () => {
       const { container } = render(<Reveal text="Test" />)
-      expect(container.firstChild).toHaveClass('reveal')
+      expect(container.firstChild).not.toHaveClass('reveal')
     })
 
     it('accepts an optional className', () => {

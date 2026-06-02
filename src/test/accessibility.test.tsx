@@ -82,7 +82,9 @@ describe('Landmarks & headings', () => {
 describe('ARIA live regions', () => {
   it('Home role rotor is an aria-live polite region', () => {
     const { container } = renderApp()
-    const rotor = container.querySelector('.home-roles')
+    // aria-live lives on the inner .home-rotor (the swapping text), matching the
+    // reference — the static "also a —" label stays outside the live region.
+    const rotor = container.querySelector('.home-rotor')
     expect(rotor).not.toBeNull()
     expect(rotor).toHaveAttribute('aria-live', 'polite')
   })

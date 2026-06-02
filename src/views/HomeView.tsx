@@ -189,13 +189,9 @@ function RoleRotor({ alsoA, roles }: { alsoA: string; roles: string[] }) {
   }, [reduced, roles.length])
 
   return (
-    <div
-      className="home-roles reveal r-fade"
-      aria-live="polite"
-      aria-atomic="true"
-    >
+    <div className="home-roles reveal r-fade">
       <span>{alsoA}</span>
-      <span className="home-rotor">
+      <span className="home-rotor" aria-live="polite" aria-atomic="true">
         <span
           className="home-rotor-track"
           style={{ transform: `translateY(-${index * 1.3}em)` }}

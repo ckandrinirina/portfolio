@@ -11,8 +11,10 @@
  * - Reduced motion: renders the plain text directly — no per-letter spans, no
  *   animation delays.
  *
- * The `.reveal` class on the container is provided so `useScrollReveal` can add
- * `.in` to trigger the element's entrance transition from the stylesheet.
+ * The container is intentionally NOT given the `.reveal` scroll-reveal class:
+ * that class sets `opacity:0` + a transform until `useScrollReveal` adds `.in`,
+ * which would hide and wash out the per-character `charIn` cascade. The letters
+ * animate autonomously via `charIn` on mount instead.
  */
 
 type Props = {
@@ -40,7 +42,7 @@ export default function Reveal({
   delay = 0,
 }: Props) {
   const reduced = prefersReducedMotion()
-  const rootClass = `reveal ${italic ? 'italic' : ''} ${className}`
+  const rootClass = `${italic ? 'italic' : ''} ${className}`
     .replace(/\s+/g, ' ')
     .trim()
 
