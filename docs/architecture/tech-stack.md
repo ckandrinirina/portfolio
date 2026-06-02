@@ -55,8 +55,9 @@ context7). Exact patch versions are resolved at scaffold time with
 - Tailwind v4 utilities still available, but the bulk of styling is custom CSS
   classes from the Atelier Terminal mockup (`.sb-row`, `.proj-card`,
   `.tl-item`, etc.).
-- Full token list and component class inventory in
-  [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
+- Full token list in [features/theming/index.md](features/theming/index.md); the
+  component class inventory is split across the feature docs (see
+  [README.md](README.md)).
 
 ## Deployment
 
@@ -73,11 +74,11 @@ context7). Exact patch versions are resolved at scaffold time with
 Loaded from Google Fonts via `<link rel="stylesheet">` in `index.html` with
 `preconnect` to `fonts.googleapis.com` and `fonts.gstatic.com`.
 
-| Family | Weights / styles | Role |
-| --- | --- | --- |
-| **JetBrains Mono** | 300–700 | Body, UI labels, terminal-flavored text (`--font-mono`) |
-| **Instrument Serif** | regular + italic | Display headings, hero name, section titles (`--font-serif`) |
-| **Geist** | 300–700 | Loaded for fallback (`Geist Mono` mentioned in `--font-mono` chain) |
+| Family               | Weights / styles | Role                                                                |
+| -------------------- | ---------------- | ------------------------------------------------------------------- |
+| **JetBrains Mono**   | 300–700          | Body, UI labels, terminal-flavored text (`--font-mono`)             |
+| **Instrument Serif** | regular + italic | Display headings, hero name, section titles (`--font-serif`)        |
+| **Geist**            | 300–700          | Loaded for fallback (`Geist Mono` mentioned in `--font-mono` chain) |
 
 `font-display: swap` everywhere; OpenType features `"ss01", "cv11"` enabled on body.
 

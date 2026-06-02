@@ -33,8 +33,9 @@ data; the browser does everything.
 
 The visual shell is the **Atelier Terminal** design (sidebar + main with
 route-based navigation). See
-[features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md)
-for the full visual / layout / interaction specification.
+[features/app-shell/index.md](features/app-shell/index.md) for the layout /
+interaction specification and [features/theming/index.md](features/theming/index.md)
+for the palette and visual tokens.
 
 ```
                          ┌────────────────────────────────────────────────┐
