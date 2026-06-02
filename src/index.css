@@ -1023,7 +1023,9 @@ body::after {
   gap: 48px;
   width: max-content;
   white-space: nowrap;
-  animation: marquee 400s linear infinite;
+  /* 40s: a brisk, visible drift — intentionally faster than the reference's
+     400s glacial pace (owner preference). */
+  animation: marquee 40s linear infinite;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 28px;

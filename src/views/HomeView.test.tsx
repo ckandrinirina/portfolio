@@ -96,6 +96,15 @@ describe('HomeView — Role rotor', () => {
     expect(rotor?.textContent?.length).toBeGreaterThan(0)
   })
 
+  // BUG-20260602-01: aria-live belongs on the inner .home-rotor (the part that
+  // actually swaps text), matching the reference (app.jsx:581). Announcing only
+  // the rotor — not the static "also a —" label — is the correct live region.
+  it('places aria-live="polite" on the .home-rotor', () => {
+    renderHomeView()
+    const rotor = document.querySelector('.home-rotor')
+    expect(rotor?.getAttribute('aria-live')).toBe('polite')
+  })
+
   it('cycles to the next role after an interval', () => {
     renderHomeView()
 
