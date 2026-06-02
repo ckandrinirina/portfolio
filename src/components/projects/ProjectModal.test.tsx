@@ -59,20 +59,34 @@ describe('ProjectModal — open / closed', () => {
 
   it('renders the project artwork (inline SVG)', () => {
     const { container } = renderModal(baseProject)
-    expect(container.querySelector('.modal-art svg')).not.toBeNull()
+    expect(container.querySelector('.art svg')).not.toBeNull()
   })
 })
 
-describe('ProjectModal — detail columns', () => {
-  it('renders the role, impact, and stack values', () => {
+describe('ProjectModal — detail body', () => {
+  it('renders the role, impact, and meta values', () => {
     renderModal(baseProject)
     expect(screen.getByText('Lead fullstack engineer.')).toBeInTheDocument()
     expect(
       screen.getByText('Unified ticketing and commerce.'),
     ).toBeInTheDocument()
     expect(
-      screen.getByText('Next.js · NestJS · PostgreSQL'),
+      screen.getByText('Lead Fullstack · YAS Madagascar · 2025'),
     ).toBeInTheDocument()
+  })
+
+  it('renders the stack as individual token pills', () => {
+    const { container } = renderModal(baseProject)
+    const pills = Array.from(container.querySelectorAll('.stack span')).map(
+      (el) => el.textContent,
+    )
+    expect(pills).toEqual(['Next.js', 'NestJS', 'PostgreSQL'])
+  })
+
+  it('renders the My role / Impact column headings', () => {
+    renderModal(baseProject)
+    expect(screen.getByText('My role')).toBeInTheDocument()
+    expect(screen.getByText('Impact')).toBeInTheDocument()
   })
 })
 
@@ -80,34 +94,38 @@ describe('ProjectModal — action buttons', () => {
   it('renders a visit-live link when project.link exists', () => {
     const { container } = renderModal(baseProject)
     const link = container.querySelector(
-      '.modal-actions a[href="https://example.com"]',
+      '.actions a[href="https://example.com"]',
     )
     expect(link).not.toBeNull()
   })
 
-  it('renders a repo/read-case link when project.repo exists', () => {
-    const { container } = renderModal(baseProject)
-    const repo = container.querySelector(
-      '.modal-actions a[href="https://github.com/example"]',
-    )
-    expect(repo).not.toBeNull()
-  })
-
-  it('omits both action links when link and repo are null', () => {
+  it('omits the visit-live link when link is null', () => {
     const { container } = renderModal({
       ...baseProject,
       link: null,
-      repo: null,
     })
-    expect(container.querySelectorAll('.modal-actions a')).toHaveLength(0)
+    expect(container.querySelectorAll('.actions a')).toHaveLength(0)
+  })
+
+  it('always renders a Close action button', () => {
+    renderModal(baseProject)
+    const closeButtons = screen.getAllByRole('button', { name: /close/i })
+    expect(closeButtons.length).toBeGreaterThanOrEqual(1)
   })
 })
 
 describe('ProjectModal — closing', () => {
-  it('calls onClose when the close button is clicked', () => {
+  it('calls onClose when the round close (×) button is clicked', () => {
     const onClose = vi.fn()
     renderModal(baseProject, onClose)
-    fireEvent.click(screen.getByRole('button', { name: /close/i }))
+    fireEvent.click(screen.getByRole('button', { name: /close dialog/i }))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls onClose when the action Close button is clicked', () => {
+    const onClose = vi.fn()
+    renderModal(baseProject, onClose)
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
@@ -134,28 +152,29 @@ describe('ProjectModal — closing', () => {
 })
 
 describe('ProjectModal — focus management (04-02)', () => {
-  it('moves focus to the close button on open', () => {
+  it('moves focus to the round close (×) button on open', () => {
     renderModal(baseProject)
-    expect(screen.getByRole('button', { name: /close/i })).toHaveFocus()
+    expect(screen.getByRole('button', { name: /close dialog/i })).toHaveFocus()
   })
 
   it('traps Tab focus inside the modal (wraps forward to the first element)', async () => {
     const user = userEvent.setup()
-    renderModal(baseProject) // close + 2 action links = 3 focusables
-    const close = screen.getByRole('button', { name: /close/i })
+    // focusables in DOM order: round close (×), visit-live link, action Close
+    renderModal(baseProject)
+    const close = screen.getByRole('button', { name: /close dialog/i })
     expect(close).toHaveFocus()
     await user.tab() // → visit live
-    await user.tab() // → read case
-    await user.tab() // → wraps back to close
+    await user.tab() // → action Close
+    await user.tab() // → wraps back to round close
     expect(close).toHaveFocus()
   })
 
   it('wraps backward with Shift+Tab from the first element to the last', async () => {
     const user = userEvent.setup()
     renderModal(baseProject)
-    expect(screen.getByRole('button', { name: /close/i })).toHaveFocus()
+    expect(screen.getByRole('button', { name: /close dialog/i })).toHaveFocus()
     await user.tab({ shift: true }) // wraps to last focusable
-    expect(screen.getByRole('link', { name: /read case/i })).toHaveFocus()
+    expect(screen.getByRole('button', { name: 'Close' })).toHaveFocus()
   })
 })
 

@@ -119,20 +119,20 @@ describe('Topbar', () => {
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'))
       renderTopbar()
       const clock = screen.getByTestId('tb-clock')
-      // Expect HH:MM pattern (24h)
-      expect(clock.textContent).toMatch(/^\d{2}:\d{2}$/)
+      // Expect HH:MM pattern (24h) followed by the TNR locality suffix
+      expect(clock.textContent).toMatch(/^\d{2}:\d{2} TNR$/)
     })
 
     it('displays TNR time (UTC+3): 00:00 UTC → 03:00 TNR', () => {
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'))
       renderTopbar()
-      expect(screen.getByTestId('tb-clock').textContent).toBe('03:00')
+      expect(screen.getByTestId('tb-clock').textContent).toBe('03:00 TNR')
     })
 
     it('updates the clock after 30 seconds', () => {
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'))
       renderTopbar()
-      expect(screen.getByTestId('tb-clock').textContent).toBe('03:00')
+      expect(screen.getByTestId('tb-clock').textContent).toBe('03:00 TNR')
 
       act(() => {
         vi.advanceTimersByTime(30_000)
@@ -141,7 +141,7 @@ describe('Topbar', () => {
       // After advancing 30 s, the clock should still show a valid time
       // (same minute unless the test crosses a minute boundary — use pattern)
       expect(screen.getByTestId('tb-clock').textContent).toMatch(
-        /^\d{2}:\d{2}$/,
+        /^\d{2}:\d{2} TNR$/,
       )
     })
 
@@ -149,7 +149,7 @@ describe('Topbar', () => {
       // Start at 2026-01-01 00:59:30 UTC → 03:59 TNR
       vi.setSystemTime(new Date('2026-01-01T00:59:30Z'))
       renderTopbar()
-      expect(screen.getByTestId('tb-clock').textContent).toBe('03:59')
+      expect(screen.getByTestId('tb-clock').textContent).toBe('03:59 TNR')
 
       act(() => {
         vi.setSystemTime(new Date('2026-01-01T01:00:00Z'))
@@ -157,7 +157,7 @@ describe('Topbar', () => {
       })
 
       // Now 01:00:00 UTC + 30 s → 01:00:30 UTC → 04:00 TNR
-      expect(screen.getByTestId('tb-clock').textContent).toBe('04:00')
+      expect(screen.getByTestId('tb-clock').textContent).toBe('04:00 TNR')
     })
 
     it('cleans up the interval on unmount', () => {
@@ -177,5 +177,19 @@ describe('Topbar', () => {
     const hasAriaLabel = btn.hasAttribute('aria-label')
     const hasText = (btn.textContent?.trim().length ?? 0) > 0
     expect(hasAriaLabel || hasText).toBe(true)
+  })
+
+  // ── Top-right controls: theme palette + language flag ─────────────────────
+  it('renders the theme palette swatch picker', () => {
+    renderTopbar()
+    expect(screen.getByRole('group', { name: /theme/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Ember' })).toBeInTheDocument()
+  })
+
+  it('renders the language flag toggle', () => {
+    renderTopbar()
+    const lang = screen.getByRole('button', { name: /langue|language/i })
+    expect(lang).toBeInTheDocument()
+    expect(lang.textContent).toMatch(/FR|EN/)
   })
 })

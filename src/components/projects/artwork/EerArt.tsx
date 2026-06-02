@@ -1,31 +1,131 @@
 import type { ArtProps } from './ProjectArt'
 
-/** EER Full Digital — Fintech · KYC. Video-ID frame with face brackets. */
+/** EER Full Digital — Banking · KYC. ID card with animated scan line + badge. */
 export default function EerArt({ className }: ArtProps) {
   return (
     <svg
       className={className}
-      viewBox="0 0 320 180"
-      width="100%"
-      height="100%"
+      viewBox="0 0 600 340"
       preserveAspectRatio="xMidYMid slice"
-      role="img"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="320" height="180" fill="var(--bg-2, transparent)" />
-      <g fill="none" stroke="var(--accent, currentColor)" strokeWidth="1.5">
-        <path d="M120 50h-20v20M200 50h20v20M120 130h-20v-20M200 130h20v-20" />
-        <circle cx="160" cy="78" r="20" />
-        <path d="M132 124c0-18 12-28 28-28s28 10 28 28" />
+      <rect width="600" height="340" fill="#0a1018" />
+      <defs>
+        <linearGradient id="g-eer" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#1a2a3a" />
+          <stop offset="1" stopColor="#0a1018" />
+        </linearGradient>
+      </defs>
+      <rect width="600" height="340" fill="url(#g-eer)" />
+      {/* ID card */}
+      <g transform="translate(140 80)">
+        <rect
+          x="0"
+          y="0"
+          width="320"
+          height="190"
+          rx="14"
+          fill="#1a2a3a"
+          stroke="#7AB7FF"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="26"
+          fill="none"
+          stroke="#7AB7FF"
+          strokeWidth="1.5"
+        />
+        <circle cx="50" cy="44" r="9" fill="#7AB7FF" opacity="0.6" />
+        <path
+          d="M 30 70 Q 50 56 70 70"
+          fill="none"
+          stroke="#7AB7FF"
+          strokeWidth="1.5"
+        />
+        <rect
+          x="100"
+          y="38"
+          width="180"
+          height="6"
+          fill="#7AB7FF"
+          opacity="0.4"
+        />
+        <rect
+          x="100"
+          y="52"
+          width="140"
+          height="4"
+          fill="#7AB7FF"
+          opacity="0.25"
+        />
+        <rect
+          x="100"
+          y="62"
+          width="160"
+          height="4"
+          fill="#7AB7FF"
+          opacity="0.25"
+        />
+        <rect
+          x="22"
+          y="100"
+          width="276"
+          height="4"
+          fill="#7AB7FF"
+          opacity="0.2"
+        />
+        <rect
+          x="22"
+          y="112"
+          width="200"
+          height="4"
+          fill="#7AB7FF"
+          opacity="0.2"
+        />
+        <rect
+          x="22"
+          y="124"
+          width="240"
+          height="4"
+          fill="#7AB7FF"
+          opacity="0.2"
+        />
+        {/* scan line */}
+        <rect x="0" y="60" width="320" height="2" fill="#E8C547">
+          <animate
+            attributeName="y"
+            values="20;170;20"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0;1;0"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+        </rect>
+        {/* checkmark badge */}
+        <circle cx="296" cy="170" r="14" fill="#88C481" />
+        <path
+          d="M 290 170 l 4 4 l 8 -8"
+          fill="none"
+          stroke="#0a1018"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
       </g>
-      <g
-        stroke="var(--line-strong, currentColor)"
-        strokeWidth="1"
-        opacity="0.4"
+      <text
+        x="48"
+        y="306"
+        fontFamily="monospace"
+        fontSize="11"
+        fill="#5e7d99"
+        letterSpacing="0.1em"
       >
-        <path d="M40 156h120M180 156h100" />
-      </g>
+        KYC · BMOI · VIDEO IDENT.
+      </text>
     </svg>
   )
 }

@@ -72,6 +72,37 @@ describe('CommandPalette', () => {
     expect(navItems.length).toBeGreaterThan(0)
   })
 
+  // ── Per-item descriptions (.meta) ──────────────────────────────────────────
+  it('renders a per-item description (.meta) for every option', () => {
+    const { container } = renderPalette()
+    const options = screen.getAllByRole('option')
+    for (const option of options) {
+      const meta = option.querySelector('.meta')
+      expect(meta).not.toBeNull()
+      expect(meta?.textContent?.trim().length).toBeGreaterThan(0)
+    }
+    // Sanity: at least one known reference description is present.
+    expect(container.textContent).toContain('Back to start')
+  })
+
+  it('includes the copyEmail and whatsapp quick actions', () => {
+    renderPalette()
+    // Their EN labels come from cmdkActionEmail / cmdkActionWhatsapp.
+    expect(screen.getByText('Copy email')).toBeInTheDocument()
+    expect(screen.getByText('Open WhatsApp')).toBeInTheDocument()
+  })
+
+  it('matches on description text when filtering', async () => {
+    const user = userEvent.setup()
+    renderPalette()
+    const input = screen.getByRole('combobox')
+    // "clipboard" only appears in the copyEmail description, not its label.
+    await user.type(input, 'clipboard')
+    const options = screen.getAllByRole('option')
+    expect(options).toHaveLength(1)
+    expect(options[0]).toHaveTextContent('Copy email')
+  })
+
   // ── AC 2: input is focused on open ────────────────────────────────────────
   it('focuses the search input when open', () => {
     renderPalette(true)

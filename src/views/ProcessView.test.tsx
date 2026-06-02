@@ -67,19 +67,19 @@ describe('ProcessView — .process-item content', () => {
     })
   })
 
-  it('each .process-item has a .process-title', () => {
+  it('each .process-item has a serif <h3> title in .process-content', () => {
     const { container } = renderProcess()
     const items = container.querySelectorAll('.process-item')
     items.forEach((item) => {
-      expect(item.querySelector('.process-title')).not.toBeNull()
+      expect(item.querySelector('.process-content h3')).not.toBeNull()
     })
   })
 
-  it('each .process-item has a .process-desc', () => {
+  it('each .process-item has a <p> body in .process-content', () => {
     const { container } = renderProcess()
     const items = container.querySelectorAll('.process-item')
     items.forEach((item) => {
-      expect(item.querySelector('.process-desc')).not.toBeNull()
+      expect(item.querySelector('.process-content p')).not.toBeNull()
     })
   })
 
@@ -95,7 +95,11 @@ describe('ProcessView — .process-item content', () => {
     localStorage.setItem('locale', 'fr')
     renderProcess()
     // The FR locale has specific process titles (from fr.ts)
-    expect(screen.getByText("Comprendre d'abord")).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Le design et le code ne sont pas des disciplines distinctes.',
+      ),
+    ).toBeInTheDocument()
   })
 })
 

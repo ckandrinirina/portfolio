@@ -32,9 +32,14 @@ function renderCard(project: Project = mockProject, onOpen = vi.fn()) {
 }
 
 describe('ProjectCard', () => {
-  it('renders the project num', () => {
+  it('renders the project num + client line', () => {
     renderCard()
-    expect(screen.getByText('01')).toBeInTheDocument()
+    expect(screen.getByText('01 · YAS Madagascar')).toBeInTheDocument()
+  })
+
+  it('renders the project role in the meta line', () => {
+    renderCard()
+    expect(screen.getByText('Lead Fullstack')).toBeInTheDocument()
   })
 
   it('renders the project name', () => {
@@ -64,6 +69,18 @@ describe('ProjectCard', () => {
     expect(screen.getByText('PostgreSQL')).toBeInTheDocument()
   })
 
+  it('shows only the first 4 tags plus a "+N" overflow pill', () => {
+    const many: Project = {
+      ...mockProject,
+      tags: ['a', 'b', 'c', 'd', 'e', 'f'],
+    }
+    renderCard(many)
+    expect(screen.getByText('a')).toBeInTheDocument()
+    expect(screen.getByText('d')).toBeInTheDocument()
+    expect(screen.queryByText('e')).toBeNull()
+    expect(screen.getByText('+2')).toBeInTheDocument()
+  })
+
   it('applies .proj-card class', () => {
     const { container } = renderCard()
     const card = container.querySelector('.proj-card')
@@ -76,10 +93,10 @@ describe('ProjectCard', () => {
     expect(el).not.toBeNull()
   })
 
-  it('calls onOpen(project) when clicked', () => {
+  it('calls onOpen(project) when the card is clicked', () => {
     const onOpen = vi.fn()
-    renderCard(mockProject, onOpen)
-    const card = screen.getByRole('button')
+    const { container } = renderCard(mockProject, onOpen)
+    const card = container.querySelector('.proj-card') as HTMLElement
     fireEvent.click(card)
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenCalledWith(mockProject)
@@ -87,8 +104,8 @@ describe('ProjectCard', () => {
 
   it('calls onOpen(project) when Enter key is pressed', () => {
     const onOpen = vi.fn()
-    renderCard(mockProject, onOpen)
-    const card = screen.getByRole('button')
+    const { container } = renderCard(mockProject, onOpen)
+    const card = container.querySelector('.proj-card') as HTMLElement
     fireEvent.keyDown(card, { key: 'Enter', code: 'Enter' })
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenCalledWith(mockProject)
@@ -96,16 +113,34 @@ describe('ProjectCard', () => {
 
   it('calls onOpen(project) when Space key is pressed', () => {
     const onOpen = vi.fn()
-    renderCard(mockProject, onOpen)
-    const card = screen.getByRole('button')
+    const { container } = renderCard(mockProject, onOpen)
+    const card = container.querySelector('.proj-card') as HTMLElement
     fireEvent.keyDown(card, { key: ' ', code: 'Space' })
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenCalledWith(mockProject)
   })
 
-  it('is keyboard-focusable (has tabIndex or is a button)', () => {
-    renderCard()
-    const card = screen.getByRole('button')
-    expect(card).toBeTruthy()
+  it('the inner "Read case" button opens the modal without double-firing', () => {
+    const onOpen = vi.fn()
+    renderCard(mockProject, onOpen)
+    const readCase = screen.getByRole('button', { name: /read case/i })
+    fireEvent.click(readCase)
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledWith(mockProject)
+  })
+
+  it('renders a "Visit live" link when project.link exists', () => {
+    const { container } = renderCard()
+    const link = container.querySelector(
+      '.actions a[href="https://example.com"]',
+    )
+    expect(link).not.toBeNull()
+  })
+
+  it('is keyboard-focusable (the card is a role=button with tabIndex)', () => {
+    const { container } = renderCard()
+    const card = container.querySelector('.proj-card') as HTMLElement
+    expect(card.getAttribute('role')).toBe('button')
+    expect(card.getAttribute('tabindex')).toBe('0')
   })
 })

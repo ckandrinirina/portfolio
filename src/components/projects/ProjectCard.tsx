@@ -1,14 +1,20 @@
 /**
  * ProjectCard — a single grid tile in the Work view.
  *
- * Renders the project artwork, number/client, name, category, summary, and tech
- * tag chips with the `.proj-card` hover-shine (01-01). The whole tile is an
- * activatable control: `role="button"` + `tabIndex={0}` so it is keyboard
- * operable (Enter / Space) and mouse-clickable, calling `onOpen(project)`.
+ * Verbatim port of the "Atelier Terminal" `.proj-card`: an `.art` header
+ * (category tag top-left, year top-right, inline-SVG artwork) over a `.body`
+ * with the num/client line, serif name, role meta, summary, up-to-4 tag pills
+ * (+N overflow), and an `.actions` row ("Read case →" plus an optional
+ * "· Visit live ↗" link).
+ *
+ * The whole tile is an activatable control: `role="button"` + `tabIndex={0}` so
+ * it is keyboard operable (Enter / Space) and mouse-clickable, calling
+ * `onOpen(project)`. The inner "Read case" button and "Visit live" link
+ * stopPropagation so they don't double-fire the card handler.
  *
  * A native `<button>` is avoided on purpose: it would wrap the artwork/markup in
- * button semantics and double-fire on keyboard (native click + our handler). A
- * role="button" div gives one activation path that we control explicitly.
+ * button semantics and double-fire on keyboard. A role="button" element gives a
+ * single activation path we control explicitly.
  *
  * The `data-cursor` / `data-cursor-label` hooks let the custom Cursor (03-02)
  * switch to its labelled state over the card; the native focus ring is kept.
@@ -38,43 +44,69 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
     }
   }
 
+  const extraTags = project.tags.length - 4
+
   return (
-    <div
+    <article
       className="proj-card"
       role="button"
       tabIndex={0}
-      aria-label={`${project.name} — ${t('readCase')}`}
+      aria-label={`${project.name} — open project`}
       data-cursor
       data-cursor-label={t('readCase')}
       onClick={activate}
       onKeyDown={handleKeyDown}
     >
-      <div className="proj-art">
+      <div className="art">
+        <div className="art-tag">{project.category}</div>
+        <div className="art-year">{project.year}</div>
         <ProjectArt id={project.id} />
       </div>
 
-      <div className="proj-meta">
-        <div className="proj-num-client">
-          <span className="proj-num">{project.num}</span>
-          <span> · {project.client}</span>
+      <div className="body">
+        <div className="num">
+          {project.num} · {project.client}
         </div>
-
-        <div className="proj-name">{project.name}</div>
-        <div className="proj-role">{project.category}</div>
-        <div className="proj-desc">{project.desc}</div>
-
-        <div className="proj-chips">
-          <span className="proj-chip">{project.year}</span>
+        <div className="name">{project.name}</div>
+        <div className="meta">
+          <span className="role">{project.role}</span>
         </div>
+        <div className="desc">{project.desc}</div>
 
-        <div className="proj-tags">
-          {project.tags.map((tag) => (
-            <span key={tag} className="proj-tag">
+        <div className="tags">
+          {project.tags.slice(0, 4).map((tag) => (
+            <span key={tag} className="tag">
               {tag}
             </span>
           ))}
+          {extraTags > 0 && <span className="tag">+{extraTags}</span>}
+        </div>
+
+        <div className="actions">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              activate()
+            }}
+          >
+            {t('readCase')} <span>→</span>
+          </button>
+          {project.link && (
+            <>
+              <span className="sep">·</span>
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {t('visitLive')} <span>↗</span>
+              </a>
+            </>
+          )}
         </div>
       </div>
-    </div>
+    </article>
   )
 }

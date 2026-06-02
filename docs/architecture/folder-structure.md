@@ -6,8 +6,8 @@ Vite's recommended layout and current React conventions.
 > The structure below has been **updated for the Atelier Terminal UI** (2026-05-27).
 > Notable changes: `src/views/` replaces `src/components/sections/`; new
 > `cursor/`, `cmdk/`, and `projects/artwork/` subdirectories; `Header.tsx` /
-> `Footer.tsx` are replaced by `Sidebar.tsx` + `Topbar.tsx`. Full delta in
-> [features/2026-05-27_atelier-terminal-ui.md](features/2026-05-27_atelier-terminal-ui.md).
+> `Footer.tsx` are replaced by `Sidebar.tsx` + `Topbar.tsx`. Shell, routing, and
+> interaction detail in [features/app-shell/index.md](features/app-shell/index.md).
 
 ```
 ck-portfolio/
@@ -129,11 +129,11 @@ ck-portfolio/
 
 Each view component reads its slice from the active-locale content object:
 
-| View component    | Content slice                                                         |
-| ----------------- | --------------------------------------------------------------------- |
-| `HomeView`        | `content.hero` + `content.now` + `content.stats[]` + `content.marquee[]` |
-| `WorkView`        | `content.projects[]`                                                   |
-| `ExperienceView`  | `content.experience[]`                                                 |
-| `SkillsView`      | `content.skills[]` (4 cards)                                           |
-| `ProcessView`     | `content.process[]` (5 principles)                                     |
-| `ContactView`     | `content.contact` (email, whatsapp, location, languages[], pitch)      |
+| View component   | Content slice                                                            |
+| ---------------- | ------------------------------------------------------------------------ |
+| `HomeView`       | `content.hero` + `content.now` + `content.stats[]` + `content.marquee[]` |
+| `WorkView`       | `content.projects[]`                                                     |
+| `ExperienceView` | `content.experience[]`                                                   |
+| `SkillsView`     | `content.skills[]` (4 cards)                                             |
+| `ProcessView`    | `content.process[]` (5 principles)                                       |
+| `ContactView`    | `content.contact` (email, whatsapp, location, languages[], pitch)        |

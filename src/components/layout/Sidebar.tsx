@@ -14,11 +14,9 @@
  */
 
 import type { RouteId } from '../../lib/constants'
-import { NAV_GROUPS, ROUTE_META } from '../../lib/constants'
+import { NAV_GROUPS, ROUTE_META, SITE_META } from '../../lib/constants'
 import { useLanguage } from '../../i18n/useLanguage'
 import type { UiLabels } from '../../i18n/ui'
-import ThemeSwitcher from '../ui/ThemeSwitcher'
-import LanguageSwitcher from '../ui/LanguageSwitcher'
 
 // ── Props ────────────────────────────────────────────────────────────────────
 
@@ -40,17 +38,20 @@ export default function Sidebar({ route, navigate }: SidebarProps) {
   return (
     <aside className="sidebar">
       {/* Brand mark -------------------------------------------------------- */}
-      <div className="sb-brand">
-        <button
-          type="button"
-          className="sb-logo focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none"
-          aria-label="Go to home"
-          onClick={() => navigate('home')}
-        >
+      <button
+        type="button"
+        className="sb-brand focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none"
+        aria-label="Go to home"
+        onClick={() => navigate('home')}
+      >
+        <span className="sb-mark" aria-hidden="true">
           E
-        </button>
-        <span className="sb-title">PORTFOLIO</span>
-      </div>
+        </span>
+        <span className="sb-brand-text">
+          <span className="sb-name">{SITE_META.name}</span>
+          <span className="sb-role">{SITE_META.title}</span>
+        </span>
+      </button>
 
       {/* Nav groups -------------------------------------------------------- */}
       <nav className="sb-nav" aria-label="Site navigation">
@@ -85,53 +86,24 @@ export default function Sidebar({ route, navigate }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Controls (ThemeSwitcher + LanguageSwitcher) ------------------------ */}
-      <div className="sb-controls flex flex-col gap-2 border-t border-[var(--line)] px-4 py-3">
-        <ThemeSwitcher className="w-full justify-start" />
-        <LanguageSwitcher />
-      </div>
-
-      {/* Desktop-only status block ---------------------------------------- */}
+      {/* Desktop-only status block — two-column key/value rows ------------- */}
       <div className="sb-status" data-testid="sb-status">
-        <StatusRow
-          dot="green"
-          testId="sb-status-available"
-          label={t('footerStatus')}
-        />
-        <StatusRow testId="sb-status-region" label={t('footerRegion')} />
-        <StatusRow
-          dot="accent"
-          testId="sb-status-paired"
-          label={t('footerPaired')}
-        />
+        <div className="sb-status-row" data-testid="sb-status-available">
+          <span className="sb-status-key">{t('sbStatusKey')}</span>
+          <span className="sb-status-live">
+            <span
+              className="sb-dot"
+              data-testid="sb-dot-available"
+              aria-hidden="true"
+            />
+            {t('footerStatus')}
+          </span>
+        </div>
+        <div className="sb-status-row" data-testid="sb-status-region">
+          <span className="sb-status-key">{t('sbRegionKey')}</span>
+          <span className="sb-status-value">{t('footerRegion')}</span>
+        </div>
       </div>
     </aside>
-  )
-}
-
-// ── StatusRow sub-component ───────────────────────────────────────────────────
-
-type StatusRowProps = {
-  /** If set, renders a coloured dot before the label. */
-  dot?: 'green' | 'accent'
-  label: string
-  testId: string
-}
-
-function StatusRow({ dot, label, testId }: StatusRowProps) {
-  return (
-    <div className="sb-status-row" data-testid={testId}>
-      {dot === 'green' && (
-        <span
-          className="sb-dot"
-          data-testid="sb-dot-available"
-          aria-hidden="true"
-        />
-      )}
-      {dot === 'accent' && (
-        <span className="sb-dot accent" aria-hidden="true" />
-      )}
-      <span>{label}</span>
-    </div>
   )
 }

@@ -69,13 +69,22 @@ describe('ui — UI micro-labels map', () => {
     expect(ui.en.navLanguages).not.toBe(ui.en.languageSwitcher)
   })
 
-  it('all values are non-empty strings', () => {
+  // Segmented `.section-title` tail fragments are legitimately empty when the
+  // reference title ends on the accent `.mark` span (Process, Contact).
+  const ALLOWED_EMPTY: (keyof UiLabels)[] = [
+    'processTitleTail',
+    'contactTitleTail',
+  ]
+
+  it('all values are strings, non-empty except the known empty title tails', () => {
     const keys = Object.keys(ui.fr) as (keyof UiLabels)[]
     for (const key of keys) {
-      expect(ui.fr[key]).toBeTruthy()
       expect(typeof ui.fr[key]).toBe('string')
-      expect(ui.en[key]).toBeTruthy()
       expect(typeof ui.en[key]).toBe('string')
+      if (!ALLOWED_EMPTY.includes(key)) {
+        expect(ui.fr[key]).toBeTruthy()
+        expect(ui.en[key]).toBeTruthy()
+      }
     }
   })
 })

@@ -64,18 +64,31 @@ describe('commands dataset', () => {
   })
 
   // ── Quick group ────────────────────────────────────────────────────────────
-  it('Quick group contains cycleTheme, toggleLanguage, downloadCv actions', () => {
+  it('Quick group contains the five quick actions', () => {
     const quickCmds = COMMANDS.filter((c) => c.kind === 'quick')
     const actionIds = quickCmds.map((c) => c.id)
     expect(actionIds).toContain('cycleTheme')
     expect(actionIds).toContain('toggleLanguage')
     expect(actionIds).toContain('downloadCv')
+    expect(actionIds).toContain('copyEmail')
+    expect(actionIds).toContain('whatsapp')
+    expect(quickCmds).toHaveLength(5)
   })
 
   it('quick commands have an actionId property', () => {
     const quickCmds = COMMANDS.filter((c) => c.kind === 'quick')
     for (const cmd of quickCmds) {
       expect(cmd).toHaveProperty('actionId')
+    }
+  })
+
+  it('nav and quick commands carry a descriptionKey', () => {
+    const cmds = COMMANDS.filter((c) => c.kind === 'nav' || c.kind === 'quick')
+    for (const cmd of cmds) {
+      expect(cmd).toHaveProperty('descriptionKey')
+      expect(typeof (cmd as { descriptionKey: string }).descriptionKey).toBe(
+        'string',
+      )
     }
   })
 

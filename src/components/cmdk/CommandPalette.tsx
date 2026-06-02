@@ -20,8 +20,15 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
+import type { UiLabels } from '../../i18n/ui'
 import { cn } from '../../lib/utils'
+import { projects } from '../../content/projects'
 import { COMMANDS, type CommandDescriptor } from './commands'
+
+/** Project id → short descriptor (its `category`), shown as the cmdk `.meta`. */
+const PROJECT_DESCRIPTIONS: Record<string, string> = Object.fromEntries(
+  projects.map((p) => [p.id, p.category]),
+)
 
 export interface CommandPaletteProps {
   /** Whether the palette is visible. App owns this (via useCmdK). */
@@ -45,10 +52,13 @@ const GROUPS: ReadonlyArray<{
 ]
 
 /** Quick-action → existing UI label key (keeps item text distinct from the
- *  "Quick actions" group header and stays localized). */
-const QUICK_LABEL_KEY: Record<
-  Extract<CommandDescriptor, { kind: 'quick' }>['actionId'],
-  'themeToggle' | 'languageSwitcher' | 'downloadCv'
+ *  "Quick actions" group header and stays localized). The two contact actions
+ *  (copyEmail / whatsapp) carry their own labelKey on the descriptor instead. */
+const QUICK_LABEL_KEY: Partial<
+  Record<
+    Extract<CommandDescriptor, { kind: 'quick' }>['actionId'],
+    keyof UiLabels
+  >
 > = {
   cycleTheme: 'themeToggle',
   toggleLanguage: 'languageSwitcher',
@@ -81,8 +91,19 @@ export default function CommandPalette({
   // header ("Quick actions"); projects show their proper name; nav uses its key.
   const labelFor = (cmd: CommandDescriptor): string => {
     if (cmd.kind === 'project') return cmd.name
-    if (cmd.kind === 'quick') return t(QUICK_LABEL_KEY[cmd.actionId])
+    if (cmd.kind === 'quick') {
+      const key =
+        QUICK_LABEL_KEY[cmd.actionId] ?? (cmd.labelKey as keyof UiLabels)
+      return t(key)
+    }
     return t(cmd.labelKey as Parameters<typeof t>[0])
+  }
+
+  // The localized right-aligned `.meta` description for a single command.
+  // Projects reuse their `category`; nav/quick resolve their i18n descriptionKey.
+  const descriptionFor = (cmd: CommandDescriptor): string => {
+    if (cmd.kind === 'project') return PROJECT_DESCRIPTIONS[cmd.projectId] ?? ''
+    return t(cmd.descriptionKey as keyof UiLabels)
   }
 
   // Filtered, flat list (display order) — the keyboard cursor walks this.
@@ -91,7 +112,8 @@ export default function CommandPalette({
     const matches = (cmd: CommandDescriptor) =>
       q === '' ||
       cmd.searchText.toLowerCase().includes(q) ||
-      labelFor(cmd).toLowerCase().includes(q)
+      labelFor(cmd).toLowerCase().includes(q) ||
+      descriptionFor(cmd).toLowerCase().includes(q)
     // Keep group display order: nav → quick → project.
     return GROUPS.flatMap((g) =>
       COMMANDS.filter((c) => c.kind === g.kind && matches(c)),
@@ -201,6 +223,7 @@ export default function CommandPalette({
                           {cmd.glyph}
                         </span>
                         <span>{labelFor(cmd)}</span>
+                        <span className="meta">{descriptionFor(cmd)}</span>
                       </div>
                     )
                   })}

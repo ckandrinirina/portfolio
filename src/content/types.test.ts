@@ -93,8 +93,12 @@ const sample = {
   contact: {
     location: 'Antananarivo, Madagascar',
     intro: 'Open to opportunities.',
-    pitch: 'Open to fullstack roles and collaborations.',
-    languages: ['Malagasy — Native', 'English — Professional'],
+    pitch: {
+      heading: "What I'm looking for next.",
+      paragraphs: ['Open to fullstack roles.', 'Drop me a line.'],
+      signature: '— Erick',
+    },
+    languages: ['Malagasy', 'English'],
     meta: [
       {
         label: 'Email',
@@ -102,7 +106,19 @@ const sample = {
         href: 'mailto:ckandrinirina@gmail.com',
         copy: true,
       },
-      { label: 'Location', value: 'Antananarivo, Madagascar' },
+      {
+        label: 'WhatsApp',
+        value: '+261 38 50 966 64',
+        href: 'https://wa.me/261385096664',
+        copy: true,
+        copyValue: '+261385096664',
+      },
+      {
+        label: 'Based in',
+        value: 'Antananarivo, Madagascar',
+        muted: '· UTC+3',
+      },
+      { label: 'Available', value: 'open', dot: 'success' },
     ],
   },
   now: {
@@ -127,8 +143,9 @@ const sample = {
   skillCards: [
     {
       title: 'Frontend',
+      deco: 'F',
       lead: ['React', 'TypeScript'],
-      chips: ['Angular', 'Tailwind CSS'],
+      items: ['Angular', 'Tailwind CSS'],
     },
   ],
   process: [

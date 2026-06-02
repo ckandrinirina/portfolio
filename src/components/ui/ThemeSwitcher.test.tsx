@@ -29,7 +29,7 @@ function renderSwitcher() {
   )
 }
 
-describe('ThemeSwitcher', () => {
+describe('ThemeSwitcher (palette swatch picker)', () => {
   beforeEach(() => {
     document.documentElement.removeAttribute('data-theme')
     localStorage.clear()
@@ -40,33 +40,51 @@ describe('ThemeSwitcher', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders a button with an accessible theme label', () => {
+  it('renders a labelled group of palette swatches', () => {
     renderSwitcher()
-    const btn = screen.getByRole('button', { name: /theme/i })
-    expect(btn).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: /theme/i })).toBeInTheDocument()
   })
 
-  it('reflects the active theme name', () => {
-    localStorage.setItem('theme', 'ocean')
+  it('renders one swatch per palette (Ember / Paper / Ocean / Forest)', () => {
     renderSwitcher()
-    expect(screen.getByText(/ocean/i)).toBeInTheDocument()
+    for (const name of ['Ember', 'Paper', 'Ocean', 'Forest']) {
+      expect(screen.getByRole('button', { name })).toBeInTheDocument()
+    }
   })
 
-  it('cycles the theme app-wide on click', async () => {
+  it('marks the active palette swatch with aria-pressed="true"', () => {
+    // Empty storage + light preference → initial theme 'paper'.
+    renderSwitcher()
+    expect(screen.getByRole('button', { name: 'Paper' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    expect(screen.getByRole('button', { name: 'Ocean' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    )
+  })
+
+  it('applies the chosen palette app-wide on click', async () => {
     const user = userEvent.setup()
     localStorage.setItem('theme', 'default')
     renderSwitcher()
     expect(document.documentElement.getAttribute('data-theme')).toBeNull()
 
-    await user.click(screen.getByRole('button', { name: /theme/i }))
-    // default → ocean
+    await user.click(screen.getByRole('button', { name: 'Ocean' }))
+
     expect(document.documentElement.getAttribute('data-theme')).toBe('ocean')
     expect(localStorage.getItem('theme')).toBe('ocean')
+    expect(screen.getByRole('button', { name: 'Ocean' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
   })
 
-  it('exposes a visible focus ring style', () => {
+  it('exposes a visible focus ring style on each swatch', () => {
     renderSwitcher()
-    const btn = screen.getByRole('button', { name: /theme/i })
-    expect(btn.className).toMatch(/focus-visible:/)
+    expect(screen.getByRole('button', { name: 'Ember' }).className).toMatch(
+      /focus-visible:/,
+    )
   })
 })
