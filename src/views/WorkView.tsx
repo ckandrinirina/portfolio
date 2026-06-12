@@ -18,7 +18,7 @@
  */
 
 import { useLanguage } from '../i18n/useLanguage'
-import { projects } from '../content/projects'
+import { localizeProjects } from '../content/projects'
 import type { Project } from '../content/types'
 import ProjectCard from '../components/projects/ProjectCard'
 
@@ -28,7 +28,8 @@ export interface WorkViewProps {
 }
 
 export default function WorkView({ onOpen }: WorkViewProps) {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const localizedProjects = localizeProjects(locale)
 
   return (
     <div className="view-inner">
@@ -47,7 +48,7 @@ export default function WorkView({ onOpen }: WorkViewProps) {
       </p>
 
       <div className="work-grid">
-        {projects.map((project) => (
+        {localizedProjects.map((project) => (
           <ProjectCard key={project.id} project={project} onOpen={onOpen} />
         ))}
       </div>

@@ -6,7 +6,7 @@
  * button all invoke onClose; body scroll locks while open and restores on close.
  */
 
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../../i18n/LanguageProvider'
@@ -175,6 +175,22 @@ describe('ProjectModal — focus management (04-02)', () => {
     expect(screen.getByRole('button', { name: /close dialog/i })).toHaveFocus()
     await user.tab({ shift: true }) // wraps to last focusable
     expect(screen.getByRole('button', { name: 'Close' })).toHaveFocus()
+  })
+})
+
+// The section headings and the two close controls were hardcoded English;
+// they now resolve through t() so French renders translated. (BUG-20260612-01)
+describe('ProjectModal — localized labels (fr)', () => {
+  beforeEach(() => localStorage.setItem('locale', 'fr'))
+  afterEach(() => localStorage.clear())
+
+  it('renders the column headings and close controls in French', () => {
+    renderModal(baseProject)
+    expect(screen.getByText('Mon rôle')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /fermer la fenêtre/i }),
+    ).toBeInTheDocument()
   })
 })
 
