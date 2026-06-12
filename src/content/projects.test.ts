@@ -6,7 +6,7 @@
 // doc specifies: 8 entries, `num` "01"…"08", the 8-id union, and a populated
 // `detail` block on every entry.
 import { describe, expect, it } from 'vitest'
-import { projects } from './projects'
+import { projects, localizeProjects } from './projects'
 import type { Project, ProjectId } from './types'
 
 const EXPECTED_IDS: ProjectId[] = [
@@ -65,6 +65,52 @@ describe('projects dataset', () => {
       expect(project.detail.stack).toBeTruthy()
       // detail.stack is a single " · "-separated string, not an array
       expect(typeof project.detail.stack).toBe('string')
+    })
+  })
+})
+
+// The Atelier base dataset is the English baseline. `localizeProjects(locale)`
+// overlays the per-locale copy (role / category / desc / detail.role /
+// detail.impact) while leaving locale-independent fields (id, num, name, year,
+// client, tags, stack, link) untouched. (BUG-20260612-01)
+describe('localizeProjects — per-locale overlay', () => {
+  it("returns the English baseline unchanged for 'en'", () => {
+    expect(localizeProjects('en')).toEqual(projects)
+  })
+
+  it("translates the locale-dependent fields for 'fr'", () => {
+    const fr = localizeProjects('fr')
+    const frSoka = fr.find((p) => p.id === 'soka')!
+    const enSoka = projects.find((p) => p.id === 'soka')!
+    expect(frSoka.desc).not.toBe(enSoka.desc)
+    expect(frSoka.category).not.toBe(enSoka.category)
+    expect(frSoka.detail.role).not.toBe(enSoka.detail.role)
+    expect(frSoka.detail.impact).not.toBe(enSoka.detail.impact)
+  })
+
+  it("preserves locale-independent fields for 'fr'", () => {
+    const fr = localizeProjects('fr')
+    fr.forEach((p) => {
+      const en = projects.find((e) => e.id === p.id)!
+      expect(p.id).toBe(en.id)
+      expect(p.num).toBe(en.num)
+      expect(p.name).toBe(en.name)
+      expect(p.year).toBe(en.year)
+      expect(p.client).toBe(en.client)
+      expect(p.tags).toEqual(en.tags)
+      expect(p.detail.stack).toBe(en.detail.stack)
+      expect(p.link).toBe(en.link)
+    })
+  })
+
+  it('provides non-empty French copy for all 8 projects', () => {
+    const fr = localizeProjects('fr')
+    expect(fr).toHaveLength(8)
+    fr.forEach((p) => {
+      expect(p.desc.length).toBeGreaterThan(0)
+      expect(p.category.length).toBeGreaterThan(0)
+      expect(p.detail.role.length).toBeGreaterThan(0)
+      expect(p.detail.impact.length).toBeGreaterThan(0)
     })
   })
 })

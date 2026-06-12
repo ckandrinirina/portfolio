@@ -89,3 +89,51 @@ None.
 - **L:** Uses `Section`, `Card`, `Badge` contracts as documented.
 - **I:** Zero props — component reads context directly via `useLanguage()`.
 - **D:** Content accessed through `useLanguage()` abstraction.
+
+---
+
+## Bug Report — BUG-20260612-01
+
+**Status:** FIXED
+
+**Symptom:** On `#work` in French, project text stayed English: card/modal copy
+(`desc`, `role`, `category`, `detail.role`, `detail.impact`) and the modal
+section labels (`My role` / `Impact` / `Stack` / `Close` + aria `Close dialog`).
+
+**Root cause (two gaps):**
+1. The Work view renders `content/projects.ts` (`Project[]`), which is the
+   locale-independent English baseline — its copy never went through the i18n
+   layer, so French showed English. (The French `content.projects`
+   `ProjectEntry[]` in `fr.ts` is unrelated dead data, rendered by nothing.)
+2. `ProjectModal.tsx` hardcoded the section/close labels instead of `t()`,
+   unlike `readCase` / `visitLive` which were already localized.
+
+**Fix:**
+- **Part A (labels):** added `modalRole` / `modalImpact` / `modalStack` /
+  `modalClose` / `modalCloseAria` to `i18n/ui.ts` (fr + en); wired
+  `ProjectModal.tsx` to `t()`.
+- **Part B (copy):** added the `ProjectCopy` type; new `content/projects.fr.ts`
+  holds the French overlay for all 8 featured works; `localizeProjects(locale)`
+  in `projects.ts` merges it over the English baseline (locale-independent
+  fields untouched). `WorkView`, `CommandPalette` (cmdk `.meta`) and
+  `App.runCommand` (cmdk-opened modal) all render the localized list.
+
+**Resolution:** RED→GREEN via new tests; full suite 757 passed / 0 failed;
+`tsc --noEmit` clean; eslint clean. SOLID re-check on the diff: S/O/L/I/D all
+PASS (overlay is a pure function; `Project` extended via `ProjectCopy`, not
+modified; consumers depend on the `localizeProjects` abstraction).
+
+**Files Touched:**
+- MODIFIED src/i18n/ui.ts:70-76,199-204,318-323
+- MODIFIED src/components/projects/ProjectModal.tsx:125,147,151,156,175
+- MODIFIED src/content/types.ts:189-205
+- CREATED src/content/projects.fr.ts
+- MODIFIED src/content/projects.ts:3-12,172-196
+- MODIFIED src/views/WorkView.tsx:21,31-32,51
+- MODIFIED src/App.tsx:46,171-173
+- MODIFIED src/components/cmdk/CommandPalette.tsx:25,68-76,108
+- MODIFIED src/i18n/ui.test.ts (regression), src/content/projects.test.ts (regression), src/components/projects/ProjectModal.test.tsx (regression), src/views/WorkView.test.tsx (regression)
+
+**Related (not fixed here):** `content.projects` (`ProjectEntry[]`) in
+`fr.ts`/`en.ts` is dead code — no view renders it. Cleanup is out of scope for
+this minimal fix; run `/ck-code:fix` separately if you want it removed.

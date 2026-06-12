@@ -43,7 +43,7 @@ import { useScrollReveal } from './hooks/useScrollReveal'
 import { useLanguage } from './i18n/useLanguage'
 import type { UiLabels } from './i18n/ui'
 import { useTheme } from './theme/useTheme'
-import { projects } from './content/projects'
+import { localizeProjects } from './content/projects'
 import type { Project } from './content/types'
 import {
   ROUTE_ORDER,
@@ -168,7 +168,9 @@ function App() {
           else downloadCv()
           break
         case 'project': {
-          const project = projects.find((p) => p.id === cmd.projectId)
+          const project = localizeProjects(locale).find(
+            (p) => p.id === cmd.projectId,
+          )
           if (project) openProject(project)
           break
         }

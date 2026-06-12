@@ -67,6 +67,13 @@ export type UiLabels = {
   readCase: string
   visitLive: string
 
+  // Project detail modal section labels + close controls
+  modalRole: string
+  modalImpact: string
+  modalStack: string
+  modalClose: string
+  modalCloseAria: string
+
   // Work view editorial header (reference "Atelier Terminal" copy).
   // The title renders as `{lead}<span class="mark">{mark}</span>{tail}`.
   workTitleLead: string
@@ -189,6 +196,12 @@ export const ui: Record<'fr' | 'en', UiLabels> = {
     readCase: 'Lire le cas',
     visitLive: 'Voir en ligne',
 
+    modalRole: 'Mon rôle',
+    modalImpact: 'Impact',
+    modalStack: 'Stack',
+    modalClose: 'Fermer',
+    modalCloseAria: 'Fermer la fenêtre',
+
     workTitleLead: 'Ce que j’ai livré — ',
     workTitleMark: 'pas des pixels',
     workTitleTail: ' sur un moodboard.',
@@ -301,6 +314,12 @@ export const ui: Record<'fr' | 'en', UiLabels> = {
 
     readCase: 'Read case',
     visitLive: 'Visit live',
+
+    modalRole: 'My role',
+    modalImpact: 'Impact',
+    modalStack: 'Stack',
+    modalClose: 'Close',
+    modalCloseAria: 'Close dialog',
 
     workTitleLead: 'Things I shipped — ',
     workTitleMark: 'not pixels',

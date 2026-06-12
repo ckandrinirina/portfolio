@@ -186,6 +186,23 @@ export interface Project {
   detail: ProjectDetail
 }
 
+/**
+ * The locale-dependent subset of a `Project` — the human-language copy that
+ * reads differently in French and English. Proper nouns, tech, years, clients,
+ * tags and the stack string stay locale-independent in `content/projects.ts`;
+ * this overlay (one per non-default locale) is merged in at render time by
+ * `localizeProjects(locale)`.
+ */
+export interface ProjectCopy {
+  role: string
+  category: string
+  desc: string
+  detail: {
+    role: string
+    impact: string
+  }
+}
+
 /** One row of the Atelier experience timeline. */
 export interface TimelineEntry {
   year: string

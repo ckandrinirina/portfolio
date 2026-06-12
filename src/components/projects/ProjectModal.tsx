@@ -122,7 +122,7 @@ export default function ProjectModal({
           ref={closeRef}
           type="button"
           className="close"
-          aria-label="Close dialog"
+          aria-label={t('modalCloseAria')}
           onClick={onClose}
         >
           ×
@@ -144,16 +144,16 @@ export default function ProjectModal({
 
           <div className="row">
             <div className="col">
-              <h4>My role</h4>
+              <h4>{t('modalRole')}</h4>
               <p>{detail.role}</p>
             </div>
             <div className="col">
-              <h4>Impact</h4>
+              <h4>{t('modalImpact')}</h4>
               <p>{detail.impact}</p>
             </div>
           </div>
 
-          <h4 className="stack-label">Stack</h4>
+          <h4 className="stack-label">{t('modalStack')}</h4>
           <div className="stack">
             {stackTokens.map((token, i) => (
               <span key={i}>{token}</span>
@@ -172,7 +172,7 @@ export default function ProjectModal({
               </a>
             )}
             <button type="button" className="btn" onClick={onClose}>
-              Close
+              {t('modalClose')}
             </button>
           </div>
         </div>

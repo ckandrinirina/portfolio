@@ -1,14 +1,15 @@
 // Featured works dataset for the Atelier Work view and project detail modal.
 //
-// Locale-independent on purpose: project names, clients, tech stacks, and years
+// Locale-independent fields (project names, clients, tech stacks, years, tags)
 // are proper nouns / identifiers, so they are NOT duplicated across fr.ts/en.ts.
-// The card summary (`desc`) and `detail` copy are written in English (the EN
-// baseline); if per-locale project copy is ever needed it can move into the
-// locale modules, but the design treats this list as the single source.
+// This array is the ENGLISH baseline: `role`, `category`, the card summary
+// (`desc`) and the `detail` copy are written in English. The French copy lives
+// in `projects.fr.ts` and is merged over this baseline by `localizeProjects`.
 //
 // Ordering is the showcase order — `num` "01"…"08" follows the array index.
 // Copy is a verbatim port of the "Atelier Terminal" reference (app.jsx PROJECTS).
 import type { Project } from './types'
+import { projectsCopyFr } from './projects.fr'
 
 export const projects: Project[] = [
   {
@@ -168,3 +169,28 @@ export const projects: Project[] = [
     },
   },
 ]
+
+/**
+ * Return the featured works localized for `locale`. The English baseline above
+ * is returned as-is for `'en'`; for `'fr'` the per-id copy in `projects.fr.ts`
+ * is overlaid onto the locale-dependent fields (`role`, `category`, `desc`,
+ * `detail.role`, `detail.impact`), leaving every locale-independent field
+ * (id, num, name, year, client, tags, stack, link, repo) untouched.
+ */
+export function localizeProjects(locale: 'fr' | 'en'): Project[] {
+  if (locale === 'en') return projects
+  return projects.map((project) => {
+    const copy = projectsCopyFr[project.id]
+    return {
+      ...project,
+      role: copy.role,
+      category: copy.category,
+      desc: copy.desc,
+      detail: {
+        ...project.detail,
+        role: copy.detail.role,
+        impact: copy.detail.impact,
+      },
+    }
+  })
+}

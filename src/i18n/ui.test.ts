@@ -134,3 +134,30 @@ describe('ui — Atelier shell labels', () => {
     expect(ui.en.copy).not.toBe(ui.en.copied)
   })
 })
+
+// Project detail modal section labels — previously hardcoded English in
+// ProjectModal.tsx, now localized via t(). (BUG-20260612-01)
+describe('ui — project modal labels', () => {
+  const MODAL_KEYS: (keyof UiLabels)[] = [
+    'modalRole',
+    'modalImpact',
+    'modalStack',
+    'modalClose',
+    'modalCloseAria',
+  ]
+
+  it('both locales expose every modal label key as a non-empty string', () => {
+    for (const key of MODAL_KEYS) {
+      expect(ui.fr).toHaveProperty(key)
+      expect(ui.en).toHaveProperty(key)
+      expect(ui.fr[key].length).toBeGreaterThan(0)
+      expect(ui.en[key].length).toBeGreaterThan(0)
+    }
+  })
+
+  it('the role / close labels are actually translated to French', () => {
+    expect(ui.fr.modalRole).not.toBe(ui.en.modalRole)
+    expect(ui.fr.modalClose).not.toBe(ui.en.modalClose)
+    expect(ui.fr.modalCloseAria).not.toBe(ui.en.modalCloseAria)
+  })
+})

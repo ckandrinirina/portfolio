@@ -6,10 +6,10 @@
  * the right project.
  */
 
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { LanguageProvider } from '../i18n/LanguageProvider'
-import { projects } from '../content/projects'
+import { projects, localizeProjects } from '../content/projects'
 import WorkView from './WorkView'
 
 function renderWork(onOpen = vi.fn()) {
@@ -64,5 +64,26 @@ describe('WorkView — interaction', () => {
     fireEvent.click(cards[0])
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenCalledWith(projects[0])
+  })
+})
+
+// The grid sources its copy from the English baseline dataset; under fr it must
+// render the localized descriptions, not English ones. (BUG-20260612-01)
+describe('WorkView — localized copy (fr)', () => {
+  beforeEach(() => localStorage.setItem('locale', 'fr'))
+  afterEach(() => localStorage.clear())
+
+  it('renders project descriptions in French, not the English baseline', () => {
+    const { container } = renderWork()
+    const frFirst = localizeProjects('fr')[0].desc
+    expect(container.textContent).toContain(frFirst)
+    expect(container.textContent).not.toContain(projects[0].desc)
+  })
+
+  it('opens a card with the localized (fr) project object', () => {
+    const onOpen = vi.fn()
+    renderWork(onOpen)
+    fireEvent.click(screen.getAllByRole('button')[0])
+    expect(onOpen).toHaveBeenCalledWith(localizeProjects('fr')[0])
   })
 })

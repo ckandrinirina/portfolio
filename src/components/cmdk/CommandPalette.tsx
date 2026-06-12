@@ -22,13 +22,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import type { UiLabels } from '../../i18n/ui'
 import { cn } from '../../lib/utils'
-import { projects } from '../../content/projects'
+import { localizeProjects } from '../../content/projects'
 import { COMMANDS, type CommandDescriptor } from './commands'
-
-/** Project id → short descriptor (its `category`), shown as the cmdk `.meta`. */
-const PROJECT_DESCRIPTIONS: Record<string, string> = Object.fromEntries(
-  projects.map((p) => [p.id, p.category]),
-)
 
 export interface CommandPaletteProps {
   /** Whether the palette is visible. App owns this (via useCmdK). */
@@ -70,7 +65,15 @@ export default function CommandPalette({
   onClose,
   onRun,
 }: CommandPaletteProps) {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  // Project id → localized `category`, shown as the cmdk `.meta` description.
+  const projectDescriptions = useMemo(
+    () =>
+      Object.fromEntries(
+        localizeProjects(locale).map((p) => [p.id, p.category]),
+      ),
+    [locale],
+  )
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [query, setQuery] = useState('')
   const [active, setActive] = useState(0)
@@ -102,7 +105,7 @@ export default function CommandPalette({
   // The localized right-aligned `.meta` description for a single command.
   // Projects reuse their `category`; nav/quick resolve their i18n descriptionKey.
   const descriptionFor = (cmd: CommandDescriptor): string => {
-    if (cmd.kind === 'project') return PROJECT_DESCRIPTIONS[cmd.projectId] ?? ''
+    if (cmd.kind === 'project') return projectDescriptions[cmd.projectId] ?? ''
     return t(cmd.descriptionKey as keyof UiLabels)
   }
 
