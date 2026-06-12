@@ -36,6 +36,10 @@ See [../../folder-structure.md](../../folder-structure.md) for the view ↔ cont
 | `Marquee`          | `src/components/ui/Marquee.tsx`          | Looping horizontal track with hover-pause + edge fade. Props: `items[]`. Fade edges via mask-image gradient transparent→solid 8%→92%→transparent |
 | `DownloadCvButton` | `src/components/ui/DownloadCvButton.tsx` | Anchor to the CV PDF with `download`; rendered as the 3rd Home CTA                                                                               |
 
+> **Generalised by [scroll-motion](../scroll-motion/index.md):** `Reveal` and `CountUp`
+> are no longer Home-only — that feature promotes them site-wide (`CountUp` via the new
+> `useInView` hook) and adds the `data-reveal` reveal vocabulary used in these views.
+
 ## Flows
 
 ### CV download (Home CTA)

@@ -35,6 +35,7 @@ when noted) — never the whole architecture.
 | Content Views                  | [features/content-views/index.md](features/content-views/index.md)       |
 | Command Palette (⌘K)           | [features/command-palette/index.md](features/command-palette/index.md)   |
 | Project Showcase               | [features/project-showcase/index.md](features/project-showcase/index.md) |
+| Scroll Motion                  | [features/scroll-motion/index.md](features/scroll-motion/index.md)       |
 
 > **Not applicable:** `api-contracts` (no backend; direct links only) and
 > `database-schema` (no database; content is static typed data).
@@ -58,6 +59,12 @@ when noted) — never the whole architecture.
 
 ## Changelog
 
+- **2026-06-02** — Added **Scroll Motion** feature (`features/scroll-motion/`) — a
+  zero-dependency, reduced-motion-gated motion layer across all six views: `data-reveal`
+  reveal vocabulary on the existing `useScrollReveal` engine, site-wide `Reveal`/`CountUp`
+  via a new `useInView` hook, and a `ScrollProgress` bar in the Topbar
+  (`useScrollProgress`). Updated `app-shell`, `content-views`, `_shared.md`, and
+  `DESIGN_LEDGER.md`.
 - **2026-06-02** — Migrated to the v3 feature-scoped layout (`doc-optimizer upgrade`).
   Decomposed `components.md` + `data-flow.md` + the `2026-05-27_atelier-terminal-ui`
   design record into 6 feature docs (theming, i18n-content, app-shell, content-views,
