@@ -56,7 +56,8 @@ main.tsx
 
 - **File:** `src/components/layout/Topbar.tsx`
 - **Responsibility:** breadcrumb (`~/portfolio / current`) + `⌘K` button +
-  auto-updating TNR clock (every 30s).
+  auto-updating TNR clock (every 30s). Also hosts the `ScrollProgress` bar (see
+  [scroll-motion](../scroll-motion/index.md)).
 - **Key props:** `active`, `onCmd()`.
 
 ### `ScrollHint`
@@ -125,6 +126,12 @@ overflow: hidden`.
 
 (`useReveal()` — legacy one-off reveal — is kept in `src/hooks/` for reference; may be
 unused. `useCmdK` lives in [command-palette](../command-palette/index.md).)
+
+> **Extended by [scroll-motion](../scroll-motion/index.md):** `useScrollReveal`'s
+> `REVEAL_SELECTOR` also matches `[data-reveal]`, and CSS variants
+> (`data-reveal="fade|blur|scale|left|right|mask"`) decide the look of each reveal. That
+> feature also adds `useInView` and `useScrollProgress` (+ the `ScrollProgress` bar in the
+> Topbar). The engine and stagger here are unchanged.
 
 ## Flows
 

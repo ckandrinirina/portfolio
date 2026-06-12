@@ -52,8 +52,10 @@ Project-wide conventions every feature follows:
 - **Keyboard:** arrow / Page keys navigate routes at scroll boundaries; `⌘/Ctrl+K`
   opens the palette; `Escape` closes modal/cmdk; `Enter` runs the active cmdk item.
 - **Reduced motion:** under `@media (prefers-reduced-motion: reduce)`, all entrance,
-  letter-by-letter, view-enter, marquee, scroll-reveal, and orbital animations are
-  disabled and content is forced to its final visible state.
+  letter-by-letter, view-enter, marquee, scroll-reveal, scroll-reveal variants
+  (`data-reveal`), count-up, scroll-progress, and orbital animations are disabled and
+  content is forced to its final visible state (the scroll-progress bar is also
+  `aria-hidden`, decorative only). See [scroll-motion](features/scroll-motion/index.md).
 - **Custom cursor:** disabled on touch devices and screens ≤880px
   (`(hover: none) or (max-width: 880px)`).
 - **Color contrast:** all foreground/background pairs from the mockup target WCAG AA;
